@@ -5,10 +5,10 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 5f; // Скорость движения персонажа
-    public float jumpForce = 5f; // Сила прыжка
-    public Transform cameraTransform; // Трансформ камеры
-    public LayerMask groundMask; // Маска для определения земли
+    public float speed = 5f;
+    public float jumpForce = 5f;
+    public Transform cameraTransform;
+    public LayerMask groundMask;
 
     private Rigidbody rb;
     private bool isGrounded;
@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true; // Замораживаем вращение RigidBody
+        rb.freezeRotation = true; // Блокируем вращение RigidBody
     }
 
     void Update()
@@ -29,11 +29,11 @@ public class PlayerController : MonoBehaviour
         float moveZ = Input.GetAxis("Vertical");
 
         // Определяем направление движения относительно камеры
-        Vector3 direction = (cameraTransform.forward * moveZ + cameraTransform.right * moveX).normalized;
-        direction.y = 0f; // Убираем влияние по оси Y, чтобы персонаж не двигался вверх
+        Vector3 moveDirection = (cameraTransform.forward * moveZ + cameraTransform.right * moveX).normalized;
+        moveDirection.y = 0f; // Не учитываем вертикальную составляющую
 
-        // Рассчитываем скорость движения
-        Vector3 velocity = direction * speed;
+        // Перемещение персонажа
+        Vector3 velocity = moveDirection * speed;
         rb.velocity = new Vector3(velocity.x, rb.velocity.y, velocity.z);
 
         // Прыжок
