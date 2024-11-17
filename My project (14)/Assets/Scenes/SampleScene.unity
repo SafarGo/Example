@@ -1155,7 +1155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6862e8334c2790e4ea42472fb5399a4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSensitivity: 2000
+  mouseSensitivity: 1000
   playerBody: {fileID: 1883129740}
 --- !u!1 &1126730358
 GameObject:
@@ -1523,8 +1523,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d34b0d4a02565d47aed05130e7ebcfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
-  jumpForce: 20
+  speed: 10
+  jumpForce: 10
   cameraTransform: {fileID: 963194228}
   groundMask:
     serializedVersion: 2
