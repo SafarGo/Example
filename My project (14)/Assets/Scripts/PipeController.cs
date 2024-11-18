@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PipeController : MonoBehaviour
 {
-    public float conveyorSpeed = 5f; // Скорость движения конвейера
-    public Vector3 conveyorDirection = Vector3.right; // Направление движения конвейера (по умолчанию по оси X)
+    [SerializeField] private float speed = 5f; // Скорость движения объектов
+    [SerializeField] private float centerForce = 2f; // Сила, притягивающая объекты к центру конвейера
 
     private void OnCollisionStay(Collision collision)
     {
@@ -15,20 +15,20 @@ public class PipeController : MonoBehaviour
         if (rb != null)
         {
             // Вычисляем направление движения по локальной оси X конвейера
-            Vector3 moveDirection = transform.right; // Локальная ось X конвейера
+            Vector3 moveDirection = transform.right;
 
-            // Устанавливаем скорость объекта в направлении оси X конвейера
-            rb.velocity = moveDirection * conveyorSpeed;
-        }
-    }
+            // Рассчитываем позицию объекта относительно центральной оси Z конвейера
+            Vector3 localPosition = transform.InverseTransformPoint(collision.transform.position);
+            float distanceFromCenter = localPosition.z; // Расстояние от центральной оси Z
 
-    private void OnCollisionExit(Collision collision)
-    {
-        // Когда объект покидает конвейер, возвращаем стандартную физику
-        Rigidbody rb = collision.collider.GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.useGravity = true;
+            // Рассчитываем силу, притягивающую объект к центру конвейера
+            Vector3 centerCorrectionForce = -transform.forward * distanceFromCenter * centerForce;
+
+            // Итоговое движение объекта: по оси X конвейера + коррекция к центру
+            Vector3 finalVelocity = moveDirection * speed + centerCorrectionForce;
+
+            // Устанавливаем скорость объекта
+            rb.velocity = finalVelocity;
         }
     }
 }
