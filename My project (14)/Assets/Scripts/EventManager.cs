@@ -12,4 +12,10 @@ public class EventManager : MonoBehaviour
             Instance = this;
         }
     }
+
+
+    public void Cleaned()
+    {
+        Debug.Log("Cleaned");
+    }
 }
