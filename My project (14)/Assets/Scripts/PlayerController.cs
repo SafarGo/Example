@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 5f;
     public Transform cameraTransform;
     public LayerMask groundMask;
+    public float RayacstLagh;
 
     private Rigidbody rb;
     private bool isGrounded;
@@ -22,7 +23,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // Проверка на землю
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.1f, groundMask);
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, RayacstLagh, groundMask);
 
         // Получаем ввод с клавиатуры
         float moveX = Input.GetAxis("Horizontal");

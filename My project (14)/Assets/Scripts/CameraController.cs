@@ -24,7 +24,7 @@ public class CameraController : MonoBehaviour
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
         // Вращаем камеру вверх-вниз
-        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        transform.localRotation = Quaternion.Euler(xRotation, 90f, 0f);
 
         // Вращаем персонажа влево-вправо
         playerBody.Rotate(Vector3.up * mouseX);
