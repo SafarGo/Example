@@ -17,11 +17,13 @@ public class HiveController : MonoBehaviour
        // Time.timeScale = 6;
         honeyCreateRate = 120;
     }
-    void HoneyCreating()
+    private IEnumerator HoneyCreatingCoroutine()
     {
         for (int i = 0; i < cartridgeCount; i++)
         {
-        Instantiate(honeyBottlePrefab, spawnPoint.position,Quaternion.identity);
+            Instantiate(honeyBottlePrefab, spawnPoint.position, Quaternion.identity);
+            // Задержка между созданиями
+            yield return new WaitForSeconds(0.5f); // Здесь указываем нужную задержку в секундах
         }
     }
     private void FixedUpdate()
@@ -30,7 +32,7 @@ public class HiveController : MonoBehaviour
         if (t > honeyCreateRate)
         {
             t = 0;
-            HoneyCreating();
+            StartCoroutine(HoneyCreatingCoroutine());
         }
         Debug.Log(t);
     }
