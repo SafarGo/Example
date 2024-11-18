@@ -9,10 +9,14 @@ public class HiveController : MonoBehaviour
     [SerializeField] int cartridgeCount;
     [SerializeField] int beesCount;
     [SerializeField] int currentHuneyCount;
-    [SerializeField] int honeyCreateRate;
-    int t;
+    [SerializeField] int honeyCreateRate = 120;
+    float t;
 
-
+    private void Start()
+    {
+       // Time.timeScale = 6;
+        honeyCreateRate = 120;
+    }
     void HoneyCreating()
     {
         for (int i = 0; i < cartridgeCount; i++)
@@ -22,10 +26,21 @@ public class HiveController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if(t > honeyCreateRate)
+        t += Time.deltaTime;
+        if (t > honeyCreateRate)
         {
             t = 0;
             HoneyCreating();
         }
+        Debug.Log(t);
+    }
+
+    void UpdateBeesCount(int plusBees)
+    {
+        if (beesCount % 2 == 0)
+        {
+            honeyCreateRate = 120 / beesCount;
+        }
+
     }
 }
