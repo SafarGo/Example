@@ -11,7 +11,10 @@ public class PipeController : MonoBehaviour
     {
         // Проверяем, есть ли у объекта RigidBody
         Rigidbody rb = collision.rigidbody;
-
+       //if (collision.gameObject.tag != "Player")
+       //{
+       //    rb.freezeRotation = true;
+       //}
         if (rb != null)
         {
             // Вычисляем направление движения по локальной оси X конвейера
@@ -31,4 +34,13 @@ public class PipeController : MonoBehaviour
             rb.velocity = finalVelocity;
         }
     }
+
+   // private void OnCollisionExit(Collision collision)
+   // {
+   //     Rigidbody rb = collision.rigidbody;
+   //     if (collision.gameObject.tag != "Player")
+   //     {
+   //         rb.freezeRotation = false;
+   //     }
+   // }
 }
