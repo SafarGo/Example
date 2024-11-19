@@ -34,7 +34,7 @@ public class HiveController : MonoBehaviour
             t = 0;
             StartCoroutine(HoneyCreatingCoroutine());
         }
-        Debug.Log(t);
+        //Debug.Log(t);
     }
 
     void UpdateBeesCount(int plusBees)
