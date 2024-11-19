@@ -8,6 +8,12 @@ public class CleanTheTube : MonoBehaviour
 {
     public GameObject canvas;
     public TMP_Text text;
+    private EventManager eventManager;
+
+    private void Start()
+    {
+        eventManager = new EventManager();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -26,6 +32,7 @@ public class CleanTheTube : MonoBehaviour
             if (Input.GetKey(KeyCode.E))
             {
                 StartCoroutine(CountDown());
+                
             }
         }
     }
@@ -40,6 +47,7 @@ public class CleanTheTube : MonoBehaviour
             t--;
         }
         text.text = "";
+        eventManager.Cleaned();
     }
 
     private void OnTriggerExit(Collider other)
