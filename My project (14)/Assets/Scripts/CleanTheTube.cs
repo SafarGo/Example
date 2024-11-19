@@ -41,4 +41,9 @@ public class CleanTheTube : MonoBehaviour
         }
         text.text = "";
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        canvas.SetActive(false);
+    }
 }
