@@ -1,25 +1,41 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class HoneySpawner : MonoBehaviour
+public class EnergoHoney_Constructor : MonoBehaviour
 {
+    public int honeyValue = 2;
     public GameObject energyHoneyPrefab;
     [SerializeField] int HoneyDelSpeed;
-    int medCaunter;
-    [SerializeField] int cartridgeCount;
+    public int medCaunter = 0;
+    [SerializeField] int cartridgeCount = 1;
+    public string honeyTag = "Honey";
+    [SerializeField] private TextMeshProUGUI honeyText;
+    [SerializeField] private Slider honeySlider;
+
+    private Collider spawnerCollider; // Объявляем переменную для коллайдера
+
+    private void Start()
+    {
+        spawnerCollider = GetComponent<Collider>(); // Получаем коллайдер
+        UpdateHoneyText();
+        honeySlider.maxValue = HoneyDelSpeed / cartridgeCount;
+        honeySlider.value = 0;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-
-        if (other.CompareTag("Honey")) 
+        if (other.CompareTag(honeyTag))
         {
-
             Rigidbody otherRigidbody = other.GetComponent<Rigidbody>();
             Vector3 velocity = otherRigidbody != null ? otherRigidbody.velocity : Vector3.zero;
             Destroy(other.gameObject);
             medCaunter++;
-                if (medCaunter == 2)
+            UpdateHoneyText();
+
+            if (medCaunter >= honeyValue)
             {
-                medCaunter = 0;
                 StartCoroutine(SpawnEnergyHoney(other.transform.position, velocity));
             }
         }
@@ -27,17 +43,42 @@ public class HoneySpawner : MonoBehaviour
 
     private IEnumerator SpawnEnergyHoney(Vector3 position, Vector3 velocity)
     {
+        // Выключаем триггер
+        spawnerCollider.isTrigger = false;
 
-        yield return new WaitForSeconds(HoneyDelSpeed / cartridgeCount);
-        GameObject newEnergyHoney = Instantiate(energyHoneyPrefab, position, Quaternion.identity);
+        float waitTime = HoneyDelSpeed / cartridgeCount;
+        honeySlider.maxValue = waitTime;
+        honeySlider.value = 0;
 
- 
-        Rigidbody newHoneyRigidbody = newEnergyHoney.GetComponent<Rigidbody>();
-        if (newHoneyRigidbody != null)
+        // Процесс ожидания
+        for (float elapsed = 0; elapsed < waitTime; elapsed += Time.deltaTime)
         {
-            newHoneyRigidbody.velocity = velocity; 
+            honeySlider.value = elapsed;
+            yield return null;
         }
 
+        GameObject newEnergyHoney = Instantiate(energyHoneyPrefab, position, Quaternion.identity);
+        Rigidbody newHoneyRigidbody = newEnergyHoney.GetComponent<Rigidbody>();
 
+        if (newHoneyRigidbody != null)
+        {
+            newHoneyRigidbody.velocity = velocity;
+        }
+
+        // Уменьшаем medCaunter, но не позволяем ему стать отрицательным
+        medCaunter = Mathf.Max(medCaunter - honeyValue, 0); // Устанавливаем medCaunter в 0, если он меньше 0
+        UpdateHoneyText();
+        honeySlider.value = 0;
+
+        // Включаем триггер обратно
+        spawnerCollider.isTrigger = true;
+    }
+
+    private void UpdateHoneyText()
+    {
+        if (honeyText != null)
+        {
+            honeyText.text = $"{medCaunter}/{honeyValue}";
+        }
     }
 }
