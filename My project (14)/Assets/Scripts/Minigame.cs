@@ -20,6 +20,8 @@ public class MinigameMultiSlider : MonoBehaviour
     public Image targetZoneGraphicPrefab;
     private const float MIN_TARGET_WIDTH_PERCENT = 0.2f; // Minimum width (2x original)
 
+    private EventManager eventManager;
+
     void Start()
     {
         int numSliders = gameSliders.Length;
@@ -29,6 +31,7 @@ public class MinigameMultiSlider : MonoBehaviour
         targetZoneWidths = new float[numSliders];
         sliderValues = new float[numSliders];
         sliderSuccesses = new bool[numSliders];
+        eventManager = new EventManager();
 
         // Error Handling: Check for null or empty arrays before accessing them.
         if (gameSliders == null || gameSliders.Length == 0)
@@ -88,7 +91,7 @@ public class MinigameMultiSlider : MonoBehaviour
                 gameSliders[currentSliderIndex].value = sliderValues[currentSliderIndex];
 
                 // Check for Input
-                if (Input.GetKeyDown(KeyCode.F))
+                if (Input.GetKeyDown(KeyCode.E))
                 {
                     CheckResult();
                 }
@@ -101,7 +104,7 @@ public class MinigameMultiSlider : MonoBehaviour
                 }
             }
         }
-        else if (Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKeyDown(KeyCode.Space))
         {
             gameStarted = true;
         }
@@ -120,6 +123,7 @@ public class MinigameMultiSlider : MonoBehaviour
             {
                 gameEnded = true;
                 resultText.text = "You Win!";
+                eventManager.Fixed();
             }
             else
             {
