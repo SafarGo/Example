@@ -2963,7 +2963,7 @@ MonoBehaviour:
   cartridgeCount: 5
   beesCount: 20
   currentHuneyCount: 0
-  honeyCreateRate: 5
+  honeyCreateRate: 1
 --- !u!1 &491456206
 GameObject:
   m_ObjectHideFlags: 0
