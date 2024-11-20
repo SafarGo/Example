@@ -15,7 +15,7 @@ public class HiveController : MonoBehaviour
     private void Start()
     {
         Time.timeScale = 1;
-        honeyCreateRate = 12;// Должно быть 120
+        //honeyCreateRate = 12;// Должно быть 120
     }
     private IEnumerator HoneyCreatingCoroutine()
     {

@@ -880,6 +880,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1327610428}
+  - {fileID: 1227729800}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &168151189
@@ -3336,9 +3337,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 858bb51ca04b41d4aae955b1db192880, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  honeyValue: 2
   energyHoneyPrefab: {fileID: 671991263566537892, guid: 91225c02cfa100242878a906425483fc, type: 3}
   HoneyDelSpeed: 5
+  medCaunter: 0
   cartridgeCount: 5
+  honeyTag: Honey
+  honeyText: {fileID: 0}
+  honeySlider: {fileID: 0}
 --- !u!65 &549040819
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5612,7 +5618,7 @@ Transform:
   m_GameObject: {fileID: 945273487}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 11.61509, y: 11.61509, z: 11.61509}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6449,7 +6455,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1102176436
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7248,6 +7254,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1163921170}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1227729799
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1227729800}
+  m_Layer: 0
+  m_Name: ObjectSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1227729800
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1227729799}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.6, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 149380452}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1291096754
 GameObject:
   m_ObjectHideFlags: 0
@@ -10558,8 +10595,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8079550bc5335ed47a411b07eb1f8ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Active: 1
-  settings: {outlineMaterial: {fileID: 0}}
 --- !u!4 &2034710826
 Transform:
   m_ObjectHideFlags: 0
