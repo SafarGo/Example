@@ -18,4 +18,9 @@ public class EventManager : MonoBehaviour
     {
         Debug.Log("Cleaned");
     }
+
+    public void Fixed()
+    {
+        Debug.Log("Fixed");
+    }    
 }
