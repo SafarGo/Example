@@ -403,7 +403,6 @@ GameObject:
   - component: {fileID: 923059625604165328}
   - component: {fileID: 6527942646942408466}
   - component: {fileID: 5762307401294721421}
-  - component: {fileID: 5295811758666014222}
   m_Layer: 0
   m_Name: Start_ConveyerPrefab
   m_TagString: Untagged
@@ -500,27 +499,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.8842165, z: 3.001609}
   m_Center: {x: -3.6987083e-18, y: 0.42721882, z: 0.0015630722}
---- !u!114 &5295811758666014222
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5453265341903505368}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 492d34577bb28094baa2713be2fbd1bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  allowMoveX: 1
-  allowMoveY: 0
-  allowMoveZ: 1
-  gridManager: {fileID: 0}
-  moveSpeed: 10
-  detectionRadius: 1
-  collisionLayer:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!1 &7280944950653600978
 GameObject:
   m_ObjectHideFlags: 0
@@ -745,10 +723,10 @@ MonoBehaviour:
   allowMoveZ: 1
   gridManager: {fileID: 0}
   moveSpeed: 10
-  detectionRadius: 2
+  detectionRadius: 1
   collisionLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
 --- !u!136 &6665530870303431876
 CapsuleCollider:
   m_ObjectHideFlags: 0

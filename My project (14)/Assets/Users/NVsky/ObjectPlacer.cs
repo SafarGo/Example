@@ -7,41 +7,38 @@ public class ObjectPlacer : MonoBehaviour
     public bool allowMoveX = true; // Разрешено ли перемещение по X
     public bool allowMoveY = false; // Разрешено ли перемещение по Y
     public bool allowMoveZ = true; // Разрешено ли перемещение по Z
-    public GridManager gridManager;
+    public GridManager gridManager; // Ссылка на GridManager
 
     private Camera mainCamera;
     private bool isDragging = false;
     private Vector3 offset;
-    private Vector3 targetPosition; // Позиция, к которой объект движется
+    private Vector3 targetPosition; // Позиция, к которой движется объект
     public float moveSpeed = 10f; // Скорость перемещения
-    public float detectionRadius = 2f; // Радиус для поиска других объектов
-    public LayerMask collisionLayer; // Слой, на котором будут другие объекты
 
-    private Renderer[] renderers; // Массив для изменения цветов всех Renderer'ов
-    private Color originalColor; // Оригинальный цвет объекта
-    private bool isRed = false; // Флаг, чтобы отслеживать, стал ли объект красным
-    private Vector3 positionWhenNotRed; // Позиция объекта, когда он не был красным
+    public float detectionRadius = 2f; // Радиус для проверки столкновений
+    public LayerMask collisionLayer; // Слой для проверки столкновений
+
+    private Renderer[] renderers; // Все рендереры текущего объекта и его дочерних объектов
+    private Material[] originalMaterials; // Исходные материалы объекта
+    private Vector3 lastValidPosition; // Последняя позиция без столкновений
+    private bool isRed = false; // Флаг, указывающий, стал ли объект красным
 
     void Start()
     {
         mainCamera = Camera.main;
         targetPosition = transform.position; // Начальная цель — текущая позиция
 
-        // Сохраняем исходную позицию объекта
-        positionWhenNotRed = transform.position;
-
-        // Собираем все компоненты Renderer для текущего объекта и его дочерних объектов
+        // Получаем все рендереры текущего объекта и его дочерних объектов
         renderers = GetComponentsInChildren<Renderer>();
+        originalMaterials = new Material[renderers.Length];
 
-        if (renderers.Length > 0)
+        // Сохраняем оригинальные материалы
+        for (int i = 0; i < renderers.Length; i++)
         {
-            // Сохраняем оригинальный цвет первого найденного Renderer
-            originalColor = renderers[0].material.color;
+            originalMaterials[i] = renderers[i].material;
         }
-        else
-        {
-            Debug.LogWarning("No Renderer components found on " + gameObject.name + " or its children.");
-        }
+
+        lastValidPosition = transform.position; // Запоминаем начальную позицию как валидную
     }
 
     void Update()
@@ -49,12 +46,15 @@ public class ObjectPlacer : MonoBehaviour
         // Постепенно перемещаем объект к целевой позиции
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
 
-        // Проверка на другие объекты поблизости
-        CheckForNearbyObjects();
+        if (isDragging)
+        {
+            // Проверяем столкновения с другими объектами
+            CheckCollisions();
+        }
 
         if (Input.GetKeyDown(KeyCode.R) && isDragging)
         {
-            Debug.Log("SUUUUUUUUUUUUUUUUUUUUUUU");
+            Debug.Log("Rotating Object");
             transform.Rotate(0, 90, 0);
         }
     }
@@ -79,15 +79,21 @@ public class ObjectPlacer : MonoBehaviour
         {
             Vector3 newPosition = hit.point + offset;
 
+            // Ограничиваем перемещение только разрешенными осями
             newPosition = new Vector3(
                 allowMoveX ? newPosition.x : transform.position.x,
                 allowMoveY ? newPosition.y : transform.position.y,
                 allowMoveZ ? newPosition.z : transform.position.z
             );
 
+            // Привязываем позицию к ближайшим координатам сетки из GridManager
             if (gridManager != null)
             {
                 newPosition = gridManager.GetClosestGridPoint(newPosition);
+            }
+            else
+            {
+                Debug.LogWarning("GridManager не назначен!");
             }
 
             // Устанавливаем новую целевую позицию
@@ -99,54 +105,73 @@ public class ObjectPlacer : MonoBehaviour
     {
         isDragging = false;
 
-        // Если объект стал красным, запоминаем его позицию, где он был не красным
         if (isRed)
         {
-            targetPosition = positionWhenNotRed; // Начинаем движение в исходную позицию
-            foreach (var renderer in renderers)
-            {
-                renderer.material.color = originalColor;
-            }
+            // Если объект красный, возвращаем его в последнюю допустимую позицию
+            targetPosition = lastValidPosition;
+            RestoreOriginalMaterials(); // Восстанавливаем оригинальные материалы
+            isRed = false;
+        }
+        else
+        {
+            // Если объект не красный, текущая позиция становится валидной
+            lastValidPosition = transform.position;
         }
     }
 
-    void CheckForNearbyObjects()
+    void CheckCollisions()
     {
-        // Проверка на столкновение с другими объектами в радиусе
         Collider[] nearbyObjects = Physics.OverlapSphere(transform.position, detectionRadius, collisionLayer);
 
-        foreach (var collider in nearbyObjects)
+        bool hasCollision = false; // Флаг для проверки столкновений
+
+        foreach (Collider collider in nearbyObjects)
         {
             // Игнорируем столкновение с самим собой
-            if (collider.gameObject == gameObject)
-                continue;
-
-            // Если есть объекты рядом, меняем цвет всех Renderer'ов на красный
-            if (!isRed) // Если объект еще не стал красным, то меняем его цвет
+            if (collider.gameObject != gameObject)
             {
-                foreach (var renderer in renderers)
-                {
-                    renderer.material.color = Color.red;
-                }
-                isRed = true; // Устанавливаем флаг, что объект стал красным
-                positionWhenNotRed = transform.position; // Запоминаем текущую позицию, когда объект стал красным
+                hasCollision = true;
+                break;
             }
         }
 
-        // Если объектов нет рядом и объект стал красным, восстанавливаем исходный цвет
-        if (nearbyObjects.Length == 0 && isRed)
+        if (hasCollision)
         {
-            RestoreOriginalColor();
-            isRed = false; // Убираем флаг, что объект стал красным
+            // Если есть столкновения, меняем материалы всех дочерних объектов на красный
+            if (!isRed)
+            {
+                SetMaterialToColor(Color.red);
+                isRed = true;
+            }
+        }
+        else
+        {
+            // Если столкновений нет, возвращаем исходные материалы
+            if (isRed)
+            {
+                RestoreOriginalMaterials();
+                isRed = false;
+            }
         }
     }
 
-    void RestoreOriginalColor()
+    void SetMaterialToColor(Color color)
     {
-        // Восстанавливаем исходный цвет всех Renderer'ов
-        foreach (var renderer in renderers)
+        // Изменяем цвет всех материалов рендеров объекта и его дочерних объектов
+        foreach (Renderer renderer in renderers)
         {
-            renderer.material.color = originalColor;
+            Material newMaterial = new Material(renderer.material);
+            newMaterial.color = color;
+            renderer.material = newMaterial;
+        }
+    }
+
+    void RestoreOriginalMaterials()
+    {
+        // Восстанавливаем оригинальные материалы всех рендеров объекта и его дочерних объектов
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            renderers[i].material = originalMaterials[i];
         }
     }
 }
