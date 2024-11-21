@@ -2930,6 +2930,7 @@ MonoBehaviour:
   collisionLayer:
     serializedVersion: 2
     m_Bits: 0
+  gridName: 
 --- !u!1 &567081137
 GameObject:
   m_ObjectHideFlags: 0
@@ -3794,7 +3795,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridWidth: 10
   gridHeight: 10
-  cellSize: 0.3
+  cellSize: 0.1
   gridColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
 --- !u!4 &862749286
 Transform:
@@ -4321,6 +4322,7 @@ MonoBehaviour:
   collisionLayer:
     serializedVersion: 2
     m_Bits: 16
+  gridName: 
 --- !u!4 &1033237180
 Transform:
   m_ObjectHideFlags: 0
@@ -7378,6 +7380,7 @@ MonoBehaviour:
   collisionLayer:
     serializedVersion: 2
     m_Bits: 64
+  gridName: 
 --- !u!1 &1806615244
 GameObject:
   m_ObjectHideFlags: 0

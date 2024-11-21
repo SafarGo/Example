@@ -727,6 +727,7 @@ MonoBehaviour:
   collisionLayer:
     serializedVersion: 2
     m_Bits: 64
+  gridName: GridManager_Conveyers
 --- !u!136 &6665530870303431876
 CapsuleCollider:
   m_ObjectHideFlags: 0

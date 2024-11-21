@@ -250,6 +250,7 @@ MonoBehaviour:
   collisionLayer:
     serializedVersion: 2
     m_Bits: 64
+  gridName: GridManager_Conveyers
 --- !u!1 &5467502404490872913
 GameObject:
   m_ObjectHideFlags: 0

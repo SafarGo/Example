@@ -18,6 +18,9 @@ public class ObjectPlacer : MonoBehaviour
     public float detectionRadius = 2f; // Радиус для проверки столкновений
     public LayerMask collisionLayer; // Слой для проверки столкновений
 
+    [Header("Имя сетки")]
+    [SerializeField] string gridName;
+
     private Renderer[] renderers; // Все рендереры текущего объекта и его дочерних объектов
     private Material[] originalMaterials; // Исходные материалы объекта
     private Vector3 lastValidPosition; // Последняя позиция без столкновений
@@ -39,6 +42,11 @@ public class ObjectPlacer : MonoBehaviour
         }
 
         lastValidPosition = transform.position; // Запоминаем начальную позицию как валидную
+        if (gridManager == null)
+        {
+            gridManager = GameObject.Find(gridName).GetComponent<GridManager>();
+        }
+
     }
 
     void Update()
