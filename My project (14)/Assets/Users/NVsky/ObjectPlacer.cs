@@ -4,44 +4,43 @@ using UnityEngine;
 
 public class ObjectPlacer : MonoBehaviour
 {
-    public bool allowMoveX = true; // Разрешено ли перемещение по X
-    public bool allowMoveY = false; // Разрешено ли перемещение по Y
-    public bool allowMoveZ = true; // Разрешено ли перемещение по Z
-    public GridManager gridManager; // Ссылка на GridManager
+    public bool allowMoveX = true; 
+    public bool allowMoveY = false;
+    public bool allowMoveZ = true; 
+    public GridManager gridManager;
 
     private Camera mainCamera;
     private bool isDragging = false;
     private Vector3 offset;
-    private Vector3 targetPosition; // Позиция, к которой движется объект
-    public float moveSpeed = 10f; // Скорость перемещения
+    private Vector3 targetPosition; 
+    public float moveSpeed = 10f; 
 
-    public float detectionRadius = 2f; // Радиус для проверки столкновений
-    public LayerMask collisionLayer; // Слой для проверки столкновений
+    public float detectionRadius = 2f; 
+    public LayerMask collisionLayer; 
 
     [Header("Имя сетки")]
     [SerializeField] string gridName;
 
-    private Renderer[] renderers; // Все рендереры текущего объекта и его дочерних объектов
-    private Material[] originalMaterials; // Исходные материалы объекта
-    private Vector3 lastValidPosition; // Последняя позиция без столкновений
-    private bool isRed = false; // Флаг, указывающий, стал ли объект красным
+    private Renderer[] renderers; 
+    private Material[] originalMaterials; 
+    private Vector3 lastValidPosition;
+    private bool isRed = false; 
 
     void Start()
     {
         mainCamera = Camera.main;
-        targetPosition = transform.position; // Начальная цель — текущая позиция
+        targetPosition = transform.position;
 
-        // Получаем все рендереры текущего объекта и его дочерних объектов
+
         renderers = GetComponentsInChildren<Renderer>();
         originalMaterials = new Material[renderers.Length];
 
-        // Сохраняем оригинальные материалы
         for (int i = 0; i < renderers.Length; i++)
         {
             originalMaterials[i] = renderers[i].material;
         }
 
-        lastValidPosition = transform.position; // Запоминаем начальную позицию как валидную
+        lastValidPosition = transform.position;
         if (gridManager == null)
         {
             gridManager = GameObject.Find(gridName).GetComponent<GridManager>();
@@ -51,12 +50,12 @@ public class ObjectPlacer : MonoBehaviour
 
     void Update()
     {
-        // Постепенно перемещаем объект к целевой позиции
+
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
 
         if (isDragging)
         {
-            // Проверяем столкновения с другими объектами
+
             CheckCollisions();
         }
 
@@ -87,14 +86,13 @@ public class ObjectPlacer : MonoBehaviour
         {
             Vector3 newPosition = hit.point + offset;
 
-            // Ограничиваем перемещение только разрешенными осями
+
             newPosition = new Vector3(
                 allowMoveX ? newPosition.x : transform.position.x,
                 allowMoveY ? newPosition.y : transform.position.y,
                 allowMoveZ ? newPosition.z : transform.position.z
             );
 
-            // Привязываем позицию к ближайшим координатам сетки из GridManager
             if (gridManager != null)
             {
                 newPosition = gridManager.GetClosestGridPoint(newPosition);
@@ -104,7 +102,6 @@ public class ObjectPlacer : MonoBehaviour
                 Debug.LogWarning("GridManager не назначен!");
             }
 
-            // Устанавливаем новую целевую позицию
             targetPosition = newPosition;
         }
     }
@@ -115,14 +112,12 @@ public class ObjectPlacer : MonoBehaviour
 
         if (isRed)
         {
-            // Если объект красный, возвращаем его в последнюю допустимую позицию
             targetPosition = lastValidPosition;
-            RestoreOriginalMaterials(); // Восстанавливаем оригинальные материалы
+            RestoreOriginalMaterials();
             isRed = false;
         }
         else
         {
-            // Если объект не красный, текущая позиция становится валидной
             lastValidPosition = transform.position;
         }
     }
@@ -131,11 +126,10 @@ public class ObjectPlacer : MonoBehaviour
     {
         Collider[] nearbyObjects = Physics.OverlapSphere(transform.position, detectionRadius, collisionLayer);
 
-        bool hasCollision = false; // Флаг для проверки столкновений
+        bool hasCollision = false;
 
         foreach (Collider collider in nearbyObjects)
         {
-            // Игнорируем столкновение с самим собой
             if (collider.gameObject != gameObject)
             {
                 hasCollision = true;
@@ -145,7 +139,6 @@ public class ObjectPlacer : MonoBehaviour
 
         if (hasCollision)
         {
-            // Если есть столкновения, меняем материалы всех дочерних объектов на красный
             if (!isRed)
             {
                 SetMaterialToColor(Color.red);
@@ -154,7 +147,7 @@ public class ObjectPlacer : MonoBehaviour
         }
         else
         {
-            // Если столкновений нет, возвращаем исходные материалы
+
             if (isRed)
             {
                 RestoreOriginalMaterials();
@@ -165,7 +158,7 @@ public class ObjectPlacer : MonoBehaviour
 
     void SetMaterialToColor(Color color)
     {
-        // Изменяем цвет всех материалов рендеров объекта и его дочерних объектов
+
         foreach (Renderer renderer in renderers)
         {
             Material newMaterial = new Material(renderer.material);
@@ -176,7 +169,7 @@ public class ObjectPlacer : MonoBehaviour
 
     void RestoreOriginalMaterials()
     {
-        // Восстанавливаем оригинальные материалы всех рендеров объекта и его дочерних объектов
+
         for (int i = 0; i < renderers.Length; i++)
         {
             renderers[i].material = originalMaterials[i];
