@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 public class EnergoHoney_Constructor : MonoBehaviour
 {
+    int HP;
+    public int HPMax;
+    public Slider sl;
+    [SerializeField] private TextMeshProUGUI catrText;
     public int honeyValue = 2;
     public GameObject energyHoneyPrefab;
     [SerializeField] int HoneyDelSpeed;
@@ -18,12 +22,19 @@ public class EnergoHoney_Constructor : MonoBehaviour
 
     private void Start()
     {
+        HP = HPMax;
+        sl.maxValue = HPMax;
+        sl.value = HP;
+
         spawnerCollider = GetComponent<Collider>(); // Получаем коллайдер
         UpdateHoneyText();
         honeySlider.maxValue = HoneyDelSpeed / cartridgeCount;
         honeySlider.value = 0;
     }
-
+    private void Update()
+    {
+        UpdateCatrText();
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(honeyTag))
@@ -37,6 +48,12 @@ public class EnergoHoney_Constructor : MonoBehaviour
             if (medCaunter >= honeyValue)
             {
                 StartCoroutine(SpawnEnergyHoney(other.transform.position, velocity));
+                HP--;
+                sl.value = Mathf.Clamp(HP, 0f, HPMax);
+                if (HP <= 0)
+                {
+                    Destroy(gameObject);
+                }
             }
         }
     }
@@ -67,7 +84,7 @@ public class EnergoHoney_Constructor : MonoBehaviour
 
         // Уменьшаем medCaunter, но не позволяем ему стать отрицательным
         medCaunter = Mathf.Max(medCaunter - honeyValue, 0); // Устанавливаем medCaunter в 0, если он меньше 0
-        UpdateHoneyText();
+        UpdateCatrText();
         honeySlider.value = 0;
 
         // Включаем триггер обратно
@@ -81,4 +98,12 @@ public class EnergoHoney_Constructor : MonoBehaviour
             honeyText.text = $"{medCaunter}/{honeyValue}";
         }
     }
+    private void UpdateCatrText()
+    {
+        if (honeyText != null)
+        {
+            catrText.text = $"+{cartridgeCount}";
+        }
+    }
+
 }

@@ -2,19 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PipeController : MonoBehaviour
 {
     [SerializeField] private float speed = 5f; // Скорость движения объектов
     [SerializeField] private float centerForce = 2f; // Сила, притягивающая объекты к центру конвейера
 
+
+    private void Start()
+    {
+    }
     private void OnCollisionStay(Collision collision)
     {
         // Проверяем, есть ли у объекта RigidBody
         Rigidbody rb = collision.rigidbody;
-       //if (collision.gameObject.tag != "Player")
-       //{
-       //    rb.freezeRotation = true;
-       //}
         if (rb != null)
         {
             // Вычисляем направление движения по локальной оси X конвейера
@@ -32,15 +33,9 @@ public class PipeController : MonoBehaviour
 
             // Устанавливаем скорость объекта
             rb.velocity = finalVelocity;
-        }
+
+
+          }
     }
 
-   // private void OnCollisionExit(Collision collision)
-   // {
-   //     Rigidbody rb = collision.rigidbody;
-   //     if (collision.gameObject.tag != "Player")
-   //     {
-   //         rb.freezeRotation = false;
-   //     }
-   // }
 }
