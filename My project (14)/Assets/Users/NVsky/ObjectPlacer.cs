@@ -4,33 +4,32 @@ using UnityEngine;
 
 public class ObjectPlacer : MonoBehaviour
 {
-    public bool allowMoveX = true; 
+    public bool allowMoveX = true;
     public bool allowMoveY = false;
-    public bool allowMoveZ = true; 
+    public bool allowMoveZ = true;
     public GridManager gridManager;
 
     private Camera mainCamera;
     private bool isDragging = false;
     private Vector3 offset;
-    private Vector3 targetPosition; 
-    public float moveSpeed = 10f; 
+    private Vector3 targetPosition;
+    public float moveSpeed = 10f;
 
-    public float detectionRadius = 2f; 
-    public LayerMask collisionLayer; 
+    public float detectionRadius = 2f;
+    public LayerMask collisionLayer;
 
     [Header("Имя сетки")]
     [SerializeField] string gridName;
 
-    private Renderer[] renderers; 
-    private Material[] originalMaterials; 
+    private Renderer[] renderers;
+    private Material[] originalMaterials;
     private Vector3 lastValidPosition;
-    private bool isRed = false; 
+    private bool isRed = false;
 
     void Start()
     {
         mainCamera = Camera.main;
         targetPosition = transform.position;
-
 
         renderers = GetComponentsInChildren<Renderer>();
         originalMaterials = new Material[renderers.Length];
@@ -46,22 +45,22 @@ public class ObjectPlacer : MonoBehaviour
             gridManager = GameObject.Find(gridName).GetComponent<GridManager>();
         }
 
+        // Проверка начальной позиции
+        CheckInitialPosition();
     }
 
     void Update()
     {
-
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
 
         if (isDragging)
         {
-
             CheckCollisions();
         }
 
+        // Вращение объекта
         if (Input.GetKeyDown(KeyCode.R) && isDragging)
         {
-            Debug.Log("Rotating Object");
             transform.Rotate(0, 90, 0);
         }
     }
@@ -86,7 +85,6 @@ public class ObjectPlacer : MonoBehaviour
         {
             Vector3 newPosition = hit.point + offset;
 
-
             newPosition = new Vector3(
                 allowMoveX ? newPosition.x : transform.position.x,
                 allowMoveY ? newPosition.y : transform.position.y,
@@ -110,6 +108,7 @@ public class ObjectPlacer : MonoBehaviour
     {
         isDragging = false;
 
+        // Восстановление оригинальных материалов или возвращение в последнюю валидную позицию
         if (isRed)
         {
             targetPosition = lastValidPosition;
@@ -124,6 +123,7 @@ public class ObjectPlacer : MonoBehaviour
 
     void CheckCollisions()
     {
+        // Проверка коллизий с другими объектами
         Collider[] nearbyObjects = Physics.OverlapSphere(transform.position, detectionRadius, collisionLayer);
 
         bool hasCollision = false;
@@ -137,6 +137,7 @@ public class ObjectPlacer : MonoBehaviour
             }
         }
 
+        // Если есть коллизия
         if (hasCollision)
         {
             if (!isRed)
@@ -147,7 +148,6 @@ public class ObjectPlacer : MonoBehaviour
         }
         else
         {
-
             if (isRed)
             {
                 RestoreOriginalMaterials();
@@ -156,9 +156,81 @@ public class ObjectPlacer : MonoBehaviour
         }
     }
 
+    void CheckInitialPosition()
+    {
+        // Проверка на старте
+        Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRadius, collisionLayer);
+
+        // Если в начальной позиции есть коллизия с другим объектом, то начинаем поиск
+        if (colliders.Length > 0)
+        {
+            Debug.Log("Объект появился внутри другого объекта. Ищем ближайшую свободную точку...");
+            FindNearestFreePosition();
+        }
+        else
+        {
+            Debug.Log("На старте объект не сталкивается с другими объектами, остаемся на месте.");
+        }
+    }
+
+    void FindNearestFreePosition()
+    {
+        Vector3 closestPoint = transform.position;
+        bool foundFreePoint = false;
+
+        // Поиск ближайшей свободной позиции с учётом сетки и коллизий
+        float maxSearchRadius = detectionRadius * 5f; // Максимальный радиус поиска
+        float searchRadiusStep = detectionRadius; // Шаг увеличения радиуса поиска
+
+        for (float radius = detectionRadius; radius <= maxSearchRadius; radius += searchRadiusStep)
+        {
+            Collider[] colliders = Physics.OverlapSphere(transform.position, radius, collisionLayer);
+
+            // Пробуем переместиться в новые возможные позиции
+            foreach (Collider collider in colliders)
+            {
+                if (collider.gameObject == gameObject)
+                    continue; // Игнорируем сам объект
+
+                Vector3 potentialPoint = transform.position + Random.insideUnitSphere * radius;
+
+                // Привязка к сетке, но высота остается постоянной
+                if (gridManager != null)
+                {
+                    potentialPoint = gridManager.GetClosestGridPoint(potentialPoint);
+                }
+
+                potentialPoint.y = transform.position.y; // Высота не меняется
+
+                // Проверка на коллизии с другими объектами
+                Collider[] nearbyColliders = Physics.OverlapSphere(potentialPoint, detectionRadius, collisionLayer);
+                if (nearbyColliders.Length == 0)
+                {
+                    closestPoint = potentialPoint;
+                    foundFreePoint = true;
+                    break;
+                }
+            }
+
+            if (foundFreePoint) break;
+        }
+
+        // Перемещаем объект на найденную точку
+        if (foundFreePoint)
+        {
+            targetPosition = new Vector3(closestPoint.x, transform.position.y, closestPoint.z);
+            lastValidPosition = targetPosition;
+            RestoreOriginalMaterials();
+            isRed = false;
+        }
+        else
+        {
+            Debug.LogWarning("Не удалось найти свободное место!");
+        }
+    }
+
     void SetMaterialToColor(Color color)
     {
-
         foreach (Renderer renderer in renderers)
         {
             Material newMaterial = new Material(renderer.material);
@@ -169,7 +241,6 @@ public class ObjectPlacer : MonoBehaviour
 
     void RestoreOriginalMaterials()
     {
-
         for (int i = 0; i < renderers.Length; i++)
         {
             renderers[i].material = originalMaterials[i];

@@ -697,7 +697,7 @@ MonoBehaviour:
   allowMoveZ: 1
   gridManager: {fileID: 0}
   moveSpeed: 10
-  detectionRadius: 0.6
+  detectionRadius: 0.65
   collisionLayer:
     serializedVersion: 2
     m_Bits: 64
