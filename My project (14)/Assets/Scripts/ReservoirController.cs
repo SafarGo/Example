@@ -26,6 +26,7 @@ public class ReservoirController : MonoBehaviour
                 currentHuneyCount++;
 
                 imageMax.SetActive(false);
+                UpdateHoneyText();
             }
             else
             {
