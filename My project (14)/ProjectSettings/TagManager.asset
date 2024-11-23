@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Honey
   - EnergoHoney
+  - HoneyRezervoir
+  - Panel
+  - Builder
+  - cantDestroyObstacle
   layers:
   - Default
   - TransparentFX
@@ -13,9 +17,9 @@ TagManager:
   - PostProcessing
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Obstacle
+  - Build
+  - Socket
   - 
   - 
   - 

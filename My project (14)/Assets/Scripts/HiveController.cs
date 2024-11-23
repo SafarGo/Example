@@ -1,9 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HiveController : MonoBehaviour
 {
+    int HP;
+   public int HPMax;
+    [SerializeField] private TextMeshProUGUI honeyText;
+
+    public Slider sl;
     [SerializeField] GameObject honeyBottlePrefab;
     [SerializeField] Transform spawnPoint;
     [SerializeField] int cartridgeCount;
@@ -14,20 +21,33 @@ public class HiveController : MonoBehaviour
 
     private void Start()
     {
+
+
         Time.timeScale = 1;
-        honeyCreateRate = 12;// Должно быть 120
+        HP = HPMax;
+        sl.maxValue = HPMax;
+        sl.value = HP;
+
+        //honeyCreateRate = 12;// Должно быть 120
     }
     private IEnumerator HoneyCreatingCoroutine()
     {
         for (int i = 0; i < cartridgeCount; i++)
         {
             Instantiate(honeyBottlePrefab, spawnPoint.position, Quaternion.identity);
+            HP--;
+            sl.value = Mathf.Clamp(HP, 0f, HPMax);
+            if (HP <= 0)
+            {
+                Destroy(gameObject);
+            }
             // Задержка между созданиями
             yield return new WaitForSeconds(0.5f); // Здесь указываем нужную задержку в секундах
         }
     }
     private void FixedUpdate()
     {
+        UpdateHoneyText();
         t += Time.deltaTime;
         if (t > honeyCreateRate)
         {
@@ -45,4 +65,12 @@ public class HiveController : MonoBehaviour
         }
 
     }
+    private void UpdateHoneyText()
+    {
+        if (honeyText != null)
+        {
+            honeyText.text = $"+{cartridgeCount}";
+        }
+    }
+
 }
