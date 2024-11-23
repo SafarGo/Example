@@ -1545,7 +1545,7 @@ GameObject:
   - component: {fileID: 79559038}
   - component: {fileID: 79559037}
   - component: {fileID: 79559036}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: bear_body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3041,7 +3041,7 @@ GameObject:
   - component: {fileID: 233286529}
   - component: {fileID: 233286528}
   - component: {fileID: 233286532}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3067,8 +3067,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.9999999, y: 1, z: 56.69817}
+  m_Center: {x: 0, y: 0, z: 27.849081}
 --- !u!23 &233286529
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7256,7 +7256,7 @@ GameObject:
   - component: {fileID: 1019232006}
   - component: {fileID: 1019232005}
   - component: {fileID: 1019232008}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7297,8 +7297,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 1, z: 74.343925}
+  m_Center: {x: -0.000000047725376, y: 0, z: -36.671978}
 --- !u!23 &1019232006
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10773,7 +10773,7 @@ GameObject:
   - component: {fileID: 1578633943}
   - component: {fileID: 1578633946}
   - component: {fileID: 1578633947}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bear_1
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -11000,7 +11000,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1343313557070023738, guid: 5b6e271627c846d49adc8d8d192ac373, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -13.535085
+      value: -8.73
       objectReference: {fileID: 0}
     - target: {fileID: 1343313557070023738, guid: 5b6e271627c846d49adc8d8d192ac373, type: 3}
       propertyPath: m_LocalPosition.y
@@ -11008,7 +11008,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1343313557070023738, guid: 5b6e271627c846d49adc8d8d192ac373, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.27369
+      value: 24.24
       objectReference: {fileID: 0}
     - target: {fileID: 1343313557070023738, guid: 5b6e271627c846d49adc8d8d192ac373, type: 3}
       propertyPath: m_LocalRotation.w
@@ -11038,6 +11038,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1672986283869076592, guid: 5b6e271627c846d49adc8d8d192ac373, type: 3}
+      propertyPath: HoneyFluid
+      value: 
+      objectReference: {fileID: 1741733073}
+    - target: {fileID: 1955137385252041979, guid: 5b6e271627c846d49adc8d8d192ac373, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5171758856700241397, guid: 5b6e271627c846d49adc8d8d192ac373, type: 3}
+      propertyPath: m_Name
+      value: Fluid
+      objectReference: {fileID: 0}
     - target: {fileID: 6710227056709998395, guid: 5b6e271627c846d49adc8d8d192ac373, type: 3}
       propertyPath: m_Name
       value: Rezervoir
@@ -11047,6 +11059,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5b6e271627c846d49adc8d8d192ac373, type: 3}
+--- !u!4 &1635277685 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5552033542317842279, guid: afc03d719e4471a4aa9e5d68be48324d, type: 3}
+  m_PrefabInstance: {fileID: 2811840046347245111}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1642921434
 GameObject:
   m_ObjectHideFlags: 0
@@ -11377,7 +11394,7 @@ GameObject:
   - component: {fileID: 1674260818}
   - component: {fileID: 1674260817}
   - component: {fileID: 1674260820}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11418,8 +11435,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 1, z: 82.37012}
+  m_Center: {x: 0.00000001768249, y: 0, z: 40.685123}
 --- !u!23 &1674260818
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11694,6 +11711,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1717779982}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1741733073 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1955137385252041979, guid: 5b6e271627c846d49adc8d8d192ac373, type: 3}
+  m_PrefabInstance: {fileID: 1629370025}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1763832028
 GameObject:
   m_ObjectHideFlags: 0
@@ -13116,7 +13138,7 @@ GameObject:
   - component: {fileID: 1955391363}
   - component: {fileID: 1955391362}
   - component: {fileID: 1955391365}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13157,8 +13179,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 1, z: 65.21597}
+  m_Center: {x: 0.000000013394929, y: 0, z: -30.881006}
 --- !u!23 &1955391363
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -13868,6 +13890,71 @@ Transform:
   m_Children: []
   m_Father: {fileID: 41139619}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &2811840046347245111
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1291131522895122025, guid: afc03d719e4471a4aa9e5d68be48324d, type: 3}
+      propertyPath: m_Name
+      value: fluid
+      objectReference: {fileID: 0}
+    - target: {fileID: 2189861998848422726, guid: afc03d719e4471a4aa9e5d68be48324d, type: 3}
+      propertyPath: m_Name
+      value: EnergoRezervoir
+      objectReference: {fileID: 0}
+    - target: {fileID: 4521540389195340681, guid: afc03d719e4471a4aa9e5d68be48324d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -25.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 4521540389195340681, guid: afc03d719e4471a4aa9e5d68be48324d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 4521540389195340681, guid: afc03d719e4471a4aa9e5d68be48324d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 28.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 4521540389195340681, guid: afc03d719e4471a4aa9e5d68be48324d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4521540389195340681, guid: afc03d719e4471a4aa9e5d68be48324d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4521540389195340681, guid: afc03d719e4471a4aa9e5d68be48324d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4521540389195340681, guid: afc03d719e4471a4aa9e5d68be48324d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4521540389195340681, guid: afc03d719e4471a4aa9e5d68be48324d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4521540389195340681, guid: afc03d719e4471a4aa9e5d68be48324d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4521540389195340681, guid: afc03d719e4471a4aa9e5d68be48324d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9212410456533782790, guid: afc03d719e4471a4aa9e5d68be48324d, type: 3}
+      propertyPath: HoneyFluid
+      value: 
+      objectReference: {fileID: 1635277685}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: afc03d719e4471a4aa9e5d68be48324d, type: 3}
 --- !u!33 &3405774788429828947
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -14012,3 +14099,4 @@ SceneRoots:
   - {fileID: 1220787368}
   - {fileID: 440255892}
   - {fileID: 1629370025}
+  - {fileID: 2811840046347245111}
