@@ -221,7 +221,7 @@ GameObject:
   - component: {fileID: 33929532}
   m_Layer: 6
   m_Name: Stone_5_Low.002 (15)
-  m_TagString: Untagged
+  m_TagString: cantDestroyObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1440,7 +1440,7 @@ GameObject:
   - component: {fileID: 71148580}
   m_Layer: 6
   m_Name: Stone_5_Low.002 (3)
-  m_TagString: Untagged
+  m_TagString: cantDestroyObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3660,7 +3660,7 @@ GameObject:
   - component: {fileID: 368912305}
   m_Layer: 6
   m_Name: Stone_5_Low.002 (4)
-  m_TagString: Untagged
+  m_TagString: cantDestroyObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4036,7 +4036,7 @@ GameObject:
   - component: {fileID: 444070931}
   m_Layer: 6
   m_Name: Stone_5_Low.002 (9)
-  m_TagString: Untagged
+  m_TagString: cantDestroyObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4682,7 +4682,7 @@ GameObject:
   - component: {fileID: 563067449}
   m_Layer: 6
   m_Name: Stone_5_Low.002 (17)
-  m_TagString: Untagged
+  m_TagString: cantDestroyObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5208,7 +5208,7 @@ GameObject:
   - component: {fileID: 622658667}
   m_Layer: 6
   m_Name: Stone_5_Low.002 (14)
-  m_TagString: Untagged
+  m_TagString: cantDestroyObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5630,7 +5630,7 @@ GameObject:
   - component: {fileID: 701672867}
   m_Layer: 6
   m_Name: Stone_5_Low.002 (3)
-  m_TagString: Untagged
+  m_TagString: cantDestroyObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6428,7 +6428,7 @@ GameObject:
   - component: {fileID: 826490042}
   m_Layer: 6
   m_Name: Stone_5_Low.002 (5)
-  m_TagString: Untagged
+  m_TagString: cantDestroyObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8320,7 +8320,7 @@ GameObject:
   - component: {fileID: 1169064307}
   m_Layer: 6
   m_Name: Stone_5_Low.002 (3)
-  m_TagString: Untagged
+  m_TagString: cantDestroyObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9164,7 +9164,7 @@ GameObject:
   - component: {fileID: 1333770140}
   m_Layer: 6
   m_Name: Stone_5_Low.002 (12)
-  m_TagString: Untagged
+  m_TagString: cantDestroyObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9801,7 +9801,7 @@ GameObject:
   - component: {fileID: 1390187869}
   m_Layer: 6
   m_Name: Stone_5_Low.002 (8)
-  m_TagString: Untagged
+  m_TagString: cantDestroyObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10608,7 +10608,7 @@ GameObject:
   - component: {fileID: 1567502581}
   m_Layer: 6
   m_Name: Stone_5_Low.002 (2)
-  m_TagString: Untagged
+  m_TagString: cantDestroyObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10715,6 +10715,7 @@ GameObject:
   - component: {fileID: 1578633944}
   - component: {fileID: 1578633943}
   - component: {fileID: 1578633946}
+  - component: {fileID: 1578633947}
   m_Layer: 0
   m_Name: Bear_1
   m_TagString: Player
@@ -10801,6 +10802,22 @@ MonoBehaviour:
   - {fileID: 81043680955917083}
   - {fileID: 4838954421513363217, guid: 9d9d084336cb0f94293a6adc6d93b34f, type: 3}
   spawnPoint: {fileID: 648533629}
+--- !u!114 &1578633947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1578633942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e074a630d19845644b1433175306e74b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectableLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  holdTime: 2
 --- !u!1001 &1594486338
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12122,7 +12139,7 @@ GameObject:
   - component: {fileID: 1808532973}
   m_Layer: 6
   m_Name: Stone_5_Low.002 (10)
-  m_TagString: Untagged
+  m_TagString: cantDestroyObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13666,7 +13683,7 @@ GameObject:
   - component: {fileID: 2093294789}
   m_Layer: 6
   m_Name: Stone_5_Low.002 (13)
-  m_TagString: Untagged
+  m_TagString: cantDestroyObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
