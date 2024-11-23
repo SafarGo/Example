@@ -9,6 +9,7 @@ TagManager:
   - HoneyRezervoir
   - Panel
   - Builder
+  - cantDestroyObstacle
   layers:
   - Default
   - TransparentFX
