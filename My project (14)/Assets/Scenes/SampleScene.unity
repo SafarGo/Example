@@ -8453,9 +8453,6 @@ MonoBehaviour:
   gridManager: {fileID: 770372436}
   moveSpeed: 90
   detectionRadius: 2
-  detectionRadiusX: 2
-  detectionRadiusY: 2
-  detectionRadiusZ: 2
   collisionLayer:
     serializedVersion: 2
     m_Bits: 16
@@ -8761,6 +8758,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 06cd3a5f0f1eee3439e2fc138b59c71e, type: 3}
   m_PrefabInstance: {fileID: 6218001438335933676}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1112330667
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1112330668}
+  m_Layer: 0
+  m_Name: Emp
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1112330668
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1112330667}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 10.495854, y: 2.346376, z: -8.968074}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1117466158
 GameObject:
   m_ObjectHideFlags: 0
@@ -18026,9 +18054,6 @@ MonoBehaviour:
   gridManager: {fileID: 0}
   moveSpeed: 10
   detectionRadius: 2
-  detectionRadiusX: 2
-  detectionRadiusY: 2
-  detectionRadiusZ: 2
   collisionLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -19993,3 +20018,4 @@ SceneRoots:
   - {fileID: 4459864849929071250}
   - {fileID: 1006551093}
   - {fileID: 1402436216}
+  - {fileID: 1112330668}
