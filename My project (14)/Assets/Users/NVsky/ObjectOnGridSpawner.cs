@@ -2,42 +2,44 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ObjectOnGridSpawner : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> gridSpawnObjectPrefabs; // Список объектов для спауна
+    [SerializeField] private List<GameObject> gridSpawnObjectPrefabs;
     [SerializeField] private Transform spawnPoint;
+    [SerializeField] private List<Image> uiIcons;
 
-    private int selectedIndex = 0; // Индекс текущего выбранного объекта
+    private int selectedIndex = 0;
+
+    private void Start()
+    {
+        UpdateUIIcons();
+    }
 
     private void Update()
     {
         HandleInput();
     }
-
-    /// <summary>
-    /// Обрабатывает ввод от пользователя.
-    /// </summary>
     private void HandleInput()
     {
-        // Переключение с помощью колеса мыши
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll > 0f)
         {
-            ChangeSelectedIndex(1);
+            ChangeSelectedIndex(-1);
         }
         else if (scroll < 0f)
         {
-            ChangeSelectedIndex(-1);
+            ChangeSelectedIndex(1);
         }
 
-        // Переключение с помощью цифр на клавиатуре (1-9)
         for (int i = 0; i < Mathf.Min(gridSpawnObjectPrefabs.Count, 9); i++)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1 + i))
             {
                 selectedIndex = i;
                 Debug.Log($"Selected object: {gridSpawnObjectPrefabs[selectedIndex].name}");
+                UpdateUIIcons();
             }
         }
 
@@ -48,19 +50,13 @@ public class ObjectOnGridSpawner : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Меняет текущий выбранный индекс.
-    /// </summary>
-    /// <param name="direction">Направление изменения (1 или -1).</param>
     private void ChangeSelectedIndex(int direction)
     {
         selectedIndex = (selectedIndex + direction + gridSpawnObjectPrefabs.Count) % gridSpawnObjectPrefabs.Count;
         Debug.Log($"Selected object: {gridSpawnObjectPrefabs[selectedIndex].name}");
+        UpdateUIIcons();
     }
 
-    /// <summary>
-    /// Спавнит объект по текущему выбранному индексу.
-    /// </summary>
     private void SpawnObject()
     {
         if (gridSpawnObjectPrefabs.Count == 0) return;
@@ -72,7 +68,36 @@ public class ObjectOnGridSpawner : MonoBehaviour
             Mathf.CeilToInt(spawnPoint.position.z) / 2 * 2
         );
 
+        if (prefab.GetComponent<ObjectPlacer>() != null)
+        {
+            prefab.GetComponent<ObjectPlacer>().isSpawn = true;
+        }
+        else
+        {
+            prefab.transform.GetChild(0).GetComponent<ObjectPlacer>().isSpawn = true;
+        }
         Instantiate(prefab, spawnPosition, Quaternion.identity);
         Debug.Log($"Spawned: {prefab.name}");
+    }
+    private void UpdateUIIcons()
+    {
+        for (int i = 0; i < uiIcons.Count; i++)
+        {
+            if (i == selectedIndex)
+            {
+                SetIconAlpha(uiIcons[i], 1.0f);
+            }
+            else
+            {
+                SetIconAlpha(uiIcons[i], 0.5f);
+            }
+        }
+    }
+
+    private void SetIconAlpha(Image icon, float alpha)
+    {
+        Color color = icon.color;
+        color.a = alpha;
+        icon.color = color;
     }
 }

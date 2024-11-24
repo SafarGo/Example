@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3516687799102480148}
   m_Layer: 6
   m_Name: ConvPrefab
-  m_TagString: Untagged
+  m_TagString: obstacle_tag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -54,11 +54,15 @@ MonoBehaviour:
   allowMoveZ: 1
   gridManager: {fileID: 0}
   moveSpeed: 10
-  detectionRadius: 0.65
+  detectionRadius: 0.5
+  detectionRadiusX: 0.5
+  detectionRadiusY: 0
+  detectionRadiusZ: 0.8
   collisionLayer:
     serializedVersion: 2
     m_Bits: 64
   gridName: GridManager_Conveyers
+  isSpawn: 0
 --- !u!65 &3516687799102480148
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -78,8 +82,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 8.313826, y: 3.249622, z: 3.87}
-  m_Center: {x: -1.3559369, y: 1.7206013, z: -5.6192335e-16}
+  m_Size: {x: 8.636992, y: 3.249622, z: 6.7573547}
+  m_Center: {x: -1.194353, y: 1.7206013, z: -0.028920768}
 --- !u!1 &5338359337471743549
 GameObject:
   m_ObjectHideFlags: 0

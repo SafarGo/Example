@@ -10,6 +10,7 @@ TagManager:
   - Panel
   - Builder
   - cantDestroyObstacle
+  - obstacle_tag
   layers:
   - Default
   - TransparentFX

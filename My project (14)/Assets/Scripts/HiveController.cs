@@ -11,6 +11,8 @@ public class HiveController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI honeyText;
 
     public Slider sl;
+    public Slider ProizvodSlider;
+    public Slider Partiua;
     [SerializeField] GameObject honeyBottlePrefab;
     [SerializeField] Transform spawnPoint;
     [SerializeField] int cartridgeCount;
@@ -21,13 +23,14 @@ public class HiveController : MonoBehaviour
 
     private void Start()
     {
-
-
+        UpdateBeesCount();
+        InvokeRepeating(nameof(UpdateBeesCount), 0, 10);
+        InvokeRepeating(nameof(UpdateTime), 0, 2);
         Time.timeScale = 1;
         HP = HPMax;
         sl.maxValue = HPMax;
         sl.value = HP;
-
+        StaticHolder.HivesCount++;
         //honeyCreateRate = 12;// Должно быть 120
     }
     private IEnumerator HoneyCreatingCoroutine()
@@ -46,7 +49,8 @@ public class HiveController : MonoBehaviour
         }
     }
     private void FixedUpdate()
-    {
+    { 
+        //Time.timeScale = 5;
         UpdateHoneyText();
         t += Time.deltaTime;
         if (t > honeyCreateRate)
@@ -57,11 +61,17 @@ public class HiveController : MonoBehaviour
         //Debug.Log(t);
     }
 
-    void UpdateBeesCount(int plusBees)
+    void UpdateBeesCount()
     {
-        if (beesCount % 2 == 0)
+        if (honeyCreateRate >= 12)
         {
-            honeyCreateRate = 120 / beesCount;
+            honeyCreateRate = 110 - System.Convert.ToInt32(ClumbsManager.FlowerCounts / (7 + StaticHolder.HivesCount));
+            Debug.Log(honeyCreateRate);
+            ProizvodSlider.value = -honeyCreateRate / cartridgeCount;
+        }
+        else
+        {
+            honeyCreateRate = 20;
         }
 
     }
@@ -69,8 +79,14 @@ public class HiveController : MonoBehaviour
     {
         if (honeyText != null)
         {
-            honeyText.text = $"+{cartridgeCount}";
+            honeyText.text = $"Картриджи + {cartridgeCount}";
         }
     }
+
+    void UpdateTime()
+    {
+        Partiua.value = t / honeyCreateRate;
+    }
+
 
 }

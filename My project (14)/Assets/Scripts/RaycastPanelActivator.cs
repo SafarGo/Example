@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class RaycastPanelActivator : MonoBehaviour
 {
     public float raycastDistance = 10f; // Дистанция для Raycast
     public LayerMask layerMask; // Маска для проверки объектов с тегом Builder
+    public LayerMask MigamelayerMask; 
     private Transform lastBuilderObject = null; // Для хранения последнего объекта Builder
 
     void Update()
@@ -41,6 +43,7 @@ public class RaycastPanelActivator : MonoBehaviour
                     }
                 }
             }
+
         }
         else
         {
@@ -49,8 +52,8 @@ public class RaycastPanelActivator : MonoBehaviour
         }
     }
 
-    // Метод для отключения панели
-    void DeactivatePanel()
+        // Метод для отключения панели
+        void DeactivatePanel()
     {
         if (lastBuilderObject != null)
         {
