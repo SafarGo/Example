@@ -207,23 +207,31 @@ public class FirstPersonController : MonoBehaviour
         // Control camera movement
         if(cameraCanMove)
         {
-            yaw = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * mouseSensitivity;
-
-            if (!invertCamera)
+            if(Input.GetKey(KeyCode.LeftAlt))
             {
-                pitch -= mouseSensitivity * Input.GetAxis("Mouse Y");
+                Cursor.lockState = CursorLockMode.None; // Захватываем курсор
             }
             else
             {
-                // Inverted Y
-                pitch += mouseSensitivity * Input.GetAxis("Mouse Y");
+                Cursor.lockState = CursorLockMode.Locked;
+                     yaw = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * mouseSensitivity;
+
+                 if (!invertCamera)
+                 {
+                     pitch -= mouseSensitivity * Input.GetAxis("Mouse Y");
+                 }
+                 else
+                 {
+                     // Inverted Y
+                     pitch += mouseSensitivity * Input.GetAxis("Mouse Y");
+                 }
+
+                 // Clamp pitch between lookAngle
+                 pitch = Mathf.Clamp(pitch, -maxLookAngle, maxLookAngle);
+
+                 transform.localEulerAngles = new Vector3(0, yaw, 0);
+                 playerCamera.transform.localEulerAngles = new Vector3(pitch, 0, 0);
             }
-
-            // Clamp pitch between lookAngle
-            pitch = Mathf.Clamp(pitch, -maxLookAngle, maxLookAngle);
-
-            transform.localEulerAngles = new Vector3(0, yaw, 0);
-            playerCamera.transform.localEulerAngles = new Vector3(pitch, 0, 0);
         }
 
         #region Camera Zoom
