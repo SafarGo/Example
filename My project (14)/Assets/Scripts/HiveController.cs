@@ -65,7 +65,7 @@ public class HiveController : MonoBehaviour
     {
         if (honeyCreateRate >= 12)
         {
-            honeyCreateRate = 110 - System.Convert.ToInt32(ClumbsManager.FlowerCounts / (2 + StaticHolder.HivesCount));
+            honeyCreateRate = 60 - System.Convert.ToInt32(ClumbsManager.FlowerCounts / (2 + StaticHolder.HivesCount));
             Debug.Log(honeyCreateRate);
             ProizvodSlider.value = -honeyCreateRate / cartridgeCount;
         }

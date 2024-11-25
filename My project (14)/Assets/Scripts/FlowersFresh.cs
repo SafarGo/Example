@@ -50,7 +50,7 @@ public class FlowersFresh : MonoBehaviour
     private void FixedUpdate()
     {
         // Уменьшение значения freshment
-        freshment -= Time.deltaTime;
+        freshment -= Time.deltaTime / 3;
         freshment = Mathf.Clamp(freshment, 0, 100);
 
         if (freshmentSlider != null)
