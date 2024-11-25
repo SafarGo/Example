@@ -10,6 +10,7 @@ TagManager:
   - Panel
   - Builder
   - cantDestroyObstacle
+  - obstacle_tag
   layers:
   - Default
   - TransparentFX
@@ -20,10 +21,10 @@ TagManager:
   - Obstacle
   - Build
   - Socket
-  - 
-  - 
-  - 
-  - 
+  - Hive
+  - EnergoHoney
+  - Honey
+  - ConveyerLayer
   - 
   - 
   - 

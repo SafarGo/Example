@@ -11,6 +11,7 @@ public class ReservoirController : MonoBehaviour
     [SerializeField] int maxHoneyCount;
     [SerializeField] int currentHuneyCount;
     [SerializeField] private TextMeshProUGUI honeyText;
+    [SerializeField] private Transform HoneyFluid;
 
 
     private void Start()
@@ -24,8 +25,9 @@ public class ReservoirController : MonoBehaviour
             if (currentHuneyCount < maxHoneyCount)
             {
                 currentHuneyCount++;
-
+                HoneyFluid.position += new Vector3(0, 0.035f, 0);
                 imageMax.SetActive(false);
+                UpdateHoneyText();
             }
             else
             {
@@ -44,5 +46,7 @@ public class ReservoirController : MonoBehaviour
         {
             honeyText.text = $"{currentHuneyCount}/{maxHoneyCount}";
         }
+        //HoneyFluid.position += new Vector3(0,currentHuneyCount / 40,0);
     }
+
 }

@@ -12,7 +12,7 @@ public class ObjectPlacer : MonoBehaviour
     private Camera mainCamera;
     private bool isDragging = false;
     private Vector3 offset;
-    private Vector3 targetPosition;
+    private Vector3 targetPos;
     public float moveSpeed = 10f;
 
     public float detectionRadius = 2f;
@@ -23,13 +23,14 @@ public class ObjectPlacer : MonoBehaviour
 
     private Renderer[] renderers;
     private Material[] originalMaterials;
-    private Vector3 lastValidPosition;
+    private Vector3 lastNormPosition;
     private bool isRed = false;
+    public bool isSpawn = false;
 
-    void Start()
+    public void Start()
     {
         mainCamera = Camera.main;
-        targetPosition = transform.position;
+        targetPos = transform.position;
 
         renderers = GetComponentsInChildren<Renderer>();
         originalMaterials = new Material[renderers.Length];
@@ -39,19 +40,20 @@ public class ObjectPlacer : MonoBehaviour
             originalMaterials[i] = renderers[i].material;
         }
 
-        lastValidPosition = transform.position;
+        lastNormPosition = transform.position;
         if (gridManager == null)
         {
             gridManager = GameObject.Find(gridName).GetComponent<GridManager>();
         }
-
-        // Проверка начальной позиции
-        CheckInitialPosition();
+        if (isSpawn == true)
+        {
+            CheckInitialPosition();
+        }
     }
 
     void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
 
         if (isDragging)
         {
@@ -73,13 +75,14 @@ public class ObjectPlacer : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             offset = transform.position - hit.point;
+            SetMaterialToColor(new Color(0.17f, 1, 0));
         }
     }
 
     void OnMouseDrag()
     {
         if (!isDragging) return;
-
+            
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
@@ -100,30 +103,28 @@ public class ObjectPlacer : MonoBehaviour
                 Debug.LogWarning("GridManager не назначен!");
             }
 
-            targetPosition = newPosition;
+            targetPos = newPosition;
         }
     }
 
     void OnMouseUp()
     {
         isDragging = false;
-
-        // Восстановление оригинальных материалов или возвращение в последнюю валидную позицию
+        RestoreOriginalMaterials();
         if (isRed)
         {
-            targetPosition = lastValidPosition;
+            targetPos = lastNormPosition;
             RestoreOriginalMaterials();
             isRed = false;
         }
         else
         {
-            lastValidPosition = transform.position;
+            lastNormPosition = transform.position;
         }
     }
 
     void CheckCollisions()
     {
-        // Проверка коллизий с другими объектами
         Collider[] nearbyObjects = Physics.OverlapSphere(transform.position, detectionRadius, collisionLayer);
 
         bool hasCollision = false;
@@ -136,8 +137,6 @@ public class ObjectPlacer : MonoBehaviour
                 break;
             }
         }
-
-        // Если есть коллизия
         if (hasCollision)
         {
             if (!isRed)
@@ -152,16 +151,18 @@ public class ObjectPlacer : MonoBehaviour
             {
                 RestoreOriginalMaterials();
                 isRed = false;
+                if (isDragging)
+                {
+                    SetMaterialToColor(new Color(0.17f, 1, 0));
+                }
             }
         }
     }
 
-    void CheckInitialPosition()
+    public void CheckInitialPosition()
     {
-        // Проверка на старте
         Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRadius, collisionLayer);
 
-        // Если в начальной позиции есть коллизия с другим объектом, то начинаем поиск
         if (colliders.Length > 0)
         {
             Debug.Log("Объект появился внутри другого объекта. Ищем ближайшую свободную точку...");
@@ -178,31 +179,27 @@ public class ObjectPlacer : MonoBehaviour
         Vector3 closestPoint = transform.position;
         bool foundFreePoint = false;
 
-        // Поиск ближайшей свободной позиции с учётом сетки и коллизий
-        float maxSearchRadius = detectionRadius * 5f; // Максимальный радиус поиска
-        float searchRadiusStep = detectionRadius; // Шаг увеличения радиуса поиска
+        float maxSearchRadius = detectionRadius * 5f; 
+        float searchRadiusStep = detectionRadius; 
 
         for (float radius = detectionRadius; radius <= maxSearchRadius; radius += searchRadiusStep)
         {
             Collider[] colliders = Physics.OverlapSphere(transform.position, radius, collisionLayer);
 
-            // Пробуем переместиться в новые возможные позиции
             foreach (Collider collider in colliders)
             {
                 if (collider.gameObject == gameObject)
-                    continue; // Игнорируем сам объект
+                    continue;
 
                 Vector3 potentialPoint = transform.position + Random.insideUnitSphere * radius;
 
-                // Привязка к сетке, но высота остается постоянной
                 if (gridManager != null)
                 {
                     potentialPoint = gridManager.GetClosestGridPoint(potentialPoint);
                 }
 
-                potentialPoint.y = transform.position.y; // Высота не меняется
+                potentialPoint.y = transform.position.y;
 
-                // Проверка на коллизии с другими объектами
                 Collider[] nearbyColliders = Physics.OverlapSphere(potentialPoint, detectionRadius, collisionLayer);
                 if (nearbyColliders.Length == 0)
                 {
@@ -215,11 +212,10 @@ public class ObjectPlacer : MonoBehaviour
             if (foundFreePoint) break;
         }
 
-        // Перемещаем объект на найденную точку
         if (foundFreePoint)
         {
-            targetPosition = new Vector3(closestPoint.x, transform.position.y, closestPoint.z);
-            lastValidPosition = targetPosition;
+            targetPos = new Vector3(closestPoint.x, transform.position.y, closestPoint.z);
+            lastNormPosition = targetPos;
             RestoreOriginalMaterials();
             isRed = false;
         }

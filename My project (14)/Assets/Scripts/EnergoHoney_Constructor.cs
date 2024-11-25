@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class EnergoHoney_Constructor : MonoBehaviour
 {
-    int HP;
+    [HideInInspector]public int HP;
     public int HPMax;
-    public Slider sl;
+    public Slider HpSlider;
     [SerializeField] private TextMeshProUGUI catrText;
     public int honeyValue = 2;
     public GameObject energyHoneyPrefab;
@@ -23,8 +23,8 @@ public class EnergoHoney_Constructor : MonoBehaviour
     private void Start()
     {
         HP = HPMax;
-        sl.maxValue = HPMax;
-        sl.value = HP;
+        HpSlider.maxValue = HPMax;
+        HpSlider.value = HP;
 
         spawnerCollider = GetComponent<Collider>(); // Получаем коллайдер
         UpdateHoneyText();
@@ -49,7 +49,7 @@ public class EnergoHoney_Constructor : MonoBehaviour
             {
                 StartCoroutine(SpawnEnergyHoney(other.transform.position, velocity));
                 HP--;
-                sl.value = Mathf.Clamp(HP, 0f, HPMax);
+                HpSlider.value = Mathf.Clamp(HP, 0f, HPMax);
                 if (HP <= 0)
                 {
                     Destroy(gameObject);
@@ -89,6 +89,7 @@ public class EnergoHoney_Constructor : MonoBehaviour
 
         // Включаем триггер обратно
         spawnerCollider.isTrigger = true;
+        UpdateHoneyText();
     }
 
     private void UpdateHoneyText()

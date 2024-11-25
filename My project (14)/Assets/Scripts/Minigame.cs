@@ -19,6 +19,8 @@ public class MinigameMultiSlider : MonoBehaviour
     private bool[] sliderSuccesses;
     public Image targetZoneGraphicPrefab;
     private const float MIN_TARGET_WIDTH_PERCENT = 0.2f; // Minimum width (2x original)
+    [Header("Коструктор для восстановления HP")]
+    [SerializeField] EnergoHoney_Constructor ConstructorHP;
 
     private EventManager eventManager;
 
@@ -62,7 +64,6 @@ public class MinigameMultiSlider : MonoBehaviour
 
         CreateTargetZoneImages(); // Create images at the start
     }
-
     void Update()
     {
         if (gameStarted)
@@ -104,7 +105,7 @@ public class MinigameMultiSlider : MonoBehaviour
                 }
             }
         }
-        else if (Input.GetKeyDown(KeyCode.Space))
+        else if (Input.GetKeyDown(KeyCode.P))
         {
             gameStarted = true;
         }
@@ -122,18 +123,21 @@ public class MinigameMultiSlider : MonoBehaviour
             if (currentSliderIndex >= gameSliders.Length)
             {
                 gameEnded = true;
-                resultText.text = "You Win!";
+                ConstructorHP.HP = ConstructorHP.HPMax;
+                ConstructorHP.HpSlider.value = ConstructorHP.HPMax;
+                resultText.text = "Аппарат восстановлен";
+                Invoke(nameof(HideText),1);
                 eventManager.Fixed();
             }
             else
             {
                 sliderValues[currentSliderIndex] = 0f;
-                resultText.text = "Success! Next slider.";
+                resultText.text = "Поток восстановлен";
             }
         }
         else
         {
-            resultText.text = "Failed! Starting over.";
+            resultText.text = "!Ошибка!";
             RestartGame(); // Restart the entire game on any failure
         }
     }
@@ -198,4 +202,10 @@ public class MinigameMultiSlider : MonoBehaviour
             Debug.LogError("Error creating target image. Check prefab and slider setup.");
         }
     }
+
+    void HideText()
+    {
+        resultText.text = "R - перезапуск";
+    }
+
 }
