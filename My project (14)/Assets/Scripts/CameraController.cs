@@ -12,29 +12,4 @@ public class CameraController : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked; // Захватываем курсор
     }
-
-    void Update()
-    {
-        if(Input.GetKey(KeyCode.LeftAlt))
-        {
-            Cursor.lockState = CursorLockMode.None; // Захватываем курсор
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.Locked; // Захватываем курсор
-        // Получаем данные мыши
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
-
-        // Ограничиваем вращение по оси X
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-
-        // Вращаем камеру вверх-вниз
-        transform.localRotation = Quaternion.Euler(xRotation, 90f, 0f);
-
-        // Вращаем персонажа влево-вправо
-        playerBody.Rotate(Vector3.up * mouseX);
-        }
-    }
 }

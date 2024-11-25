@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ObjectPlacer : MonoBehaviour
 {
+    [SerializeField] GameObject BuildingMenu;
     public bool allowMoveX = true;
     public bool allowMoveY = false;
     public bool allowMoveZ = true;
