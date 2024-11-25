@@ -89,6 +89,7 @@ public class EnergoHoney_Constructor : MonoBehaviour
 
         // Включаем триггер обратно
         spawnerCollider.isTrigger = true;
+        UpdateHoneyText();
     }
 
     private void UpdateHoneyText()

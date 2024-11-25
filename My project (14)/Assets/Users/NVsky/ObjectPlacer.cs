@@ -82,7 +82,7 @@ public class ObjectPlacer : MonoBehaviour
     void OnMouseDrag()
     {
         if (!isDragging) return;
-
+            
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {

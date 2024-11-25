@@ -66,7 +66,7 @@ public class FlowersFresh : MonoBehaviour
             water.Play();
         }
 
-        freshment += Time.deltaTime * 13;
+        freshment += Time.deltaTime * 7;
     }
 
     private void OnTriggerStay(Collider other)

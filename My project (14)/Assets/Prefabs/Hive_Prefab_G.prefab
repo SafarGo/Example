@@ -183,9 +183,6 @@ MonoBehaviour:
   gridManager: {fileID: 0}
   moveSpeed: 10
   detectionRadius: 1.6
-  detectionRadiusX: 0.4
-  detectionRadiusY: 0
-  detectionRadiusZ: 0.4
   collisionLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -206,7 +203,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -1003,7 +1000,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1080632907137685701}
   - component: {fileID: 9022625960058467821}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Hive_Prefab_G
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1422,7 +1419,7 @@ GameObject:
   - component: {fileID: 4245363217051317794}
   - component: {fileID: 9145477641210257186}
   - component: {fileID: 1347147665642430956}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Conv_1 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2023,7 +2020,7 @@ GameObject:
   - component: {fileID: 3480932079027927632}
   - component: {fileID: 3601909850347926825}
   - component: {fileID: 6171244859907361034}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Conv_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2233,7 +2230,7 @@ GameObject:
   - component: {fileID: 3566900905030942979}
   - component: {fileID: 2572701114471676750}
   - component: {fileID: 2044485000450060291}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Conv_1 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
