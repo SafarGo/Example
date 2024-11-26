@@ -23,7 +23,7 @@ public class ObjectPlacer : MonoBehaviour
     [SerializeField] string gridName;
 
     private Renderer[] renderers;
-    private Material[] originalMaterials;
+    private Material[][] originalMaterials;
     private Vector3 lastNormPosition;
     private bool isRed = false;
     public bool isSpawn = false;
@@ -34,11 +34,11 @@ public class ObjectPlacer : MonoBehaviour
         targetPos = transform.position;
 
         renderers = GetComponentsInChildren<Renderer>();
-        originalMaterials = new Material[renderers.Length];
+        originalMaterials = new Material[renderers.Length][];
 
         for (int i = 0; i < renderers.Length; i++)
         {
-            originalMaterials[i] = renderers[i].material;
+            originalMaterials[i] = renderers[i].materials;
         }
 
         lastNormPosition = transform.position;
@@ -61,7 +61,6 @@ public class ObjectPlacer : MonoBehaviour
             CheckCollisions();
         }
 
-        // Вращение объекта
         if (Input.GetKeyDown(KeyCode.R) && isDragging)
         {
             transform.Rotate(0, 90, 0);
@@ -83,7 +82,7 @@ public class ObjectPlacer : MonoBehaviour
     void OnMouseDrag()
     {
         if (!isDragging) return;
-            
+
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
@@ -166,12 +165,7 @@ public class ObjectPlacer : MonoBehaviour
 
         if (colliders.Length > 0)
         {
-            Debug.Log("Объект появился внутри другого объекта. Ищем ближайшую свободную точку...");
             FindNearestFreePosition();
-        }
-        else
-        {
-            Debug.Log("На старте объект не сталкивается с другими объектами, остаемся на месте.");
         }
     }
 
@@ -180,8 +174,8 @@ public class ObjectPlacer : MonoBehaviour
         Vector3 closestPoint = transform.position;
         bool foundFreePoint = false;
 
-        float maxSearchRadius = detectionRadius * 5f; 
-        float searchRadiusStep = detectionRadius; 
+        float maxSearchRadius = detectionRadius * 5f;
+        float searchRadiusStep = detectionRadius;
 
         for (float radius = detectionRadius; radius <= maxSearchRadius; radius += searchRadiusStep)
         {
@@ -220,19 +214,18 @@ public class ObjectPlacer : MonoBehaviour
             RestoreOriginalMaterials();
             isRed = false;
         }
-        else
-        {
-            Debug.LogWarning("Не удалось найти свободное место!");
-        }
     }
 
     void SetMaterialToColor(Color color)
     {
         foreach (Renderer renderer in renderers)
         {
-            Material newMaterial = new Material(renderer.material);
-            newMaterial.color = color;
-            renderer.material = newMaterial;
+            Material[] newMaterials = new Material[renderer.materials.Length];
+            for (int i = 0; i < renderer.materials.Length; i++)
+            {
+                newMaterials[i] = new Material(renderer.materials[i]) { color = color };
+            }
+            renderer.materials = newMaterials;
         }
     }
 
@@ -240,7 +233,7 @@ public class ObjectPlacer : MonoBehaviour
     {
         for (int i = 0; i < renderers.Length; i++)
         {
-            renderers[i].material = originalMaterials[i];
+            renderers[i].materials = originalMaterials[i];
         }
     }
 }

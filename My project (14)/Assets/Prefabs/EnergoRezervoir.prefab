@@ -3044,7 +3044,7 @@ MonoBehaviour:
   maxHoneyCount: 100
   currentHuneyCount: 0
   honeyText: {fileID: 7084802209831892981}
-  HoneyFluid: {fileID: 0}
+  HoneyFluid: {fileID: 5552033542317842279}
 --- !u!4 &5552033542317842279 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -1608217033678317102, guid: 06d27fae1a0159542b6009c58c386a44, type: 3}
