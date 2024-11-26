@@ -14,10 +14,10 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
-  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_Fog: 1
+  m_FogColor: {r: 0.26923084, g: 1, b: 0, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.01
+  m_FogDensity: 0.005
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0, g: 0, b: 0, a: 1}
@@ -25,11 +25,11 @@ RenderSettings:
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 0
-  m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
+  m_SubtractiveShadowColor: {r: 1, g: 0.16862746, b: 0, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: 73414236ba932c7458e7998d7b1a3232, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
-  m_FlareFadeSpeed: 3
+  m_FlareFadeSpeed: 106.48
   m_HaloTexture: {fileID: 0}
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
   m_DefaultReflectionMode: 0
@@ -2465,6 +2465,18 @@ PrefabInstance:
     - target: {fileID: 3242874384729146677, guid: 33983225a194bdc479fe46cba7a64637, type: 3}
       propertyPath: m_Name
       value: Clumb
+      objectReference: {fileID: 0}
+    - target: {fileID: 5441314693654084585, guid: 33983225a194bdc479fe46cba7a64637, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.143
+      objectReference: {fileID: 0}
+    - target: {fileID: 5441314693654084585, guid: 33983225a194bdc479fe46cba7a64637, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.502
+      objectReference: {fileID: 0}
+    - target: {fileID: 5441314693654084585, guid: 33983225a194bdc479fe46cba7a64637, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.402
       objectReference: {fileID: 0}
     - target: {fileID: 6849490631595885347, guid: 33983225a194bdc479fe46cba7a64637, type: 3}
       propertyPath: isSpawn
