@@ -1,16 +1,15 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 
 public class DialogueManager : MonoBehaviour
 {
     public TMP_Text dialogueText;
     public Button nextButton;
-    public Image characterImage;
-    public Sprite character1Sprite;
-    public Sprite character2Sprite;
+    public Image characterImage1;
+    public Image characterImage2;
     public float typingSpeed = 0.05f;
 
     private List<Dialogue> dialogues;
@@ -27,21 +26,30 @@ public class DialogueManager : MonoBehaviour
 
     public Dialogue[] dialogueArray;
 
+    private Dictionary<string, Image> speakerImages = new Dictionary<string, Image>();
+
     void Start()
     {
         if (dialogueArray == null || dialogueArray.Length == 0)
         {
-            Debug.LogError("Массив диалогов пуст или не задан.");
+            Debug.LogError("Dialogue array is empty or not assigned.");
             return;
         }
         dialogues = new List<Dialogue>(dialogueArray);
         if (nextButton == null)
         {
-            Debug.LogError("Кнопка \"Далее\" не назначена.");
+            Debug.LogError("Next button is not assigned.");
             return;
         }
+        speakerImages.Add("Character 1", characterImage1);
+        speakerImages.Add("Character 2", characterImage2);
         nextButton.onClick.AddListener(NextDialogue);
-        nextButton.interactable = !isTyping;
+        nextButton.interactable = true; // Enable button initially
+
+        //Initially hide both character images
+        characterImage1.gameObject.SetActive(false);
+        characterImage2.gameObject.SetActive(false);
+
         ShowDialogue();
     }
 
@@ -51,12 +59,39 @@ public class DialogueManager : MonoBehaviour
         if (currentDialogueIndex < dialogues.Count)
         {
             Dialogue currentDialogue = dialogues[currentDialogueIndex];
-            characterImage.sprite = currentDialogue.characterSprite;
+            string speaker = currentDialogue.speaker;
+
+            if (speakerImages.ContainsKey(speaker))
+            {
+                Image currentImage = speakerImages[speaker];
+                currentImage.sprite = currentDialogue.characterSprite;
+                currentImage.gameObject.SetActive(true);
+
+                //Hide the other image ONLY if a speaker exists
+                HideOtherImage(currentImage);
+            }
+            else
+            {
+                Debug.LogError($"Speaker '{speaker}' not found in speakerImages dictionary.");
+            }
             StartCoroutine(TypeText(currentDialogue.text));
         }
         else
         {
             nextButton.gameObject.SetActive(false);
+            characterImage1.gameObject.SetActive(false);
+            characterImage2.gameObject.SetActive(false);
+        }
+    }
+
+    void HideOtherImage(Image shownImage)
+    {
+        foreach (KeyValuePair<string, Image> kvp in speakerImages)
+        {
+            if (kvp.Value != shownImage)
+            {
+                kvp.Value.gameObject.SetActive(false);
+            }
         }
     }
 
