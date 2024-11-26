@@ -101,6 +101,7 @@ public class MinigameMultiSlider : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.R))
                 {
+                    resultText.text = "P - запуск";
                     RestartGame();
                 }
             }
@@ -108,6 +109,7 @@ public class MinigameMultiSlider : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.P))
         {
             gameStarted = true;
+
         }
     }
 
@@ -137,7 +139,8 @@ public class MinigameMultiSlider : MonoBehaviour
         }
         else
         {
-            resultText.text = "!Ошибка!";
+            resultText.text = "!Ошибка!" + "\n" + "P - перезапуск";
+            
             RestartGame(); // Restart the entire game on any failure
         }
     }
