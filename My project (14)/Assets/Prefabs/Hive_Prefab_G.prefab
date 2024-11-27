@@ -182,14 +182,10 @@ MonoBehaviour:
   allowMoveX: 1
   allowMoveY: 0
   allowMoveZ: 1
-  gridManager: {fileID: 0}
   moveSpeed: 10
-  detectionRadius: 1.7
   collisionLayer:
     serializedVersion: 2
     m_Bits: 64
-  gridName: GridManager_Conveyers
-  isSpawn: 0
 --- !u!65 &1272663451421674666
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -205,12 +201,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.78, y: 3.5806725, z: 1}
-  m_Center: {x: 0.013767719, y: -0.17555606, z: 0}
+  m_Size: {x: 2.1097832, y: 0.9517667, z: 2.7549515}
+  m_Center: {x: 0.009244919, y: 1.1388968, z: -0.09046173}
 --- !u!1 &995686091183106115
 GameObject:
   m_ObjectHideFlags: 0
@@ -1086,7 +1082,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1080632907137685701}
-  - component: {fileID: 9022625960058467821}
   m_Layer: 9
   m_Name: Hive_Prefab_G
   m_TagString: Untagged
@@ -1110,27 +1105,6 @@ Transform:
   - {fileID: 3291920952323029482}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &9022625960058467821
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3773413021388053694}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Size: {x: 2.4096003, y: 2.2569685, z: 2.5173397}
-  m_Center: {x: -0.013467312, y: 2.4331312, z: -0.040402412}
 --- !u!1 &3808361984209397428
 GameObject:
   m_ObjectHideFlags: 0
@@ -2042,7 +2016,7 @@ Transform:
   m_GameObject: {fileID: 7594046632432883881}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0, y: 0.606, z: 0}
+  m_LocalPosition: {x: -0, y: 0.305, z: 0}
   m_LocalScale: {x: 113.413284, y: 113.413284, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children:
