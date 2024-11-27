@@ -5287,8 +5287,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 11.537991, y: 10.547176, z: 10.803735}
-  m_Center: {x: -0.98066616, y: 4.9108677, z: 0.17239428}
+  m_Size: {x: 12.660779, y: 10.547176, z: 11.952041}
+  m_Center: {x: -0.9296298, y: 4.9108677, z: 0.26170683}
 --- !u!114 &6849490631595885347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5305,14 +5305,10 @@ MonoBehaviour:
   allowMoveX: 1
   allowMoveY: 0
   allowMoveZ: 1
-  gridManager: {fileID: 0}
   moveSpeed: 10
-  detectionRadius: 6
   collisionLayer:
     serializedVersion: 2
     m_Bits: 64
-  gridName: GridManager_Conveyers
-  isSpawn: 1
 --- !u!1 &3445904575306784423
 GameObject:
   m_ObjectHideFlags: 0
