@@ -6,23 +6,28 @@ using UnityEngine.UI;
 
 public class ObjectOnGridSpawner : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> gridSpawnObjectPrefabs;
+    [SerializeField] private List<GameObject> gridSpawnObjectPrefabs; // Список объектов для спауна
     [SerializeField] private Transform spawnPoint;
-    [SerializeField] private List<Image> uiIcons;
+    [SerializeField] private List<Image> uiIcons; // Список UI-иконок для затемнения
 
-    private int selectedIndex = 0;
+    private int selectedIndex = 0; // Индекс текущего выбранного объекта
 
     private void Start()
     {
-        UpdateUIIcons();
+        UpdateUIIcons(); // Обновляем иконки при старте
     }
 
     private void Update()
     {
         HandleInput();
     }
+
+    /// <summary>
+    /// Обрабатывает ввод от пользователя.
+    /// </summary>
     private void HandleInput()
     {
+        // Переключение с помощью колеса мыши
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll > 0f)
         {
@@ -33,6 +38,7 @@ public class ObjectOnGridSpawner : MonoBehaviour
             ChangeSelectedIndex(1);
         }
 
+        // Переключение с помощью цифр на клавиатуре (1-9)
         for (int i = 0; i < Mathf.Min(gridSpawnObjectPrefabs.Count, 9); i++)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1 + i))
@@ -50,6 +56,10 @@ public class ObjectOnGridSpawner : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Меняет текущий выбранный индекс.
+    /// </summary>
+    /// <param name="direction">Направление изменения (1 или -1).</param>
     private void ChangeSelectedIndex(int direction)
     {
         selectedIndex = (selectedIndex + direction + gridSpawnObjectPrefabs.Count) % gridSpawnObjectPrefabs.Count;
@@ -57,6 +67,9 @@ public class ObjectOnGridSpawner : MonoBehaviour
         UpdateUIIcons();
     }
 
+    /// <summary>
+    /// Спавнит объект по текущему выбранному индексу.
+    /// </summary>
     private void SpawnObject()
     {
         if (gridSpawnObjectPrefabs.Count == 0) return;
@@ -68,32 +81,41 @@ public class ObjectOnGridSpawner : MonoBehaviour
             Mathf.CeilToInt(spawnPoint.position.z) / 2 * 2
         );
 
-        if (prefab.GetComponent<ObjectPlacer>() != null)
-        {
-            prefab.GetComponent<ObjectPlacer>().isSpawn = true;
-        }
-        else
-        {
-            prefab.transform.GetChild(0).GetComponent<ObjectPlacer>().isSpawn = true;
-        }
+        ///////нужно должно бытьif (prefab.GetComponent<ObjectPlacer>() != null)
+        ///////нужно должно быть{
+        ///////нужно должно быть    prefab.GetComponent<ObjectPlacer>().isSpawn = true;
+        ///////нужно должно быть}
+        ///////нужно должно бытьelse
+        ///////нужно должно быть{
+        ///////нужно должно быть    prefab.transform.GetChild(0).GetComponent<ObjectPlacer>().isSpawn = true;
+        ///////нужно должно быть}
         Instantiate(prefab, spawnPosition, Quaternion.identity);
         Debug.Log($"Spawned: {prefab.name}");
     }
+
+    /// <summary>
+    /// Обновляет UI-иконки в зависимости от выбранного индекса.
+    /// </summary>
     private void UpdateUIIcons()
     {
         for (int i = 0; i < uiIcons.Count; i++)
         {
             if (i == selectedIndex)
             {
-                SetIconAlpha(uiIcons[i], 1.0f);
+                SetIconAlpha(uiIcons[i], 1.0f); // Полная видимость выбранной иконки
             }
             else
             {
-                SetIconAlpha(uiIcons[i], 0.5f);
+                SetIconAlpha(uiIcons[i], 0.5f); // Затемнение остальных
             }
         }
     }
 
+    /// <summary>
+    /// Устанавливает прозрачность для указанной иконки.
+    /// </summary>
+    /// <param name="icon">Иконка для изменения.</param>
+    /// <param name="alpha">Прозрачность (от 0 до 1).</param>
     private void SetIconAlpha(Image icon, float alpha)
     {
         Color color = icon.color;

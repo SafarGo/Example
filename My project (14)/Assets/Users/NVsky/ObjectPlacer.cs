@@ -8,7 +8,6 @@ public class ObjectPlacer : MonoBehaviour
     public bool allowMoveX = true;
     public bool allowMoveY = false;
     public bool allowMoveZ = true;
-    public GridManager gridManager;
 
     private Camera mainCamera;
     private bool isDragging = false;
@@ -16,19 +15,16 @@ public class ObjectPlacer : MonoBehaviour
     private Vector3 targetPos;
     public float moveSpeed = 10f;
 
-    public float detectionRadius = 2f;
-    public LayerMask collisionLayer;
-
-    [Header("Имя сетки")]
-    [SerializeField] string gridName;
+    public LayerMask collisionLayer; // Слой, с которым проверяется столкновение
 
     private Renderer[] renderers;
     private Material[][] originalMaterials;
-    private Vector3 lastNormPosition;
     private bool isRed = false;
-    public bool isSpawn = false;
 
-    public void Start()
+    private Vector3 lastValidPosition;
+    private Quaternion currentRotation = Quaternion.identity; // Хранит текущий поворот объекта
+
+    private void Start()
     {
         mainCamera = Camera.main;
         targetPos = transform.position;
@@ -41,46 +37,39 @@ public class ObjectPlacer : MonoBehaviour
             originalMaterials[i] = renderers[i].materials;
         }
 
-        lastNormPosition = transform.position;
-        if (gridManager == null)
-        {
-            gridManager = GameObject.Find(gridName).GetComponent<GridManager>();
-        }
-        if (isSpawn == true)
-        {
-            CheckInitialPosition();
-        }
+        lastValidPosition = transform.position;
+
+        // Найдем ближайшее свободное место, если объект заспавнился в другом объекте
+        FindNearestEmptyPosition();
     }
 
-    void Update()
+    private void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
+        if (!isDragging) return;
 
+        HandleRotation(); // Добавлено вращение
         if (isDragging)
         {
-            CheckCollisions();
-        }
-
-        if (Input.GetKeyDown(KeyCode.R) && isDragging)
-        {
-            transform.Rotate(0, 90, 0);
+            MoveObjectWithCollisions();
         }
     }
 
-    void OnMouseDown()
+    private void OnMouseDown()
     {
+        // Начало перетаскивания
         isDragging = true;
 
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             offset = transform.position - hit.point;
-            SetMaterialToColor(new Color(0.17f, 1, 0));
+            SetMaterialToColor(new Color(0.17f, 1, 0)); // Зеленый цвет при начале перетаскивания
         }
     }
 
-    void OnMouseDrag()
+    private void OnMouseDrag()
     {
+        // Если перетаскиваем, объект будет следовать за мышью
         if (!isDragging) return;
 
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
@@ -94,129 +83,113 @@ public class ObjectPlacer : MonoBehaviour
                 allowMoveZ ? newPosition.z : transform.position.z
             );
 
-            if (gridManager != null)
+            if (!IsColliding(newPosition, currentRotation)) // Учитываем текущий поворот
             {
-                newPosition = gridManager.GetClosestGridPoint(newPosition);
+                targetPos = Vector3.Lerp(transform.position, newPosition, Time.deltaTime * moveSpeed);
+                lastValidPosition = targetPos;
+                if (isRed)
+                {
+                    RestoreOriginalMaterials();
+                    isRed = false;
+                }
             }
             else
             {
-                Debug.LogWarning("GridManager не назначен!");
-            }
-
-            targetPos = newPosition;
-        }
-    }
-
-    void OnMouseUp()
-    {
-        isDragging = false;
-        RestoreOriginalMaterials();
-        if (isRed)
-        {
-            targetPos = lastNormPosition;
-            RestoreOriginalMaterials();
-            isRed = false;
-        }
-        else
-        {
-            lastNormPosition = transform.position;
-        }
-    }
-
-    void CheckCollisions()
-    {
-        Collider[] nearbyObjects = Physics.OverlapSphere(transform.position, detectionRadius, collisionLayer);
-
-        bool hasCollision = false;
-
-        foreach (Collider collider in nearbyObjects)
-        {
-            if (collider.gameObject != gameObject)
-            {
-                hasCollision = true;
-                break;
-            }
-        }
-        if (hasCollision)
-        {
-            if (!isRed)
-            {
+                // Если есть столкновение, объект становится красным
                 SetMaterialToColor(Color.red);
                 isRed = true;
             }
         }
-        else
+    }
+
+    private void OnMouseUp()
+    {
+        // Завершаем перетаскивание
+        isDragging = false;
+
+        if (!isRed)
         {
-            if (isRed)
+            lastValidPosition = targetPos;
+        }
+
+        RestoreOriginalMaterials();
+    }
+
+    private void HandleRotation()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            // Применяем вращение на 90 градусов по оси Y
+            currentRotation *= Quaternion.Euler(0, 90, 0); 
+            transform.rotation = currentRotation;
+
+            // Проверяем коллизии после вращения
+            if (IsColliding(transform.position, currentRotation))
             {
+                // Если есть столкновения, возвращаем объект к последней корректной позиции
+                transform.position = lastValidPosition;
+                SetMaterialToColor(Color.red); // Отображаем объект как красный, сигнализируя о проблеме
+                isRed = true;
+            }
+            else
+            {
+                // Обновляем позицию как последнюю корректную
+                lastValidPosition = transform.position;
                 RestoreOriginalMaterials();
                 isRed = false;
-                if (isDragging)
-                {
-                    SetMaterialToColor(new Color(0.17f, 1, 0));
-                }
             }
         }
     }
 
-    public void CheckInitialPosition()
+    private bool IsColliding(Vector3 newPosition, Quaternion rotation)
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRadius, collisionLayer);
-
-        if (colliders.Length > 0)
+        Collider[] colliders = Physics.OverlapBox(
+            newPosition,
+            GetComponent<Collider>().bounds.extents,
+            rotation, // Учитываем поворот
+            collisionLayer
+        );
+        foreach (Collider col in colliders)
         {
-            FindNearestFreePosition();
-        }
-    }
-
-    void FindNearestFreePosition()
-    {
-        Vector3 closestPoint = transform.position;
-        bool foundFreePoint = false;
-
-        float maxSearchRadius = detectionRadius * 5f;
-        float searchRadiusStep = detectionRadius;
-
-        for (float radius = detectionRadius; radius <= maxSearchRadius; radius += searchRadiusStep)
-        {
-            Collider[] colliders = Physics.OverlapSphere(transform.position, radius, collisionLayer);
-
-            foreach (Collider collider in colliders)
+            if (col.gameObject != gameObject && !IsChildOfThisObject(col.gameObject))
             {
-                if (collider.gameObject == gameObject)
-                    continue;
-
-                Vector3 potentialPoint = transform.position + Random.insideUnitSphere * radius;
-
-                if (gridManager != null)
-                {
-                    potentialPoint = gridManager.GetClosestGridPoint(potentialPoint);
-                }
-
-                potentialPoint.y = transform.position.y;
-
-                Collider[] nearbyColliders = Physics.OverlapSphere(potentialPoint, detectionRadius, collisionLayer);
-                if (nearbyColliders.Length == 0)
-                {
-                    closestPoint = potentialPoint;
-                    foundFreePoint = true;
-                    break;
-                }
+                return true; // Столкновение обнаружено
             }
-
-            if (foundFreePoint) break;
         }
-
-        if (foundFreePoint)
-        {
-            targetPos = new Vector3(closestPoint.x, transform.position.y, closestPoint.z);
-            lastNormPosition = targetPos;
-            RestoreOriginalMaterials();
-            isRed = false;
-        }
+        return false;
     }
 
-    void SetMaterialToColor(Color color)
+    private bool IsChildOfThisObject(GameObject obj)
+    {
+        return obj.transform.IsChildOf(transform);
+    }
+
+    private void MoveObjectWithCollisions()
+    {
+        Vector3 newPosition = targetPos;
+
+        // Проверка на столкновение с другими объектами
+        Collider[] colliders = Physics.OverlapBox(
+            newPosition,
+            GetComponent<Collider>().bounds.extents,
+            currentRotation, // Учитываем поворот
+            collisionLayer
+        );
+        foreach (Collider col in colliders)
+        {
+            if (col.gameObject != gameObject && !IsChildOfThisObject(col.gameObject))
+            {
+                // Если есть столкновение, возвращаем объект в последнюю корректную позицию
+                transform.position = lastValidPosition;
+                return;
+            }
+        }
+
+        // Перемещаем объект в новую позицию
+        transform.position = Vector3.MoveTowards(transform.position, newPosition, moveSpeed * Time.deltaTime);
+    }
+
+    private void SetMaterialToColor(Color color)
     {
         foreach (Renderer renderer in renderers)
         {
@@ -229,11 +202,37 @@ public class ObjectPlacer : MonoBehaviour
         }
     }
 
-    void RestoreOriginalMaterials()
+    private void RestoreOriginalMaterials()
     {
         for (int i = 0; i < renderers.Length; i++)
         {
             renderers[i].materials = originalMaterials[i];
         }
+    }
+
+    private void FindNearestEmptyPosition()
+    {
+        Vector3 closestPosition = transform.position;
+        float searchRadius = 5f;
+        float stepSize = 1f;
+        bool foundFreeSpot = false;
+
+        for (float x = transform.position.x - searchRadius; x <= transform.position.x + searchRadius; x += stepSize)
+        {
+            for (float z = transform.position.z - searchRadius; z <= transform.position.z + searchRadius; z += stepSize)
+            {
+                Vector3 newPos = new Vector3(x, transform.position.y, z);
+
+                if (!IsColliding(newPos, currentRotation)) // Учитываем текущий поворот
+                {
+                    closestPosition = newPos;
+                    foundFreeSpot = true;
+                    break;
+                }
+            }
+            if (foundFreeSpot) break;
+        }
+
+        transform.position = closestPosition;
     }
 }
