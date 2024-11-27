@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.31543636, g: 0.4314562, b: 0.49713758, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5688,6 +5687,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 622658665}
   m_Mesh: {fileID: -3494812661328022008, guid: 57a4544796fe5d446a48a48157e925e2, type: 3}
+--- !u!1 &622974455 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6171709246587931538, guid: 5b6e271627c846d49adc8d8d192ac373, type: 3}
+  m_PrefabInstance: {fileID: 1588013988}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &625562486
 GameObject:
   m_ObjectHideFlags: 0
@@ -10278,7 +10282,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -10357,12 +10361,12 @@ MonoBehaviour:
   m_RequiresColorTexture: 0
   m_Version: 2
   m_TaaSettings:
-    quality: 3
-    frameInfluence: 0.1
-    jitterScale: 1
-    mipBias: 0
-    varianceClampScale: 0.9
-    contrastAdaptiveSharpening: 0
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!114 &1193390832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11357,6 +11361,7 @@ Terrain:
   m_DetailObjectDensity: 1
   m_HeightmapPixelError: 5
   m_SplatMapDistance: 1000
+  m_HeightmapMinimumLODSimplification: 0
   m_HeightmapMaximumLOD: 0
   m_ShadowCastingMode: 2
   m_DrawHeightmap: 1
@@ -12747,6 +12752,17 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   holdTime: 2
+--- !u!114 &1587919536 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3815934121681640786, guid: 5b6e271627c846d49adc8d8d192ac373, type: 3}
+  m_PrefabInstance: {fileID: 1588013988}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1588013988
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12795,6 +12811,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5715209926472740069, guid: 5b6e271627c846d49adc8d8d192ac373, type: 3}
+      propertyPath: imageMax
+      value: 
+      objectReference: {fileID: 622974455}
+    - target: {fileID: 5715209926472740069, guid: 5b6e271627c846d49adc8d8d192ac373, type: 3}
+      propertyPath: honeyText
+      value: 
+      objectReference: {fileID: 1587919536}
     - target: {fileID: 6710227056709998395, guid: 5b6e271627c846d49adc8d8d192ac373, type: 3}
       propertyPath: m_Name
       value: Rezervoir
