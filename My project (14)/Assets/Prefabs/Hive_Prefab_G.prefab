@@ -115,6 +115,7 @@ GameObject:
   - component: {fileID: 5741368259926900341}
   - component: {fileID: 1272663451421674666}
   - component: {fileID: 7764631582464066350}
+  - component: {fileID: 2315034316519202117}
   m_Layer: 6
   m_Name: Hive_prefab
   m_TagString: obstacle_tag
@@ -304,6 +305,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &2315034316519202117
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600242475223277057}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.3358288, y: 2.4312449, z: 1}
+  m_Center: {x: 0.06071949, y: 0.7069482, z: 0}
 --- !u!1 &995686091183106115
 GameObject:
   m_ObjectHideFlags: 0
