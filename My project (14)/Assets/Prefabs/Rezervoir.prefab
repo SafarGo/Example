@@ -786,6 +786,7 @@ MonoBehaviour:
   currentHuneyCount: 0
   honeyText: {fileID: 0}
   HoneyFluid: {fileID: 1955137385252041979}
+  isEnergoHoneyRzervoir: 0
 --- !u!1 &2855691410990452834
 GameObject:
   m_ObjectHideFlags: 0
@@ -963,6 +964,134 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   centerForce: 3
+--- !u!1 &3680523661419648425
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3900942789249351610}
+  - component: {fileID: 6281419518030981460}
+  m_Layer: 6
+  m_Name: Postavily
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3900942789249351610
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3680523661419648425}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 2.6666667, y: -0.235, z: 1.5588334}
+  m_LocalScale: {x: 0.049999993, y: 0.049999997, z: 0.049999993}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1343313557070023738}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &6281419518030981460
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3680523661419648425}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 792f231fec94538479d31ac74db70dad, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 256
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1.1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &3877386509165749150
 GameObject:
   m_ObjectHideFlags: 0
@@ -1605,6 +1734,7 @@ GameObject:
   - component: {fileID: 933508336784170776}
   - component: {fileID: 7438841479414155623}
   - component: {fileID: 2292438813050697225}
+  - component: {fileID: 3818341651857959739}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -1698,6 +1828,25 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.23575, y: 1.300509, z: 3.8967621}
   m_Center: {x: 0.0011978511, y: -0.074631035, z: -0.027719209}
+--- !u!114 &3818341651857959739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5185709517911351460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b468ab04173ada84f9cd518bafe82a74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imageMax: {fileID: 2248719571106399021}
+  tag: Honey
+  maxHoneyCount: 100
+  currentHuneyCount: 0
+  honeyText: {fileID: 0}
+  HoneyFluid: {fileID: 1955137385252041979}
+  isEnergoHoneyRzervoir: 0
 --- !u!1 &5558833058174506444
 GameObject:
   m_ObjectHideFlags: 0
@@ -1793,7 +1942,6 @@ GameObject:
   - component: {fileID: 4376003236925800206}
   - component: {fileID: 3291060694724509282}
   - component: {fileID: 8551186320770377170}
-  - component: {fileID: 1672986283869076592}
   - component: {fileID: 7548757654824901856}
   m_Layer: 13
   m_Name: Stend
@@ -1889,24 +2037,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.23575, y: 1.300509, z: 3.8967621}
   m_Center: {x: 0.0011978511, y: -0.074631035, z: -0.027719209}
---- !u!114 &1672986283869076592
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5694468781118466804}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b468ab04173ada84f9cd518bafe82a74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  imageMax: {fileID: 0}
-  tag: Honey
-  maxHoneyCount: 100
-  currentHuneyCount: 0
-  honeyText: {fileID: 0}
-  HoneyFluid: {fileID: 0}
 --- !u!64 &7548757654824901856
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2158,6 +2288,7 @@ Transform:
   m_LocalScale: {x: 6, y: 6, z: 6}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 3900942789249351610}
   - {fileID: 8432644274996824770}
   - {fileID: 3977031141502283054}
   - {fileID: 5765226418453053033}
@@ -2226,17 +2357,17 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: d7278612cb9ad50419d4ac819ddc3e49, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 197
-  DopplerLevel: 1
+  DopplerLevel: 5
   MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
+  MaxDistance: 6.81
+  Pan2D: -1
   rolloffMode: 0
   BypassEffects: 0
   BypassListenerEffects: 0
@@ -2399,7 +2530,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 60, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3.1504517, y: -2.1}
+  m_AnchoredPosition: {x: 3.1504517, y: -12.5}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6165276712223464337
@@ -2849,6 +2980,7 @@ MonoBehaviour:
   currentHuneyCount: 0
   honeyText: {fileID: 3815934121681640786}
   HoneyFluid: {fileID: 1955137385252041979}
+  isEnergoHoneyRzervoir: 0
 --- !u!1001 &3069411182538482222
 PrefabInstance:
   m_ObjectHideFlags: 0
