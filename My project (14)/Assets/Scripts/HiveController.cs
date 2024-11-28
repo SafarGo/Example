@@ -65,19 +65,15 @@ public class HiveController : MonoBehaviour
     {
         if (honeyCreateRate >= 12)                                                                                        //здесь мы рассчитываем скорость создания меда
         {                                                                                                                 //здесь мы рассчитываем скорость создания меда
-            honeyCreateRate = 60 - System.Convert.ToInt32(ClumbsManager.FlowerCounts / (7 + StaticHolder.HivesCount));    //здесь мы рассчитываем скорость создания меда
+            honeyCreateRate = 60 - System.Convert.ToInt32(ClumbsManager.FlowerCounts / (2 + StaticHolder.HivesCount));    //здесь мы рассчитываем скорость создания меда
             Debug.Log(honeyCreateRate);                                                                                   //здесь мы рассчитываем скорость создания меда
             ProizvodSlider.value = -honeyCreateRate / cartridgeCount;                                                     //здесь мы рассчитываем скорость создания меда
         }                                                                                                                 //здесь мы рассчитываем скорость создания меда
         else                                                                                                              //здесь мы рассчитываем скорость создания меда
         {                                                                                                                 //здесь мы рассчитываем скорость создания меда
             honeyCreateRate = 20;                                                                                         //здесь мы рассчитываем скорость создания меда
-        }
-        if (ClumbsManager.FlowerCounts == 0)//здесь мы рассчитываем скорость создания меда
-
-        {
-            honeyCreateRate = 60;
-        }                                       //здесь мы рассчитываем скорость создания меда
+        }                                                                                                                 //здесь мы рассчитываем скорость создания меда
+                                                                                                                          //здесь мы рассчитываем скорость создания меда
     }                                                                                                                     //здесь мы рассчитываем скорость создания меда
     private void UpdateHoneyText()
     {
