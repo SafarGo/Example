@@ -9,6 +9,7 @@ public class ObjectOnGridSpawner : MonoBehaviour
     [SerializeField] private List<GameObject> gridSpawnObjectPrefabs; // Список объектов для спауна
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private List<Image> uiIcons; // Список UI-иконок для затемнения
+    [SerializeField] private List<int> Costs; // Список цен
 
     private int selectedIndex = 0; // Индекс текущего выбранного объекта
 
@@ -52,7 +53,13 @@ public class ObjectOnGridSpawner : MonoBehaviour
         // Спавн объекта
         if (Input.GetKeyDown(KeyCode.T))
         {
-            SpawnObject();
+            if (StaticHolder.count_of_simple_honey >= Costs[selectedIndex])
+            {
+                ReservoirController.instance.currentHuneyCount -= Costs[selectedIndex];// надо доделать механику для двух резервуаров
+                StaticHolder.count_of_simple_honey -= Costs[selectedIndex];
+                ReservoirController.instance.UpdateHoneyText();
+                SpawnObject();
+            }
         }
     }
 
