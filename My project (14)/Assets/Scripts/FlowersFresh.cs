@@ -9,12 +9,13 @@ public class FlowersFresh : MonoBehaviour
     [SerializeField] private float freshment;
     [SerializeField] private Slider freshmentSlider;
     [SerializeField] private ParticleSystem water;
-
+    private AudioSource waterSource;
     private static List<FlowersFresh> allFlowers = new List<FlowersFresh>(); // Список всех объектов
     private static bool isUpdaterRunning = false; // Контроль запуска InvokeRepeating
 
     private void Start()
     {
+        waterSource = gameObject.GetComponent<AudioSource>();
         freshment = 100;
 
         if (freshmentSlider != null)
@@ -73,7 +74,12 @@ public class FlowersFresh : MonoBehaviour
     {
         if (other.CompareTag("Player") && Input.GetKey(KeyCode.E))
         {
+            waterSource.mute = false;
             Refresher();
+        }
+        else
+        {
+            waterSource.mute = true;
         }
     }
 

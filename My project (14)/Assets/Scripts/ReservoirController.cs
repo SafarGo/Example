@@ -10,8 +10,8 @@ public class ReservoirController : MonoBehaviour
     [SerializeField] int maxHoneyCount;
     public int currentHuneyCount;
     [SerializeField] private TMP_Text honeyText;
-    private TMP_Text allHoneyText;
-    private TMP_Text allEnergyHoneyText;
+    //private TMP_Text allHoneyText;
+    //private TMP_Text allEnergyHoneyText;
     [SerializeField] private Transform HoneyFluid;
     public bool isEnergoHoneyRzervoir;
 
@@ -21,8 +21,8 @@ public class ReservoirController : MonoBehaviour
         {
             instance = this;
         }
-        allHoneyText = GameObject.Find("AllHoney_Text").GetComponent<TMP_Text>();
-        allEnergyHoneyText = GameObject.Find("AllEnergyHoney_Text").GetComponent<TMP_Text>();
+        //allHoneyText = GameObject.Find("AllHoney_Text").GetComponent<TMP_Text>();
+        //allEnergyHoneyText = GameObject.Find("AllEnergyHoney_Text").GetComponent<TMP_Text>();
         UpdateHoneyText();
     }
 
@@ -51,32 +51,41 @@ public class ReservoirController : MonoBehaviour
         {
             honeyText.text = $"{currentHuneyCount}/{maxHoneyCount}";
         }
-
-        int simpleHoneyTotal = 0;
-        int energyHoneyTotal = 0;
-
-        foreach (var reservoir in FindObjectsOfType<ReservoirController>())
+        if(isEnergoHoneyRzervoir)
         {
-            if (reservoir.isEnergoHoneyRzervoir)
-            {
-                energyHoneyTotal += reservoir.currentHuneyCount;
-            }
-            else
-            {
-                simpleHoneyTotal += reservoir.currentHuneyCount;
-            }
+            StaticHolder.count_of_enegry_honey = currentHuneyCount;
         }
-
-        StaticHolder.count_of_simple_honey = simpleHoneyTotal;
-        StaticHolder.count_of_enegry_honey = energyHoneyTotal;
-
-        if (allHoneyText != null)
+        else
         {
-            allHoneyText.text = StaticHolder.count_of_simple_honey.ToString();
+            StaticHolder.count_of_simple_honey = currentHuneyCount;
         }
-        if (allEnergyHoneyText != null)
-        {
-            allEnergyHoneyText.text = StaticHolder.count_of_enegry_honey.ToString();
-        }
+        Debug.Log(StaticHolder.count_of_simple_honey);
+
+        //int simpleHoneyTotal = 0;
+        //int energyHoneyTotal = 0;
+        //
+        //foreach (var reservoir in FindObjectsOfType<ReservoirController>())
+        //{
+        //    if (reservoir.isEnergoHoneyRzervoir)
+        //    {
+        //        energyHoneyTotal += reservoir.currentHuneyCount;
+        //    }
+        //    else
+        //    {
+        //        simpleHoneyTotal += reservoir.currentHuneyCount;
+        //    }
+        //}
+        //
+        //StaticHolder.count_of_simple_honey = simpleHoneyTotal;
+        //StaticHolder.count_of_enegry_honey = energyHoneyTotal;
+        //
+        //if (allHoneyText != null)
+        //{
+        //    allHoneyText.text = StaticHolder.count_of_simple_honey.ToString();
+        //}
+        //if (allEnergyHoneyText != null)
+        //{
+        //    allEnergyHoneyText.text = StaticHolder.count_of_enegry_honey.ToString();
+        //}
     }
 }

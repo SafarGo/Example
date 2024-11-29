@@ -162,7 +162,7 @@ MonoBehaviour:
   sl: {fileID: 3353870804899569047}
   ProizvodSlider: {fileID: 1844594349497522120}
   Partiua: {fileID: 568471188295862527}
-  honeyBottlePrefab: {fileID: 671991263566537892, guid: bb162d2f23961634ab4e9f2deb397f6b, type: 3}
+  honeyBottlePrefab: {fileID: 2851790948563490692, guid: bb162d2f23961634ab4e9f2deb397f6b, type: 3}
   spawnPoint: {fileID: 1143891120256471638}
   cartridgeCount: 1
   beesCount: 4
