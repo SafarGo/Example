@@ -18,6 +18,10 @@ public class ObjectPlacer : MonoBehaviour
     public LayerMask collisionLayer; // Слой для коллизий
     private Vector3 lastValidPosition;
     private Quaternion currentRotation = Quaternion.identity;
+    [Header("ID для спавна")]
+    public int ObjectSpawnerID;
+
+    public int ObjectID;
 
     private void Start()
     {
@@ -27,7 +31,7 @@ public class ObjectPlacer : MonoBehaviour
         lastValidPosition = transform.position;
 
         // Проверка на коллизию при старте, если объект заспавнился в другом объекте
-        FindNearestEmptyPosition();
+        ////////обязательно, но переделать/////FindNearestEmptyPosition();
     }
 
     private void Update()
@@ -82,6 +86,10 @@ public class ObjectPlacer : MonoBehaviour
 
     private void OnMouseUp()
     {
+        StaticHolder.AllSpawnedObjectsTranforms[ObjectID] = gameObject.transform.position;
+        StaticHolder.AllSpawnedObjectsRotations[ObjectID] = gameObject.transform.rotation;
+        JsonSaver._instance.Save();
+        Debug.Log("сохранили при передвижении");
         isDragging = false;
     }
 
