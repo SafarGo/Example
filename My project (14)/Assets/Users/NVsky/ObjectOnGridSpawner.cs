@@ -86,6 +86,7 @@ public class ObjectOnGridSpawner : MonoBehaviour
             Mathf.CeilToInt(spawnPoint.position.x) / 2 * 2,
             0,
             Mathf.CeilToInt(spawnPoint.position.z) / 2 * 2
+
         );
 
         ///////нужно должно бытьif (prefab.GetComponent<ObjectPlacer>() != null)
@@ -96,8 +97,11 @@ public class ObjectOnGridSpawner : MonoBehaviour
         ///////нужно должно быть{
         ///////нужно должно быть    prefab.transform.GetChild(0).GetComponent<ObjectPlacer>().isSpawn = true;
         ///////нужно должно быть}
-        Instantiate(prefab, spawnPosition, Quaternion.identity);
-        Debug.Log($"Spawned: {prefab.name}");
+       GameObject addedObject = Instantiate(prefab, spawnPosition, Quaternion.identity);
+         StaticHolder.AllSpawnedObjects.Add(addedObject);
+        JsonSaver._instance.Save();
+        //Debug.Log($"Spawned: {prefab.name}");
+       // Debug.Log(StaticHolder.AllSpawnedObjects[0]);
     }
 
     /// <summary>

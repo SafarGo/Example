@@ -10,4 +10,5 @@ public static class StaticHolder
     public static int FlowersCount;
     public static int FlowersHP;
     public static int HivesCount;
+    public static List<GameObject> AllSpawnedObjects = new List<GameObject> { };
 }
