@@ -204,7 +204,7 @@ GameObject:
   - component: {fileID: 7811029461153469587}
   m_Layer: 6
   m_Name: ConvPrefab
-  m_TagString: obstacle_tag
+  m_TagString: Panel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -266,12 +266,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 9.107495, y: 1.7982961, z: 2.82}
-  m_Center: {x: -1.3374817, y: 1.3863074, z: -0.053531323}
+  m_Size: {x: 7.352619, y: 1.7982961, z: 5.49}
+  m_Center: {x: -1.3382958, y: 1.3863074, z: -0.053531323}
 --- !u!82 &7811029461153469587
 AudioSource:
   m_ObjectHideFlags: 0

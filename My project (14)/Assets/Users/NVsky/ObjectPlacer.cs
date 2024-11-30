@@ -15,31 +15,18 @@ public class ObjectPlacer : MonoBehaviour
     private Vector3 targetPos;
     public float moveSpeed = 10f;
 
-    public LayerMask collisionLayer; // Слой, с которым проверяется столкновение
-
-    private Renderer[] renderers;
-    private Material[][] originalMaterials;
-    private bool isRed = false;
-
+    public LayerMask collisionLayer; // Слой для коллизий
     private Vector3 lastValidPosition;
-    private Quaternion currentRotation = Quaternion.identity; // Хранит текущий поворот объекта
+    private Quaternion currentRotation = Quaternion.identity;
 
     private void Start()
     {
         mainCamera = Camera.main;
         targetPos = transform.position;
 
-        renderers = GetComponentsInChildren<Renderer>();
-        originalMaterials = new Material[renderers.Length][];
-
-        for (int i = 0; i < renderers.Length; i++)
-        {
-            originalMaterials[i] = renderers[i].materials;
-        }
-
         lastValidPosition = transform.position;
 
-        // Найдем ближайшее свободное место, если объект заспавнился в другом объекте
+        // Проверка на коллизию при старте, если объект заспавнился в другом объекте
         FindNearestEmptyPosition();
     }
 
@@ -47,7 +34,7 @@ public class ObjectPlacer : MonoBehaviour
     {
         if (!isDragging) return;
 
-        HandleRotation(); // Добавлено вращение
+        HandleRotation(); // Обработка вращения
         if (isDragging)
         {
             MoveObjectWithCollisions();
@@ -56,20 +43,17 @@ public class ObjectPlacer : MonoBehaviour
 
     private void OnMouseDown()
     {
-        // Начало перетаскивания
         isDragging = true;
 
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             offset = transform.position - hit.point;
-            SetMaterialToColor(new Color(0.17f, 1, 0)); // Зеленый цвет при начале перетаскивания
         }
     }
 
     private void OnMouseDrag()
     {
-        // Если перетаскиваем, объект будет следовать за мышью
         if (!isDragging) return;
 
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
@@ -83,85 +67,56 @@ public class ObjectPlacer : MonoBehaviour
                 allowMoveZ ? newPosition.z : transform.position.z
             );
 
-            if (!IsColliding(newPosition, currentRotation)) // Учитываем текущий поворот
+            if (!IsColliding(newPosition, currentRotation))
             {
                 targetPos = Vector3.Lerp(transform.position, newPosition, Time.deltaTime * moveSpeed);
                 lastValidPosition = targetPos;
-                if (isRed)
-                {
-                    RestoreOriginalMaterials();
-                    isRed = false;
-                }
             }
             else
             {
-                // Если есть столкновение, объект становится красным
-                SetMaterialToColor(Color.red);
-                isRed = true;
+                // Если коллизия, оставляем объект в текущем положении
+                transform.position = lastValidPosition;
             }
         }
     }
 
     private void OnMouseUp()
     {
-        // Завершаем перетаскивание
         isDragging = false;
-
-        if (!isRed)
-        {
-            lastValidPosition = targetPos;
-        }
-
-        RestoreOriginalMaterials();
     }
 
     private void HandleRotation()
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            // Применяем вращение на 90 градусов по оси Y
-            currentRotation *= Quaternion.Euler(0, 90, 0); 
+            currentRotation *= Quaternion.Euler(0, 90, 0); // Поворот на 90 градусов по оси Y
             transform.rotation = currentRotation;
 
-            // Проверяем коллизии после вращения
             if (IsColliding(transform.position, currentRotation))
             {
-                // Если есть столкновения, возвращаем объект к последней корректной позиции
+                // Если столкновение, вернуться к последней корректной позиции
                 transform.position = lastValidPosition;
-                SetMaterialToColor(Color.red); // Отображаем объект как красный, сигнализируя о проблеме
-                isRed = true;
             }
             else
             {
-                // Обновляем позицию как последнюю корректную
-                lastValidPosition = transform.position;
-                RestoreOriginalMaterials();
-                isRed = false;
+                lastValidPosition = transform.position; // Обновляем последнюю корректную позицию
             }
         }
     }
 
     private bool IsColliding(Vector3 newPosition, Quaternion rotation)
     {
-        Collider[] colliders = Physics.OverlapBox(
-            newPosition,
-            GetComponent<Collider>().bounds.extents,
-            rotation, // Учитываем поворот
-            collisionLayer
-        );
+        Collider[] colliders = Physics.OverlapBox(newPosition, GetComponent<Collider>().bounds.extents, rotation, collisionLayer);
+
         foreach (Collider col in colliders)
         {
-            if (col.gameObject != gameObject && !IsChildOfThisObject(col.gameObject))
+            // Игнорировать столкновения с собой и дочерними объектами
+            if (col.gameObject != gameObject && !col.transform.IsChildOf(transform))
             {
-                return true; // Столкновение обнаружено
+                return true;
             }
         }
         return false;
-    }
-
-    private bool IsChildOfThisObject(GameObject obj)
-    {
-        return obj.transform.IsChildOf(transform);
     }
 
     private void MoveObjectWithCollisions()
@@ -169,47 +124,17 @@ public class ObjectPlacer : MonoBehaviour
         Vector3 newPosition = targetPos;
 
         // Проверка на столкновение с другими объектами
-        Collider[] colliders = Physics.OverlapBox(
-            newPosition,
-            GetComponent<Collider>().bounds.extents,
-            currentRotation, // Учитываем поворот
-            collisionLayer
-        );
-        foreach (Collider col in colliders)
+        if (IsColliding(newPosition, currentRotation))
         {
-            if (col.gameObject != gameObject && !IsChildOfThisObject(col.gameObject))
-            {
-                // Если есть столкновение, возвращаем объект в последнюю корректную позицию
-                transform.position = lastValidPosition;
-                return;
-            }
+            transform.position = lastValidPosition; // Вернуть к последней корректной позиции, если столкновение
         }
-
-        // Перемещаем объект в новую позицию
-        transform.position = Vector3.MoveTowards(transform.position, newPosition, moveSpeed * Time.deltaTime);
-    }
-
-    private void SetMaterialToColor(Color color)
-    {
-        foreach (Renderer renderer in renderers)
+        else
         {
-            Material[] newMaterials = new Material[renderer.materials.Length];
-            for (int i = 0; i < renderer.materials.Length; i++)
-            {
-                newMaterials[i] = new Material(renderer.materials[i]) { color = color };
-            }
-            renderer.materials = newMaterials;
+            transform.position = Vector3.MoveTowards(transform.position, newPosition, moveSpeed * Time.deltaTime);
         }
     }
 
-    private void RestoreOriginalMaterials()
-    {
-        for (int i = 0; i < renderers.Length; i++)
-        {
-            renderers[i].materials = originalMaterials[i];
-        }
-    }
-
+    // Метод для поиска ближайшего свободного места
     private void FindNearestEmptyPosition()
     {
         Vector3 closestPosition = transform.position;
@@ -234,5 +159,24 @@ public class ObjectPlacer : MonoBehaviour
         }
 
         transform.position = closestPosition;
+    }
+
+    // Используем OnCollisionStay или OnTriggerStay для более точной обработки столкновений
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("obstacle_tag"))
+        {
+            // Обработка столкновения с объектами с тегом obstacle_tag
+            Debug.Log("Столкновение с объектом: " + collision.gameObject.name);
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("obstacle_tag"))
+        {
+            // Обработка столкновения с объектами с тегом obstacle_tag
+            Debug.Log("Триггер с объектом: " + other.gameObject.name);
+        }
     }
 }
