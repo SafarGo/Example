@@ -8,6 +8,7 @@ public class DialogueManager : MonoBehaviour
 {
     public TMP_Text dialogueText;
     public Button nextButton;
+    public Button cancelButton;
     public Image characterImage1;
     public Image characterImage2;
     public float typingSpeed = 0.05f;
@@ -81,6 +82,7 @@ public class DialogueManager : MonoBehaviour
             nextButton.gameObject.SetActive(false);
             characterImage1.gameObject.SetActive(false);
             characterImage2.gameObject.SetActive(false);
+            cancelButton.gameObject.SetActive(true);
         }
     }
 
