@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/StarttScene.unity
+    guid: 573e66b4b5a0b1846bb47b5a99bee9a5
+  - enabled: 1
+    path: Assets/USers/UICanvas.unity
+    guid: 4eded5e8ee202f84ea270f71a0fdcdb8
   m_configObjects: {}

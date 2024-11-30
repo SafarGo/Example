@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class StartMenu : MonoBehaviour
 {
@@ -24,5 +25,10 @@ public class StartMenu : MonoBehaviour
     public void OnPointerExit()
     {
         button.sprite = OnPowerOff;
+    }
+
+    public void Dialog()
+    {
+        SceneManager.LoadScene("UICanvas");
     }
 }
