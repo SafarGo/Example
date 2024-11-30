@@ -12,7 +12,7 @@ public class StartMenu : MonoBehaviour
 
     private void Start()
     {
-        audio = GetComponent<AudioSource>();
+
     }
 
     public void OnPointerEnter()
