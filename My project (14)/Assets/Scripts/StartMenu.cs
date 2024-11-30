@@ -5,14 +5,14 @@ using UnityEngine.UI;
 
 public class StartMenu : MonoBehaviour
 {
-    public Sprite OnPower;
-    public Sprite OnPowerOff;
-    public AudioSource audio;
-    public Image button;
+    [SerializeField] Sprite OnPower;
+    [SerializeField] Sprite OnPowerOff;
+    [SerializeField] AudioSource audio;
+    [SerializeField] Image button;
 
     private void Start()
     {
-        audio = GetComponent<AudioSource>();
+        //audio = gameObject.GetComponent<AudioSource>();
     }
 
     public void OnPointerEnter()
