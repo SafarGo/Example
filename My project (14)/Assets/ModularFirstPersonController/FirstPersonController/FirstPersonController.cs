@@ -17,6 +17,7 @@ using UnityEngine.UI;
 public class FirstPersonController : MonoBehaviour
 {
     private Rigidbody rb;
+    public static FirstPersonController instance { get; private set; }
 
     #region Camera Movement Variables
 
