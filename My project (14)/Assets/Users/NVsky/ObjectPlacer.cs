@@ -140,6 +140,15 @@ public class ObjectPlacer : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(transform.position, newPosition, moveSpeed * Time.deltaTime);
         }
+
+        if(Input.GetKeyDown(KeyCode.Y))
+        {
+            StaticHolder.AllSpawnedObjectsID.RemoveAt(ObjectID);
+            StaticHolder.AllSpawnedObjectsTranforms.RemoveAt(ObjectID);
+            StaticHolder.AllSpawnedObjectsRotations.RemoveAt(ObjectID);
+            JsonSaver._instance.Save();
+            Destroy(gameObject);
+        }
     }
 
     // Метод для поиска ближайшего свободного места

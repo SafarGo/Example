@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class ObjectOnGridSpawner : MonoBehaviour
 {
+    public static ObjectOnGridSpawner Instance { get; private set; }
     [SerializeField] private List<GameObject> gridSpawnObjectPrefabs; // Список объектов для спауна
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private List<Image> uiIcons; // Список UI-иконок для затемнения
@@ -16,6 +17,10 @@ public class ObjectOnGridSpawner : MonoBehaviour
 
     private void Start()
     {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
         JsonSaver._instance.Load();
         Debug.Log("LANANANANANNAAN" + StaticHolder.AllSpawnedObjectsID.Count);
         TestSpawn();
