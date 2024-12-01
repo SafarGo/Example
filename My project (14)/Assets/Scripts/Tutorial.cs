@@ -15,6 +15,7 @@ public class Tutorial : MonoBehaviour
     {
         if (Lapa == null)
         {
+
         }
 
         if (!IsTutor || objectSpawner == null || controller == null)

@@ -2415,7 +2415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdbd4f0674772ec4c97ec5030112f082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsTutor: 0
+  IsTutor: 1
   controller: {fileID: 889150430}
   Lapa: {fileID: 1231472051}
   LineTutor: {fileID: 1559876763}
@@ -2423,7 +2423,7 @@ MonoBehaviour:
   - {fileID: 1930660853}
   - {fileID: 2147368113}
   objectSpawner: {fileID: 8328036829580171457}
-  EndTutor: {fileID: 1511990575}
+  EndTutor: {fileID: 1099615207}
   ID_Object: 1
 --- !u!1 &144374370
 GameObject:
@@ -8652,7 +8652,7 @@ PrefabInstance:
       objectReference: {fileID: 1840285289}
     - target: {fileID: 3818341651857959739, guid: 5b6e271627c846d49adc8d8d192ac373, type: 3}
       propertyPath: currentHuneyCount
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5560742374257788935, guid: 5b6e271627c846d49adc8d8d192ac373, type: 3}
       propertyPath: m_Materials.Array.size
