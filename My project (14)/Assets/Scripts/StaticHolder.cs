@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class StaticHolder 
+public static class StaticHolder
 {
     public static int count_of_simple_honey;
     public static int count_of_enegry_honey;
@@ -10,5 +10,7 @@ public static class StaticHolder
     public static int FlowersCount;
     public static int FlowersHP;
     public static int HivesCount;
-    public static List<GameObject> AllSpawnedObjects = new List<GameObject> { };
+    public static List<int> AllSpawnedObjectsID = new List<int> { };
+    public static List<Vector3> AllSpawnedObjectsTranforms = new List<Vector3> { };
+    public static List<Quaternion> AllSpawnedObjectsRotations = new List<Quaternion> { };
 }

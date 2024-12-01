@@ -6,15 +6,25 @@ using UnityEngine.UI;
 
 public class ObjectOnGridSpawner : MonoBehaviour
 {
+    public static ObjectOnGridSpawner Instance { get; private set; }
     [SerializeField] private List<GameObject> gridSpawnObjectPrefabs; // Список объектов для спауна
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private List<Image> uiIcons; // Список UI-иконок для затемнения
     [SerializeField] private List<int> Costs; // Список цен
 
     private int selectedIndex = 0; // Индекс текущего выбранного объекта
+    int IDToSaveObjectTransforms = 0;
 
     private void Start()
     {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        JsonSaver._instance.Load();
+        Debug.Log("LANANANANANNAAN" + StaticHolder.AllSpawnedObjectsID.Count);
+        TestSpawn();
+
         UpdateUIIcons(); // Обновляем иконки при старте
     }
 
@@ -89,19 +99,15 @@ public class ObjectOnGridSpawner : MonoBehaviour
 
         );
 
-        ///////нужно должно бытьif (prefab.GetComponent<ObjectPlacer>() != null)
-        ///////нужно должно быть{
-        ///////нужно должно быть    prefab.GetComponent<ObjectPlacer>().isSpawn = true;
-        ///////нужно должно быть}
-        ///////нужно должно бытьelse
-        ///////нужно должно быть{
-        ///////нужно должно быть    prefab.transform.GetChild(0).GetComponent<ObjectPlacer>().isSpawn = true;
-        ///////нужно должно быть}
-       GameObject addedObject = Instantiate(prefab, spawnPosition, Quaternion.identity);
-         StaticHolder.AllSpawnedObjects.Add(addedObject);
+
+       GameObject _spawnedObject = Instantiate(prefab, spawnPosition, Quaternion.identity);
+        StaticHolder.AllSpawnedObjectsID.Add(selectedIndex);
+        StaticHolder.AllSpawnedObjectsTranforms.Add(_spawnedObject.transform.position);
+        StaticHolder.AllSpawnedObjectsRotations.Add(_spawnedObject.transform.rotation);
+        _spawnedObject.GetComponent<ObjectPlacer>().ObjectID = IDToSaveObjectTransforms;
+        IDToSaveObjectTransforms++;
+       // _spawnedObject.GetComponent<ObjectPlacer>().ObjectSpawnerID = selectedIndex;
         JsonSaver._instance.Save();
-        //Debug.Log($"Spawned: {prefab.name}");
-       // Debug.Log(StaticHolder.AllSpawnedObjects[0]);
     }
 
     /// <summary>
@@ -133,4 +139,25 @@ public class ObjectOnGridSpawner : MonoBehaviour
         color.a = alpha;
         icon.color = color;
     }
+
+    void TestSpawn()
+    {
+        for (int i = 0; i < StaticHolder.AllSpawnedObjectsID.Count; i++)
+        {
+            if (StaticHolder.AllSpawnedObjectsID[i] != null)
+            {
+                GameObject startSpawnObject = Instantiate(gridSpawnObjectPrefabs[StaticHolder.AllSpawnedObjectsID[i]], StaticHolder.AllSpawnedObjectsTranforms[i], StaticHolder.AllSpawnedObjectsRotations[i]);
+                IDToSaveObjectTransforms++;
+                startSpawnObject.GetComponent<ObjectPlacer>().ObjectID = i;
+            }
+            else
+            {
+                Debug.LogError("NULL");
+
+            }
+        }
+        Debug.Log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
+    }
+
+
 }
