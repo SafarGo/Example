@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class StartMenu : MonoBehaviour
 {
-    [SerializeField] Sprite OnPower;
-    [SerializeField] Sprite OnPowerOff;
-    [SerializeField] AudioSource audio;
-    [SerializeField] Image button;
+    public Sprite OnPower;
+    public Sprite OnPowerOff;
+    public AudioSource audio;
+    public Image button;
 
     private void Start()
     {
-        //audio = gameObject.GetComponent<AudioSource>();
+
     }
 
     public void OnPointerEnter()
@@ -24,5 +25,10 @@ public class StartMenu : MonoBehaviour
     public void OnPointerExit()
     {
         button.sprite = OnPowerOff;
+    }
+
+    public void Dialog()
+    {
+        SceneManager.LoadScene("UICanvas");
     }
 }
