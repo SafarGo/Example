@@ -471,6 +471,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 1172b3a16916eae41b62dbb808d4b922, type: 2}
+    - target: {fileID: 9100954503244058744, guid: 5b6e271627c846d49adc8d8d192ac373, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9142979504856842394, guid: 5b6e271627c846d49adc8d8d192ac373, type: 3}
       propertyPath: m_Size.x
       value: 7.667668
@@ -15339,6 +15343,8 @@ MonoBehaviour:
   collisionLayer:
     serializedVersion: 2
     m_Bits: 0
+  ObjectSpawnerID: 0
+  ObjectID: 0
 --- !u!4 &1697977602
 Transform:
   m_ObjectHideFlags: 0
