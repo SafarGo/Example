@@ -31,4 +31,9 @@ public class StartMenu : MonoBehaviour
     {
         SceneManager.LoadScene("UICanvas");
     }
+
+    public void Exit()
+    {
+        SceneManager.LoadScene("StarttScene");
+    }
 }
