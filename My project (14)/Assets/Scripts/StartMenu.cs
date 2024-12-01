@@ -36,4 +36,14 @@ public class StartMenu : MonoBehaviour
     {
         SceneManager.LoadScene("StarttScene");
     }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+
+    public void ContinueTheGame()
+    {
+        SceneManager.LoadScene("SampleScene");
+    }
 }
