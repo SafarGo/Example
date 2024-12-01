@@ -12,6 +12,7 @@ public class ObjectOnGridSpawner : MonoBehaviour
     [SerializeField] private List<Image> uiIcons; // Список UI-иконок для затемнения
     [SerializeField] private List<int> Costs; // Список цен
 
+    [HideInInspector]public int SelectedIndex => selectedIndex;
     private int selectedIndex = 0; // Индекс текущего выбранного объекта
     int IDToSaveObjectTransforms = 0;
 
