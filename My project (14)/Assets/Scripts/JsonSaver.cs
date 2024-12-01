@@ -15,7 +15,7 @@ public class JsonSaver : MonoBehaviour
     {
         _path = Path.Combine(Application.persistentDataPath, "save.json");//Присваиваем путь
         _instance = this;
-
+        Debug.Log(_path);
     }
 
     private void Start()
@@ -29,7 +29,9 @@ public class JsonSaver : MonoBehaviour
     {
         //присваиваем полям из _data значения из полей StaticHolder 
 
-        _data.AllSpawnedObjects_json = StaticHolder.AllSpawnedObjects;//Chtoto - просто перменная
+        _data.AllSpawnedObjectsID_json = StaticHolder.AllSpawnedObjectsID;//Chtoto - просто перменная
+        _data.AllSpawnedObjectsTranforms_json = StaticHolder.AllSpawnedObjectsTranforms;//Chtoto - просто перменная
+        _data.AllSpawnedObjectsRotations_json = StaticHolder.AllSpawnedObjectsRotations;//Chtoto - просто перменная
         //_data.GameTimeJsom = StaticHolder.GameTime;//Chtoto - просто перменная
         Debug.Log("hfhfhfhfhfhfhf");
 
@@ -46,7 +48,9 @@ public class JsonSaver : MonoBehaviour
             _data = JsonUtility.FromJson<DataStorage>(File.ReadAllText(_path));//Загружаем сохранение
 
             //присваиваем полям из StaticHolder значения из _data 
-            StaticHolder.AllSpawnedObjects = _data.AllSpawnedObjects_json;//засовываем сохранение в наш проект
+            StaticHolder.AllSpawnedObjectsID = _data.AllSpawnedObjectsID_json;//засовываем сохранение в наш проект
+            StaticHolder.AllSpawnedObjectsTranforms = _data.AllSpawnedObjectsTranforms_json;//засовываем сохранение в наш проект
+            StaticHolder.AllSpawnedObjectsRotations = _data.AllSpawnedObjectsRotations_json;//засовываем сохранение в наш проект
             //StaticHolder.GameTime = _data.GameTimeJsom;//засовываем сохранение в наш проект
 
         }
@@ -57,5 +61,7 @@ public class JsonSaver : MonoBehaviour
 public class DataStorage
 {
     //данные, которые будем сериализовать(лучше называть так, как в StaticHolder или другом глобальном хранилище в вашем проекте) 
-    public List <GameObject> AllSpawnedObjects_json = new List<GameObject> { };
+    public List <int> AllSpawnedObjectsID_json = new List<int> { };
+    public List <Vector3> AllSpawnedObjectsTranforms_json = new List<Vector3> { };
+    public List <Quaternion> AllSpawnedObjectsRotations_json = new List<Quaternion> { };
 }
