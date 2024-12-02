@@ -66,9 +66,10 @@ public class ObjectOnGridSpawner : MonoBehaviour
         {
             if (StaticHolder.count_of_simple_honey >= Costs[selectedIndex])
             {
-                ReservoirController.instance.currentHuneyCount -= Costs[selectedIndex];// надо доделать механику для двух резервуаров
+                ReservoirController.instance_honey.currentHuneyCount -= Costs[selectedIndex];// надо доделать механику для двух резервуаров
                 StaticHolder.count_of_simple_honey -= Costs[selectedIndex];
-                ReservoirController.instance.UpdateHoneyText();
+                ReservoirController.instance_honey.HoneyFluid.position -= new Vector3(0, 0.015f * Costs[selectedIndex], 0);
+                ReservoirController.instance_honey.UpdateHoneyText();
                 SpawnObject();
             }
         }
@@ -100,8 +101,10 @@ public class ObjectOnGridSpawner : MonoBehaviour
 
         );
 
-
        GameObject _spawnedObject = Instantiate(prefab, spawnPosition, Quaternion.identity);
+
+        _spawnedObject.GetComponent<ObjectPlacer>().isSpawning = true;
+
         StaticHolder.AllSpawnedObjectsID.Add(selectedIndex);
         StaticHolder.AllSpawnedObjectsTranforms.Add(_spawnedObject.transform.position);
         StaticHolder.AllSpawnedObjectsRotations.Add(_spawnedObject.transform.rotation);

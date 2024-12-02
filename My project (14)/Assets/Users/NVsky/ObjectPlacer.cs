@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ObjectPlacer : MonoBehaviour
@@ -20,7 +21,7 @@ public class ObjectPlacer : MonoBehaviour
     private Quaternion currentRotation = Quaternion.identity;
     [Header("ID для спавна")]
     public int ObjectSpawnerID;
-
+    [HideInInspector] public bool isSpawning = false;
     public int ObjectID;
 
     private void Start()
@@ -31,7 +32,10 @@ public class ObjectPlacer : MonoBehaviour
         lastValidPosition = transform.position;
 
         // Проверка на коллизию при старте, если объект заспавнился в другом объекте
-        ////////обязательно, но переделать/////FindNearestEmptyPosition();
+        if(isSpawning == true)
+        { 
+            FindNearestEmptyPosition();
+        }
     }
 
     private void Update()
@@ -175,7 +179,26 @@ public class ObjectPlacer : MonoBehaviour
             if (foundFreeSpot) break;
         }
 
-        transform.position = closestPosition;
+        // Запускаем корутину для плавного перемещения
+        StartCoroutine(MoveToPosition(closestPosition, 1f)); // Длительность движения = 1 секунда
+    }
+
+    private IEnumerator MoveToPosition(Vector3 targetPosition, float duration)
+    {
+        Vector3 startPosition = transform.position; // Начальная позиция объекта
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            // Линейная интерполяция от текущей позиции к целевой
+            transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+
+            yield return null; // Ожидаем следующий кадр
+        }
+
+        // Убедимся, что объект точно установился в конечной точке
+        transform.position = targetPosition;
     }
 
     // Используем OnCollisionStay или OnTriggerStay для более точной обработки столкновений

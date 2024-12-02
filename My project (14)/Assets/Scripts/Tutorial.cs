@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class Tutorial : MonoBehaviour
 {
@@ -7,10 +8,16 @@ public class Tutorial : MonoBehaviour
     public GameObject Lapa;
     public GameObject LineTutor;
     public GameObject[] TutorPanels;
+    public GameObject ConveyerText;
     public ObjectOnGridSpawner objectSpawner;
     public GameObject EndTutor;
     public int ID_Object;
 
+
+    private void Start()
+    {
+        JsonSaver._instance.Load();   
+    }
     private void Update()
     {
         if (Lapa == null)
@@ -36,7 +43,7 @@ public class Tutorial : MonoBehaviour
 
     private void CheckEndTutorial()
     {
-        if (controller.currentHuneyCount > 0)
+        if (controller.currentHuneyCount > 3)
         {
             EndTutorial();
         }
@@ -44,6 +51,8 @@ public class Tutorial : MonoBehaviour
 
     private void EndTutorial()
     {
+        StaticHolder.isFirstGame = false;
+        ConveyerText.SetActive(false);
         TutorPanels[1].SetActive(false);
         EndTutor.SetActive(true);
         Lapa.SetActive(false);
@@ -55,4 +64,21 @@ public class Tutorial : MonoBehaviour
         }
         Destroy(this, 5);
     }
+
+    private void DestroyAll()
+    {
+        foreach (GameObject panel in TutorPanels)
+        {
+            Destroy(panel);
+
+        }
+        Destroy(this);
+        ConveyerText.SetActive(false);
+        TutorPanels[1].SetActive(false);
+        EndTutor.SetActive(false);
+        Lapa.SetActive(false);
+        LineTutor.SetActive(false);
+    }
+        
+
 }
