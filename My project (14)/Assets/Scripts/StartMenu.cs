@@ -29,7 +29,11 @@ public class StartMenu : MonoBehaviour
 
     public void Dialog()
     {
+        StaticHolder.isFirstGame = true;
+        JsonSaver._instance.DelateSavings();
+        Debug.Log(StaticHolder.isFirstGame);
         SceneManager.LoadScene("UICanvas");
+
     }
 
     public void Exit()
@@ -44,6 +48,7 @@ public class StartMenu : MonoBehaviour
 
     public void ContinueTheGame()
     {
+        Debug.Log(StaticHolder.isFirstGame);
         SceneManager.LoadScene("SampleScene");
     }
 }

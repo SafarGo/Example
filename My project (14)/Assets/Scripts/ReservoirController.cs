@@ -4,25 +4,31 @@ using UnityEngine;
 
 public class ReservoirController : MonoBehaviour
 {
-    public static ReservoirController instance { get; private set; }
+    public static ReservoirController instance_honey { get; private set; }
+    public static ReservoirController instance_energo { get; private set; }
     public GameObject imageMax;
     public string tag;
     [SerializeField] int maxHoneyCount;
-    public int currentHuneyCount;
-    [SerializeField] private TMP_Text honeyText;
+    public int currentHuneyCount = 3;
+    public TMP_Text honeyText;
     //private TMP_Text allHoneyText;
     //private TMP_Text allEnergyHoneyText;
-    [SerializeField] private Transform HoneyFluid;
+    [SerializeField] public Transform HoneyFluid;
     public bool isEnergoHoneyRzervoir;
 
     private void Start()
     {
-        if(instance == null)
+        if(isEnergoHoneyRzervoir)
         {
-            instance = this;
+            instance_energo = this;
+        }
+        else
+        {
+            instance_honey = this;
         }
         //allHoneyText = GameObject.Find("AllHoney_Text").GetComponent<TMP_Text>();
         //allEnergyHoneyText = GameObject.Find("AllEnergyHoney_Text").GetComponent<TMP_Text>();
+        Debug.Log("Первая ли игра - " + StaticHolder.isFirstGame);
         UpdateHoneyText();
     }
 
@@ -47,10 +53,10 @@ public class ReservoirController : MonoBehaviour
 
     public void UpdateHoneyText()
     {
-        if (honeyText != null)
-        {
+        //if (honeyText != null)
+        //{
             honeyText.text = $"{currentHuneyCount}/{maxHoneyCount}";
-        }
+        //}
         if(isEnergoHoneyRzervoir)
         {
             StaticHolder.count_of_enegry_honey = currentHuneyCount;

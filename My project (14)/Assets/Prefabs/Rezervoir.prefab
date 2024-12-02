@@ -705,88 +705,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &2271879532346934998
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3890753864820664855}
-  - component: {fileID: 39534795906478558}
-  - component: {fileID: 1535885503038904271}
-  - component: {fileID: 5715209926472740069}
-  m_Layer: 0
-  m_Name: ReservoirReal
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3890753864820664855
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2271879532346934998}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.30142, y: 0.12781, z: -0.26779}
-  m_LocalScale: {x: 0.74258584, y: 0.2932088, z: 0.9473195}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1343313557070023738}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &39534795906478558
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2271879532346934998}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &1535885503038904271
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2271879532346934998}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5715209926472740069
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2271879532346934998}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b468ab04173ada84f9cd518bafe82a74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  imageMax: {fileID: 0}
-  tag: Honey
-  maxHoneyCount: 100
-  currentHuneyCount: 0
-  honeyText: {fileID: 0}
-  HoneyFluid: {fileID: 1955137385252041979}
-  isEnergoHoneyRzervoir: 0
 --- !u!1 &2855691410990452834
 GameObject:
   m_ObjectHideFlags: 0
@@ -1844,7 +1762,7 @@ MonoBehaviour:
   tag: Honey
   maxHoneyCount: 100
   currentHuneyCount: 0
-  honeyText: {fileID: 0}
+  honeyText: {fileID: 3815934121681640786}
   HoneyFluid: {fileID: 1955137385252041979}
   isEnergoHoneyRzervoir: 0
 --- !u!1 &5558833058174506444
@@ -2293,7 +2211,6 @@ Transform:
   - {fileID: 3977031141502283054}
   - {fileID: 5765226418453053033}
   - {fileID: 7039983736714880247}
-  - {fileID: 3890753864820664855}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4467900725769221949
@@ -2345,6 +2262,8 @@ MonoBehaviour:
   collisionLayer:
     serializedVersion: 2
     m_Bits: 64
+  ObjectSpawnerID: 0
+  ObjectID: 0
 --- !u!82 &6993264604927919476
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2624,7 +2543,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 38.714764, y: 0, z: 47.242096, w: 0}
+  m_margin: {x: -9.808025, y: 0, z: 4.5447655, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -2926,7 +2845,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8432644274996824770}
-  - component: {fileID: 703098435182365588}
   m_Layer: 0
   m_Name: REZERVuar (2)
   m_TagString: Untagged
@@ -2962,25 +2880,6 @@ Transform:
   - {fileID: 6366648881270544505}
   m_Father: {fileID: 1343313557070023738}
   m_LocalEulerAnglesHint: {x: 0, y: 60, z: 0}
---- !u!114 &703098435182365588
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9100954503244058744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b468ab04173ada84f9cd518bafe82a74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  imageMax: {fileID: 0}
-  tag: Honey
-  maxHoneyCount: 100
-  currentHuneyCount: 0
-  honeyText: {fileID: 3815934121681640786}
-  HoneyFluid: {fileID: 1955137385252041979}
-  isEnergoHoneyRzervoir: 0
 --- !u!1001 &3069411182538482222
 PrefabInstance:
   m_ObjectHideFlags: 0

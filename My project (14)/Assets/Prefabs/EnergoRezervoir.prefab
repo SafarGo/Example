@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 60, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -978.50287, y: -537.72595}
+  m_AnchoredPosition: {x: -978.50287, y: -537.855}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7766069042328633204
@@ -129,7 +129,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 38.714764, y: 0, z: 47.242096, w: 0}
+  m_margin: {x: -7.1836433, y: 0, z: 3.7688446, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -820,6 +820,8 @@ MonoBehaviour:
   collisionLayer:
     serializedVersion: 2
     m_Bits: 64
+  ObjectSpawnerID: 0
+  ObjectID: 0
 --- !u!82 &4271110128497798314
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1374,6 +1376,7 @@ MonoBehaviour:
   currentHuneyCount: 0
   honeyText: {fileID: 7084802209831892981}
   HoneyFluid: {fileID: 5552033542317842279}
+  isEnergoHoneyRzervoir: 0
 --- !u!1 &4009584566763651859
 GameObject:
   m_ObjectHideFlags: 0

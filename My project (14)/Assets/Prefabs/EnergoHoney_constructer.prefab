@@ -73,7 +73,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 61.349, y: 90, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -4.867, y: 1.004}
+  m_AnchoredPosition: {x: -4.99, y: 0.97}
   m_SizeDelta: {x: 316.6452, y: 155.1616}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &388501258062541993
@@ -331,6 +331,9 @@ MonoBehaviour:
   collisionLayer:
     serializedVersion: 2
     m_Bits: 64
+  ObjectSpawnerID: 0
+  isSpawning: 0
+  ObjectID: 0
 --- !u!65 &5184406532478346638
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -350,8 +353,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.2281661, y: 3.1340997, z: 8.600885}
-  m_Center: {x: 0.21632981, y: 1.0670499, z: 3.8004427}
+  m_Size: {x: 0.12095976, y: 3.1340997, z: 8.600885}
+  m_Center: {x: 0.16272664, y: 1.0670499, z: 3.8004427}
 --- !u!65 &5814171305507286116
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -371,8 +374,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 4.4887247, y: 1.6504397, z: 3.8028069}
-  m_Center: {x: -3.7902923, y: 0.32521987, z: 4.547167}
+  m_Size: {x: 4.2207084, y: 1.6504397, z: 3.4186516}
+  m_Center: {x: -3.656284, y: 0.32521987, z: 4.560568}
 --- !u!65 &5018983860122872776
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2020,7 +2023,7 @@ MonoBehaviour:
   HpSlider: {fileID: 2412390316719785452}
   catrText: {fileID: 7834264326125797870}
   honeyValue: 2
-  energyHoneyPrefab: {fileID: 671991263566537892, guid: 91225c02cfa100242878a906425483fc, type: 3}
+  energyHoneyPrefab: {fileID: 9070410396286902669, guid: 91225c02cfa100242878a906425483fc, type: 3}
   HoneyDelSpeed: 5
   medCaunter: 0
   cartridgeCount: 1
