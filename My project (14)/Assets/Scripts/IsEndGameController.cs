@@ -12,6 +12,7 @@ public class IsEndGameController : MonoBehaviour
         if(instance == null)
         {
             instance = this;
+            Debug.Log(instance);
         }
     }
 
