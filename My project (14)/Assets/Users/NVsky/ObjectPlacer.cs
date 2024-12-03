@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ObjectPlacer : MonoBehaviour
@@ -23,6 +22,17 @@ public class ObjectPlacer : MonoBehaviour
     public int ObjectSpawnerID;
     [HideInInspector] public bool isSpawning = false;
     public int ObjectID;
+    private Material[] originalMaterials;
+
+    private Renderer[] renderers;
+    private MaterialPropertyBlock propertyBlock;
+    private Dictionary<Renderer, Color[]> originalColors;
+
+    // Параметры куба для визуализации коллизий
+    [Header("Настройки куба коллизий")]
+    [SerializeField] private Vector3 collisionCubeSize = Vector3.one; // Размер куба
+    [SerializeField] private Vector3 collisionCubeOffset = Vector3.zero; // Смещение куба
+    [SerializeField] private Vector3 collisionCubeRotation = Vector3.zero; // Поворот куба
 
     private void Start()
     {
@@ -31,9 +41,25 @@ public class ObjectPlacer : MonoBehaviour
 
         lastValidPosition = transform.position;
 
-        // Проверка на коллизию при старте, если объект заспавнился в другом объекте
-        if(isSpawning == true)
-        { 
+        renderers = GetComponentsInChildren<Renderer>();
+        propertyBlock = new MaterialPropertyBlock();
+
+        originalMaterials = new Material[renderers.Length];
+        originalColors = new Dictionary<Renderer, Color[]>();
+
+        foreach (Renderer renderer in renderers)
+        {
+            Material[] materials = renderer.materials;
+            Color[] colors = new Color[materials.Length];
+            for (int i = 0; i < materials.Length; i++)
+            {
+                colors[i] = materials[i].color;
+            }
+            originalColors[renderer] = colors;
+        }
+
+        if (IsColliding(gameObject.transform.position, currentRotation))
+        {
             FindNearestEmptyPosition();
         }
     }
@@ -42,11 +68,8 @@ public class ObjectPlacer : MonoBehaviour
     {
         if (!isDragging) return;
 
-        HandleRotation(); // Обработка вращения
-        if (isDragging)
-        {
-            MoveObjectWithCollisions();
-        }
+        HandleRotation();
+        MoveObjectWithCollisions();
     }
 
     private void OnMouseDown()
@@ -58,6 +81,8 @@ public class ObjectPlacer : MonoBehaviour
         {
             offset = transform.position - hit.point;
         }
+
+        SetMaterialToColor(Color.green);
     }
 
     private void OnMouseDrag()
@@ -82,7 +107,6 @@ public class ObjectPlacer : MonoBehaviour
             }
             else
             {
-                // Если коллизия, оставляем объект в текущем положении
                 transform.position = lastValidPosition;
             }
         }
@@ -90,28 +114,60 @@ public class ObjectPlacer : MonoBehaviour
 
     private void OnMouseUp()
     {
+        isDragging = false;
+
+        RestoreOriginalMaterials();
+
         StaticHolder.AllSpawnedObjectsTranforms[ObjectID] = gameObject.transform.position;
         StaticHolder.AllSpawnedObjectsRotations[ObjectID] = gameObject.transform.rotation;
         JsonSaver._instance.Save();
         Debug.Log("сохранили при передвижении");
-        isDragging = false;
+    }
+
+    void SetMaterialToColor(Color color)
+    {
+        foreach (Renderer renderer in renderers)
+        {
+            Material[] materials = renderer.materials;
+            for (int i = 0; i < materials.Length; i++)
+            {
+                Material newMaterial = new Material(materials[i]);
+                newMaterial.color = color;
+                materials[i] = newMaterial;
+            }
+            renderer.materials = materials;
+        }
+    }
+
+    void RestoreOriginalMaterials()
+    {
+        foreach (Renderer renderer in renderers)
+        {
+            Material[] materials = renderer.materials;
+            Color[] originalColorArray = originalColors[renderer];
+
+            for (int i = 0; i < materials.Length; i++)
+            {
+                materials[i].color = originalColorArray[i];
+            }
+            renderer.materials = materials;
+        }
     }
 
     private void HandleRotation()
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            currentRotation *= Quaternion.Euler(0, 90, 0); // Поворот на 90 градусов по оси Y
+            currentRotation *= Quaternion.Euler(0, 90, 0);
             transform.rotation = currentRotation;
 
             if (IsColliding(transform.position, currentRotation))
             {
-                // Если столкновение, вернуться к последней корректной позиции
                 transform.position = lastValidPosition;
             }
             else
             {
-                lastValidPosition = transform.position; // Обновляем последнюю корректную позицию
+                lastValidPosition = transform.position;
             }
         }
     }
@@ -122,7 +178,6 @@ public class ObjectPlacer : MonoBehaviour
 
         foreach (Collider col in colliders)
         {
-            // Игнорировать столкновения с собой и дочерними объектами
             if (col.gameObject != gameObject && !col.transform.IsChildOf(transform))
             {
                 return true;
@@ -135,27 +190,16 @@ public class ObjectPlacer : MonoBehaviour
     {
         Vector3 newPosition = targetPos;
 
-        // Проверка на столкновение с другими объектами
         if (IsColliding(newPosition, currentRotation))
         {
-            transform.position = lastValidPosition; // Вернуть к последней корректной позиции, если столкновение
+            transform.position = lastValidPosition;
         }
         else
         {
             transform.position = Vector3.MoveTowards(transform.position, newPosition, moveSpeed * Time.deltaTime);
         }
-
-        if(Input.GetKeyDown(KeyCode.Y))
-        {
-            StaticHolder.AllSpawnedObjectsID.RemoveAt(ObjectID);
-            StaticHolder.AllSpawnedObjectsTranforms.RemoveAt(ObjectID);
-            StaticHolder.AllSpawnedObjectsRotations.RemoveAt(ObjectID);
-            JsonSaver._instance.Save();
-            Destroy(gameObject);
-        }
     }
 
-    // Метод для поиска ближайшего свободного места
     private void FindNearestEmptyPosition()
     {
         Vector3 closestPosition = transform.position;
@@ -169,7 +213,7 @@ public class ObjectPlacer : MonoBehaviour
             {
                 Vector3 newPos = new Vector3(x, transform.position.y, z);
 
-                if (!IsColliding(newPos, currentRotation)) // Учитываем текущий поворот
+                if (!IsColliding(newPos, currentRotation))
                 {
                     closestPosition = newPos;
                     foundFreeSpot = true;
@@ -179,44 +223,41 @@ public class ObjectPlacer : MonoBehaviour
             if (foundFreeSpot) break;
         }
 
-        // Запускаем корутину для плавного перемещения
-        StartCoroutine(MoveToPosition(closestPosition, 1f)); // Длительность движения = 1 секунда
+        StartCoroutine(MoveToPosition(closestPosition, 1f));
     }
 
     private IEnumerator MoveToPosition(Vector3 targetPosition, float duration)
     {
-        Vector3 startPosition = transform.position; // Начальная позиция объекта
+        Vector3 startPosition = transform.position;
         float elapsedTime = 0f;
 
         while (elapsedTime < duration)
         {
-            // Линейная интерполяция от текущей позиции к целевой
             transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / duration);
             elapsedTime += Time.deltaTime;
 
-            yield return null; // Ожидаем следующий кадр
+            yield return null;
         }
 
-        // Убедимся, что объект точно установился в конечной точке
         transform.position = targetPosition;
     }
 
-    // Используем OnCollisionStay или OnTriggerStay для более точной обработки столкновений
-    private void OnCollisionStay(Collision collision)
+    // Добавляем метод для отрисовки кастомного куба коллизий
+    private void OnDrawGizmos()
     {
-        if (collision.gameObject.CompareTag("obstacle_tag"))
-        {
-            // Обработка столкновения с объектами с тегом obstacle_tag
-            Debug.Log("Столкновение с объектом: " + collision.gameObject.name);
-        }
+        Gizmos.color = Color.red;
+
+        // Вычисляем матрицу для отрисовки с учётом настроек
+        Matrix4x4 matrix = Matrix4x4.TRS(
+            transform.position + collisionCubeOffset,
+            transform.rotation, // Используем текущий поворот объекта
+            Vector3.one
+        );
+
+        Gizmos.matrix = matrix;
+
+        // Отрисовываем куб
+        Gizmos.DrawWireCube(Vector3.zero, collisionCubeSize);
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.CompareTag("obstacle_tag"))
-        {
-            // Обработка столкновения с объектами с тегом obstacle_tag
-            Debug.Log("Триггер с объектом: " + other.gameObject.name);
-        }
-    }
 }

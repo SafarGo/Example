@@ -1230,6 +1230,9 @@ MonoBehaviour:
   ObjectSpawnerID: 0
   isSpawning: 0
   ObjectID: 0
+  collisionCubeSize: {x: 3.01, y: 2.03, z: 3.56}
+  collisionCubeOffset: {x: 0, y: 2.77, z: 0.01}
+  collisionCubeRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &968727426197083786
 BoxCollider:
   m_ObjectHideFlags: 0
