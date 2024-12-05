@@ -2599,8 +2599,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.9519951, y: 4.495342, z: 3.039846}
-  m_Center: {x: 0.024675965, y: 1.8279006, z: 0.23723722}
+  m_Size: {x: 2.9519951, y: 4.495342, z: 2.6030679}
+  m_Center: {x: 0.024675965, y: 1.8279006, z: 0.21738368}
 --- !u!114 &1957068084159583870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2624,7 +2624,7 @@ MonoBehaviour:
   ObjectSpawnerID: 0
   isSpawning: 0
   ObjectID: 0
-  collisionCubeSize: {x: 2.08, y: 6.86, z: 3.21}
+  collisionCubeSize: {x: 2.08, y: 6.86, z: 2.15}
   collisionCubeOffset: {x: 0, y: 0, z: 0.03}
   collisionCubeRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &6986093602118726990
