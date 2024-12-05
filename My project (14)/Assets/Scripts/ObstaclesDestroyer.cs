@@ -26,6 +26,10 @@ public class ObstaclesDestroyer : MonoBehaviour
         // Удержание ЛКМ
         if (Input.GetMouseButton(0) && targetObject)
             CheckHold();
+        else
+        {
+            slider.gameObject.SetActive(false);
+        }
 
         // Сброс, если отпущена ЛКМ
         if (Input.GetMouseButtonUp(0))
