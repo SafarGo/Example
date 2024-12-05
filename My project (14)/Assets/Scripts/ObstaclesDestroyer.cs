@@ -1,15 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI; 
 
 public class ObstaclesDestroyer : MonoBehaviour
 {
     [SerializeField] private LayerMask selectableLayer; // Слой для рейкаста
     [SerializeField] private float holdTime = 5f;       // Время удержания для удаления
-
+    private Slider slider;
     private float holdTimer;                            // Таймер удержания
     private GameObject targetObject;                   // Целевой объект рейкаста
 
+
+    private void Start()
+    {
+        slider = GameObject.Find("Destroyer").GetComponent<Slider>();
+        slider.gameObject.SetActive(false);
+    }
     void Update()
     {
         // Рейкаст при нажатии ЛКМ
@@ -38,11 +45,15 @@ public class ObstaclesDestroyer : MonoBehaviour
 
     private void CheckHold()
     {
+        slider.gameObject.SetActive(true);
         holdTimer += Time.deltaTime;
+        slider.value = holdTimer * 0.5f;
         if (holdTimer >= holdTime)
         {
             Destroy(targetObject); // Удаление объекта
-            ResetTarget();         // Сброс
+            ResetTarget();
+            slider.gameObject.SetActive(false);
+            slider.value = 0;// Сброс
         }
     }
 
