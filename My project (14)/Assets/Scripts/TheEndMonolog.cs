@@ -5,9 +5,11 @@ using TMPro;
 
 public class TypewriterEffect : MonoBehaviour
 {
+    [SerializeField] GameObject tipingSound;
     public TMP_Text myText; // Assign your Text UI element in the Inspector
     public string textToType;
     public float typingSpeed = 0.1f; // Adjust typing speed here
+    int _tipingCounter;
 
     void Start()
     {
@@ -24,6 +26,11 @@ public class TypewriterEffect : MonoBehaviour
     {
         foreach (char letter in textToType.ToCharArray())
         {
+            _tipingCounter++;
+            if (_tipingCounter % 3 == 0)
+            {
+                Instantiate(tipingSound);
+            }
             myText.text += letter;
             yield return new WaitForSeconds(typingSpeed);
         }

@@ -7,7 +7,7 @@ public class IsEndGameController : MonoBehaviour
 {
     public static IsEndGameController instance { get; private set;}
 
-    private void Start()
+    private void Awake()
     {
         if(instance == null)
         {
