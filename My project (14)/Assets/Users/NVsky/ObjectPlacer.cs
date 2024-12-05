@@ -170,6 +170,15 @@ public class ObjectPlacer : MonoBehaviour
                 lastValidPosition = transform.position;
             }
         }
+
+        if(Input.GetKeyDown(KeyCode.Y))
+        {
+            StaticHolder.AllSpawnedObjectsID.RemoveAt(ObjectID);
+            StaticHolder.AllSpawnedObjectsTranforms.RemoveAt(ObjectID);
+            StaticHolder.AllSpawnedObjectsRotations.RemoveAt(ObjectID);
+            JsonSaver._instance.Save();
+            Destroy(gameObject);
+        }
     }
 
     private bool IsColliding(Vector3 newPosition, Quaternion rotation)

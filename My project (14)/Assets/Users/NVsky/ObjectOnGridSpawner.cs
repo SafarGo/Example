@@ -103,8 +103,6 @@ public class ObjectOnGridSpawner : MonoBehaviour
 
        GameObject _spawnedObject = Instantiate(prefab, spawnPosition, Quaternion.identity);
 
-        _spawnedObject.GetComponent<ObjectPlacer>().isSpawning = true;
-
         StaticHolder.AllSpawnedObjectsID.Add(selectedIndex);
         StaticHolder.AllSpawnedObjectsTranforms.Add(_spawnedObject.transform.position);
         StaticHolder.AllSpawnedObjectsRotations.Add(_spawnedObject.transform.rotation);
