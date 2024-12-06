@@ -29,7 +29,6 @@ public class TypewriterEffect : MonoBehaviour
             _tipingCounter++;
             if (_tipingCounter % 3 == 0)
             {
-                Instantiate(tipingSound);
             }
             myText.text += letter;
             yield return new WaitForSeconds(typingSpeed);
