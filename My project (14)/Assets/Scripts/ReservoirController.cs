@@ -54,7 +54,7 @@ public class ReservoirController : MonoBehaviour
     public void UpdateHoneyText()
     {
 
-        IsEndGameController.instance.CheckEndingGame();
+        ////////IsEndGameController.instance.CheckEndingGame();
         //if (honeyText != null)
         //{
             honeyText.text = $"{currentHuneyCount}/{maxHoneyCount}";
