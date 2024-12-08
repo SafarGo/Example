@@ -68,8 +68,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 0/100
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4863b2056e6205d4491cec0f5dcc0af6, type: 2}
+  m_sharedMaterial: {fileID: 4688011703885709647, guid: 4863b2056e6205d4491cec0f5dcc0af6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -93,8 +93,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 33
+  m_fontSizeBase: 33
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -821,7 +821,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   ObjectSpawnerID: 0
+  isSpawning: 0
   ObjectID: 0
+  collisionCubeSize: {x: 1, y: 1, z: 1}
+  collisionCubeOffset: {x: 0, y: 0, z: 0}
+  collisionCubeRotation: {x: 0, y: 0, z: 0}
 --- !u!82 &4271110128497798314
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1377,6 +1381,9 @@ MonoBehaviour:
   honeyText: {fileID: 7084802209831892981}
   HoneyFluid: {fileID: 5552033542317842279}
   isEnergoHoneyRzervoir: 0
+  maxValue: 100
+  minHeight: 0
+  maxHeight: 10
 --- !u!1 &4009584566763651859
 GameObject:
   m_ObjectHideFlags: 0

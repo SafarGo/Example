@@ -90,5 +90,5 @@ public class DataStorage
     public List <Quaternion> AllSpawnedObjectsRotations_json = new List<Quaternion> { };
     public bool isFirstGame_json = true;
     public int simple_honey_count = 3;
-    public int energo_honey_count = 3;
+    public int energo_honey_count =3;
 }

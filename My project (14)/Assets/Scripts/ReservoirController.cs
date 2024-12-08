@@ -16,15 +16,40 @@ public class ReservoirController : MonoBehaviour
     [SerializeField] public Transform HoneyFluid;
     public bool isEnergoHoneyRzervoir;
 
+
+    // Максимальное значение
+    public float maxValue = 100f;
+
+    // Минимальная высота
+    public float minHeight = 0f;
+
+    // Максимальная высота
+    public float maxHeight = 10f;
+
+
+    private void Awake()
+    {
+    }
+
     private void Start()
     {
-        if(isEnergoHoneyRzervoir)
+        JsonSaver._instance.Load();
+        if (isEnergoHoneyRzervoir)
         {
             instance_energo = this;
         }
         else
         {
             instance_honey = this;
+        }
+
+        if (isEnergoHoneyRzervoir)
+        {
+            currentHuneyCount = StaticHolder.count_of_simple_honey;
+        }
+        else
+        {
+            currentHuneyCount = StaticHolder.count_of_enegry_honey;
         }
         //allHoneyText = GameObject.Find("AllHoney_Text").GetComponent<TMP_Text>();
         //allEnergyHoneyText = GameObject.Find("AllEnergyHoney_Text").GetComponent<TMP_Text>();
@@ -40,7 +65,7 @@ public class ReservoirController : MonoBehaviour
             if (currentHuneyCount < maxHoneyCount)
             {
                 currentHuneyCount++;
-                HoneyFluid.position += new Vector3(0, 0.015f, 0);
+                SetHeightByValue(currentHuneyCount);
                 imageMax.SetActive(false);
             }
             else
@@ -54,7 +79,7 @@ public class ReservoirController : MonoBehaviour
     public void UpdateHoneyText()
     {
 
-        IsEndGameController.instance.CheckEndingGame();
+        //IsEndGameController.instance.CheckEndingGame();
         //if (honeyText != null)
         //{
             honeyText.text = $"{currentHuneyCount}/{maxHoneyCount}";
@@ -68,6 +93,7 @@ public class ReservoirController : MonoBehaviour
             StaticHolder.count_of_simple_honey = currentHuneyCount;
         }
         Debug.Log(StaticHolder.count_of_simple_honey);
+        JsonSaver._instance.Save();
 
         //int simpleHoneyTotal = 0;
         //int energyHoneyTotal = 0;
@@ -95,5 +121,30 @@ public class ReservoirController : MonoBehaviour
         //{
         //    allEnergyHoneyText.text = StaticHolder.count_of_enegry_honey.ToString();
         //}
+    }
+    // Установить высоту объекта в зависимости от числа
+    // Установить положение объекта в зависимости от числа
+    public void SetHeightByValue(float value)
+    {
+        if (maxValue <= 0)
+        {
+            Debug.LogError("Максимальное значение должно быть больше 0.");
+            return;
+        }
+
+        // Рассчитать пропорцию значения в диапазоне [0, 1]
+        float proportionalValue = Mathf.Clamp01(value / maxValue);
+
+        // Рассчитать новую высоту в диапазоне от minHeight до maxHeight
+        float newY = Mathf.Lerp(minHeight, maxHeight, proportionalValue);
+
+        // Получить текущее положение объекта
+        Vector3 position = transform.position;
+
+        // Установить новое положение по оси Y
+        position.y = newY;
+
+        // Применить новое положение
+        HoneyFluid.transform.position = position;
     }
 }
