@@ -254,7 +254,7 @@ MonoBehaviour:
   ObjectSpawnerID: 0
   isSpawning: 0
   ObjectID: 0
-  collisionCubeSize: {x: 2.76, y: 1.4, z: 1.63}
+  collisionCubeSize: {x: 2.54, y: 1.4, z: 1.26}
   collisionCubeOffset: {x: 0, y: 0, z: 0}
   collisionCubeRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &3516687799102480148
@@ -276,7 +276,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 8.983405, y: 1.7982961, z: 5.18}
+  m_Size: {x: 8.983405, y: 1.7982961, z: 4.3}
   m_Center: {x: -0.083844066, y: 1.3863074, z: -0.04}
 --- !u!82 &7811029461153469587
 AudioSource:
