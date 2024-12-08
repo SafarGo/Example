@@ -2808,8 +2808,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0b9118ea8cea9b49bc2cb94f4f0e1d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameName: bb62ba54-dcaa-4097-89b3-903938dffa60
-  currentServerSimpleHoney: 5
+  playerName: bear1
+  SimpleHoney: 0
+  EnergyHoney: 0
 --- !u!4 &141488373
 Transform:
   m_ObjectHideFlags: 0

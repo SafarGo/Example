@@ -86,15 +86,17 @@ public class ReservoirController : MonoBehaviour
         //}
         if(isEnergoHoneyRzervoir)
         {
+            SrverController.instance.EnergyHoney = currentHuneyCount.ToString();
             StaticHolder.count_of_enegry_honey = currentHuneyCount;
         }
         else
         {
+            SrverController.instance.SimpleHoney = currentHuneyCount.ToString();
             StaticHolder.count_of_simple_honey = currentHuneyCount;
         }
+        SrverController.instance.SendPutRequest();
         Debug.Log(StaticHolder.count_of_simple_honey);
         JsonSaver._instance.Save();
-
         //int simpleHoneyTotal = 0;
         //int energyHoneyTotal = 0;
         //

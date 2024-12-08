@@ -1,70 +1,89 @@
+using System;
+using System.Collections;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
-using System.Collections;
-using static System.Net.WebRequestMethods;
-using System;
-
 public class SrverController : MonoBehaviour
 {
-    [SerializeField] private string gameName = "yourGameName"; // Укажите имя игры
-    private string apiUrl = "https://2025.nti-gamedev.ru/api/games";
+    private string baseUrl = "https://2025.nti-gamedev.ru/api/games/bb62ba54-dcaa-4097-89b3-903938dffa60/players/";
+    public static SrverController instance;
 
-    public int currentServerSimpleHoney; // Значение, которое отправляем на сервер
+    // Р”РёРЅР°РјРёС‡РµСЃРєРѕРµ РёРјСЏ РёРіСЂРѕРєР°
+    public string playerName = "bear1";
 
-    public void SendHoneyValue()
+    // Р—РЅР°С‡РµРЅРёСЏ РґР»СЏ РѕС‚РїСЂР°РІРєРё
+    public string SimpleHoney = "0";
+    public string EnergyHoney = "0";
+
+    // РњРµС‚РѕРґ РґР»СЏ РѕС‚РїСЂР°РІРєРё РґР°РЅРЅС‹С…
+    public void SendPutRequest()
     {
-        StartCoroutine(SendHoneyToServer());
+        StartCoroutine(SendRequestCoroutine());
     }
 
-    private IEnumerator SendHoneyToServer()
+    private IEnumerator SendRequestCoroutine()
     {
-        // Формируем URL
-        string url = $"{apiUrl}/{gameName}/players/bear1/";
-
-        // Проверяем URL
-        if (string.IsNullOrEmpty(gameName) || !Uri.IsWellFormedUriString(url, UriKind.Absolute))
+        // РЎРѕР·РґР°РµРј JSON-РѕР±СЉРµРєС‚ РґР»СЏ РѕС‚РїСЂР°РІРєРё
+        string jsonBody = JsonUtility.ToJson(new RequestData
         {
-            Debug.LogError("Ошибка: Неверный URL. Проверьте значение gameName или apiUrl.");
-            yield break;
-        }
+            name = playerName,
+            resources = new ResourceData
+            {
+                SimpleHoney = this.SimpleHoney,
+                EnergyHoney = this.EnergyHoney
+            }
+        });
 
-        // Формируем JSON-данные
-        string jsonData = JsonUtility.ToJson(new { honey = currentServerSimpleHoney });
+        // Р¤РѕСЂРјРёСЂСѓРµРј URL РЅР° РѕСЃРЅРѕРІРµ РёРјРµРЅРё РёРіСЂРѕРєР°
+        string url = baseUrl + playerName + "/";
 
-        using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
+        // РќР°СЃС‚СЂР°РёРІР°РµРј PUT-Р·Р°РїСЂРѕСЃ
+        UnityWebRequest request = new UnityWebRequest(url, "PUT");
+        byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonBody);
+        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        request.downloadHandler = new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+
+        // РћС‚РїСЂР°РІРєР° Р·Р°РїСЂРѕСЃР°
+        yield return request.SendWebRequest();
+
+        // РћР±СЂР°Р±РѕС‚РєР° РѕС‚РІРµС‚Р°
+        if (request.result == UnityWebRequest.Result.Success)
         {
-            // Устанавливаем тело запроса
-            byte[] jsonBytes = System.Text.Encoding.UTF8.GetBytes(jsonData);
-            request.uploadHandler = new UploadHandlerRaw(jsonBytes);
-            request.downloadHandler = new DownloadHandlerBuffer();
-
-            // Устанавливаем заголовок Content-Type
-            request.SetRequestHeader("Content-Type", "application/json");
-
-            // Отправляем запрос
-            yield return request.SendWebRequest();
-
-            // Проверяем статус ответа
-            if (request.result == UnityWebRequest.Result.Success)
-            {
-                Debug.Log("Успешно отправлено на сервер: " + request.downloadHandler.text);
-            }
-            else if (request.result == UnityWebRequest.Result.ConnectionError ||
-                     request.result == UnityWebRequest.Result.ProtocolError)
-            {
-                Debug.LogError($"Ошибка при отправке: {request.error}. Статус: {request.responseCode}");
-
-                // Повторный запрос (если ошибка не из-за URL)
-                if (request.responseCode != 400)
-                {
-                    Debug.LogWarning("Повторная попытка отправки...");
-                    StartCoroutine(SendHoneyToServer());
-                }
-            }
-            else
-            {
-                Debug.LogError("Неизвестная ошибка: " + request.error);
-            }
+            Debug.Log($"Request successful for {playerName}. Response: {request.downloadHandler.text}");
         }
+        else
+        {
+            Debug.LogError($"Request failed for {playerName}. Error: {request.error}\nResponse Code: {request.responseCode}");
+        }
+    }
+
+    // РўРµСЃС‚РѕРІС‹Р№ РІС‹Р·РѕРІ РїСЂРё СЃС‚Р°СЂС‚Рµ
+    private void Start()
+    {
+        JsonSaver._instance.Load();
+        SimpleHoney = StaticHolder.count_of_simple_honey.ToString();
+        EnergyHoney = StaticHolder.count_of_enegry_honey.ToString();
+
+        // Р”РёРЅР°РјРёС‡РµСЃРєРѕРµ РѕРїСЂРµРґРµР»РµРЅРёРµ РёРјРµРЅРё РёРіСЂРѕРєР° (РЅР°РїСЂРёРјРµСЂ, РјРѕР¶РЅРѕ Р·Р°РґР°РІР°С‚СЊ РёР· РґСЂСѓРіРѕРіРѕ СЃРєСЂРёРїС‚Р°)
+        playerName = PlayerPrefs.GetString("PlayerName", "bear1"); // Р—Р°РіСЂСѓР¶Р°РµРј РёРјСЏ РёРіСЂРѕРєР° РёР»Рё РёСЃРїРѕР»СЊР·СѓРµРј "bear1" РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
+
+        instance = this;
+        SendPutRequest();
+    }
+
+    // РљР»Р°СЃСЃС‹ РґР»СЏ СЃРµСЂРёР°Р»РёР·Р°С†РёРё JSON
+    [Serializable]
+    private class RequestData
+    {
+        public string name;
+        public ResourceData resources;
+    }
+
+    [Serializable]
+    private class ResourceData
+    {
+        public string SimpleHoney;
+        public string EnergyHoney;
     }
 }
