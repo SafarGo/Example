@@ -66,6 +66,7 @@ public class ObstaclesDestroyer : MonoBehaviour
         slider.value = holdTimer * 0.5f;
         if (holdTimer >= holdTime)
         {
+            //targetObject.GetComponent<StoneSaving>().Destroying();
             Destroy(targetObject); // Удаление объекта
             ResetTarget();
             slider.gameObject.SetActive(false);

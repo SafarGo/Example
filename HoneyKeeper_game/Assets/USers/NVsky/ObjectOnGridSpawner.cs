@@ -158,6 +158,7 @@ public class ObjectOnGridSpawner : MonoBehaviour
 
             }
         }
+
         Debug.Log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
     }
 
