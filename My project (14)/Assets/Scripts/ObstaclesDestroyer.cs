@@ -26,10 +26,21 @@ public class ObstaclesDestroyer : MonoBehaviour
         // Удержание ЛКМ
         if (Input.GetMouseButton(0) && targetObject)
             CheckHold();
+        else
+            slider.gameObject.SetActive(false);
 
         // Сброс, если отпущена ЛКМ
         if (Input.GetMouseButtonUp(0))
             ResetTarget();
+
+        if(!targetObject)
+        {
+            slider.gameObject.SetActive(false);
+        }
+        else
+        {
+            slider.gameObject.SetActive(true);
+        }
     }
 
     private void StartRaycast()
@@ -38,14 +49,19 @@ public class ObstaclesDestroyer : MonoBehaviour
             out RaycastHit hit, Mathf.Infinity, selectableLayer)
             && hit.collider.CompareTag("cantDestroyObstacle"))
         {
+            //slider.gameObject.SetActive(true);
             targetObject = hit.collider.gameObject;
             holdTimer = 0f; // Сброс таймера
+        }
+        else
+        {
+            targetObject = null;
+            slider.gameObject.SetActive(false);
         }
     }
 
     private void CheckHold()
     {
-        slider.gameObject.SetActive(true);
         holdTimer += Time.deltaTime;
         slider.value = holdTimer * 0.5f;
         if (holdTimer >= holdTime)

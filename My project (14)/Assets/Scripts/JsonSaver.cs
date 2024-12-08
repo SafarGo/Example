@@ -36,7 +36,7 @@ public class JsonSaver : MonoBehaviour
         _data.simple_honey_count = StaticHolder.count_of_simple_honey;//Chtoto - просто перменна€
         _data.energo_honey_count = StaticHolder.count_of_enegry_honey;//Chtoto - просто перменна€
         //_data.GameTimeJsom = StaticHolder.GameTime;//Chtoto - просто перменна€
-        Debug.Log("hfhfhfhfhfhfhf");
+       // Debug.Log("hfhfhfhfhfhfhf");
 
         File.WriteAllText(_path, JsonUtility.ToJson(_data, true));//«аписываем сохранение
     }
@@ -44,7 +44,7 @@ public class JsonSaver : MonoBehaviour
     public void Load()
     {
 
-        Debug.Log("1234567890");
+        //Debug.Log("1234567890");
 
         if (File.Exists(_path))//≈сли существует файл с сохранени€ми, то мы загружаем их
         {
