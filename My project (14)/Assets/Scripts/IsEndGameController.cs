@@ -28,7 +28,7 @@ public class IsEndGameController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (StaticHolder.count_of_simple_honey >= 45 && StaticHolder.count_of_enegry_honey >= 0)
+        if (StaticHolder.count_of_simple_honey >= 40 && StaticHolder.count_of_enegry_honey >= 25)
         {
             CanEnd.SetActive(true);
             isCanEnd = true;

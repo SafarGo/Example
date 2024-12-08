@@ -549,6 +549,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7487035804347761665}
+  - component: {fileID: 4037118005287848193}
   m_Layer: 6
   m_Name: Hive_Prefab_G
   m_TagString: obstacle_tag
@@ -573,6 +574,27 @@ Transform:
   - {fileID: 9078614209895425138}
   m_Father: {fileID: 7980698394986449931}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &4037118005287848193
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2370220403863573394}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1.5802021, z: 2.9403472}
+  m_Center: {x: 0, y: 3.076972, z: 2.9675896}
 --- !u!1 &2642424971925788937
 GameObject:
   m_ObjectHideFlags: 0
