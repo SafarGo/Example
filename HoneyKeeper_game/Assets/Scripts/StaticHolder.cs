@@ -6,7 +6,7 @@ public static class StaticHolder
 {
     public static bool isFirstGame = true;
     public static int count_of_simple_honey = 3;
-    public static int count_of_enegry_honey;
+    public static int count_of_enegry_honey = 3;
     public static int count_of_cartriges;
     public static int FlowersCount;
     public static int FlowersHP;

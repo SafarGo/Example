@@ -1382,8 +1382,8 @@ MonoBehaviour:
   HoneyFluid: {fileID: 5552033542317842279}
   isEnergoHoneyRzervoir: 0
   maxValue: 100
-  minHeight: 0
-  maxHeight: 10
+  minHeight: 0.124
+  maxHeight: 2.31
 --- !u!1 &4009584566763651859
 GameObject:
   m_ObjectHideFlags: 0

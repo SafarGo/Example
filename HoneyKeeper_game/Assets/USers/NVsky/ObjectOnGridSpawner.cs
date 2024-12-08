@@ -11,6 +11,7 @@ public class ObjectOnGridSpawner : MonoBehaviour
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private List<Image> uiIcons; // Список UI-иконок для затемнения
     [SerializeField] private List<int> Costs; // Список цен
+    [SerializeField] private List<int> Energo_Costs; // Список цен
 
     [HideInInspector]public int SelectedIndex => selectedIndex;
     private int selectedIndex = 0; // Индекс текущего выбранного объекта
@@ -64,11 +65,13 @@ public class ObjectOnGridSpawner : MonoBehaviour
         // Спавн объекта
         if (Input.GetKeyDown(KeyCode.T))
         {
-            if (StaticHolder.count_of_simple_honey >= Costs[selectedIndex])
+            if (StaticHolder.count_of_simple_honey >= Costs[selectedIndex] && StaticHolder.count_of_enegry_honey >= Energo_Costs[selectedIndex])
             {
                 ReservoirController.instance_honey.currentHuneyCount -= Costs[selectedIndex];// надо доделать механику для двух резервуаров
+                ReservoirController.instance_energo.currentHuneyCount -= Energo_Costs[selectedIndex];// надо доделать механику для двух резервуаров
                 StaticHolder.count_of_simple_honey -= Costs[selectedIndex];
-                ReservoirController.instance_honey.HoneyFluid.position -= new Vector3(0, 0.015f * Costs[selectedIndex], 0);
+                StaticHolder.count_of_enegry_honey -= Energo_Costs[selectedIndex];
+                //ReservoirController.instance_honey.HoneyFluid.position -= new Vector3(0, 0.015f * Costs[selectedIndex], 0);
                 ReservoirController.instance_honey.UpdateHoneyText();
                 SpawnObject();
             }

@@ -1765,7 +1765,7 @@ MonoBehaviour:
   honeyText: {fileID: 3815934121681640786}
   HoneyFluid: {fileID: 1955137385252041979}
   isEnergoHoneyRzervoir: 0
-  maxValue: 3
+  maxValue: 100
   minHeight: 0.124
   maxHeight: 2.31
 --- !u!1 &5558833058174506444
