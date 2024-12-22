@@ -11,6 +11,7 @@ TagManager:
   - Builder
   - cantDestroyObstacle
   - obstacle_tag
+  - Lazer
   layers:
   - Default
   - TransparentFX

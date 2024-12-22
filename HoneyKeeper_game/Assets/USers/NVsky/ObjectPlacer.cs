@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
+[RequireComponent(typeof(NavMeshObstacle))]
 public class ObjectPlacer : MonoBehaviour
 {
     [SerializeField] GameObject BuildingMenu;
@@ -33,6 +35,10 @@ public class ObjectPlacer : MonoBehaviour
     [SerializeField] private Vector3 collisionCubeSize = Vector3.one; // Размер куба
     [SerializeField] private Vector3 collisionCubeOffset = Vector3.zero; // Смещение куба
     [SerializeField] private Vector3 collisionCubeRotation = Vector3.zero; // Поворот куба
+    private void Awake()
+    {
+        StaticHolder.AddObstacle(this);
+    }
 
     private void Start()
     {
@@ -74,15 +80,18 @@ public class ObjectPlacer : MonoBehaviour
 
     private void OnMouseDown()
     {
-        isDragging = true;
-
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        if (StaticHolder.isTurretActive == false)
         {
-            offset = transform.position - hit.point;
-        }
+            isDragging = true;
 
-        SetMaterialToColor(Color.green);
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                offset = transform.position - hit.point;
+            }
+
+            SetMaterialToColor(Color.green);
+        }
     }
 
     private void OnMouseDrag()

@@ -5333,6 +5333,7 @@ GameObject:
   - component: {fileID: 6849490631595885347}
   - component: {fileID: 917052838570558485}
   - component: {fileID: 1380513005590367330}
+  - component: {fileID: 3290013327429492136}
   m_Layer: 6
   m_Name: Clumb
   m_TagString: Untagged
@@ -5436,6 +5437,22 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 6.599306
   m_Center: {x: -0.72421455, y: 1.53, z: 0}
+--- !u!208 &3290013327429492136
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3242874384729146677}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &3445904575306784423
 GameObject:
   m_ObjectHideFlags: 0
@@ -7123,6 +7140,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -5117700066308340382, guid: 23ef62550e3f9b54aa182ad99ba86b6c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7746647588874793168}
+    - targetCorrespondingSourceObject: {fileID: -5117700066308340382, guid: 23ef62550e3f9b54aa182ad99ba86b6c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9010904623209746605}
   m_SourcePrefab: {fileID: 100100000, guid: 23ef62550e3f9b54aa182ad99ba86b6c, type: 3}
 --- !u!4 &2094353130920781773 stripped
 Transform:
@@ -7188,6 +7208,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 289301614986012343, guid: 23ef62550e3f9b54aa182ad99ba86b6c, type: 3}
+--- !u!208 &9010904623209746605
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7371376810378148448}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.010000001, y: 0.010000001, z: 0.007}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: -0.001, z: 0.001}
+  m_TimeToStationary: 0.5
 --- !u!1001 &7607908091709095227
 PrefabInstance:
   m_ObjectHideFlags: 0

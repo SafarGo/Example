@@ -19,18 +19,21 @@ public class PauseMenu : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !isStopped)
+        if (!StaticHolder.isTurretActive)
         {
-            Stop();
-            
-        }
-        else if(Input.GetKeyDown(KeyCode.Escape) && isStopped)
-        {
-            Con();
-        }
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            BestiariyMenu();
+            if (Input.GetKeyDown(KeyCode.Escape) && !isStopped)
+            {
+                Stop();
+
+            }
+            else if (Input.GetKeyDown(KeyCode.Escape) && isStopped)
+            {
+                Con();
+            }
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                BestiariyMenu();
+            }
         }
     }
 

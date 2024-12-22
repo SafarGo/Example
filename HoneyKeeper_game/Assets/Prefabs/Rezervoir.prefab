@@ -1760,12 +1760,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   imageMax: {fileID: 2248719571106399021}
   tag: Honey
-  maxHoneyCount: 100
+  maxHoneyCount: 500
   currentHuneyCount: 0
   honeyText: {fileID: 3815934121681640786}
   HoneyFluid: {fileID: 1955137385252041979}
   isEnergoHoneyRzervoir: 0
-  maxValue: 100
+  maxValue: 500
   minHeight: 0.124
   maxHeight: 2.31
 --- !u!1 &5558833058174506444
@@ -2189,6 +2189,7 @@ GameObject:
   - component: {fileID: 6518604497493360364}
   - component: {fileID: 7208538371442077831}
   - component: {fileID: 6993264604927919476}
+  - component: {fileID: 2421670006823472428}
   m_Layer: 6
   m_Name: Rezervoir
   m_TagString: HoneyRezervoir
@@ -2367,6 +2368,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!208 &2421670006823472428
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6710227056709998395}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &6982376250115850115
 GameObject:
   m_ObjectHideFlags: 0
