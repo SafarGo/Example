@@ -32,7 +32,10 @@ public class PauseMenu : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.V))
             {
-                BestiariyMenu();
+                if (!StaticHolder.isCanOpenUI)
+                {
+                    BestiariyMenu();
+                }
             }
         }
     }
@@ -61,6 +64,9 @@ public class PauseMenu : MonoBehaviour
         isBestiariyOpened = !isBestiariyOpened;
         Con();
         panel.SetActive(isStopped);
-        BestiariyPanel.SetActive(isBestiariyOpened);
+        if (StaticHolder.isCanOpenUI)
+        {
+            BestiariyPanel.SetActive(isBestiariyOpened);
+        }
     }
 }

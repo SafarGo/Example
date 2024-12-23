@@ -21,7 +21,7 @@ public class CarMovementController : MonoBehaviour
 
     private float inputHorizontal;
     private float inputVertical;
-    private float currentSpeed = 0f;
+   [SerializeField] private float currentSpeed = 0f;
     private float tiltAngle = 0f;
     private bool isGrounded = false;
 
@@ -40,8 +40,10 @@ public class CarMovementController : MonoBehaviour
     public float cameraCollisionSmoothSpeed = 10f;
     public float minimumCameraDistance = 2f;
 
+    private AudioSource engineSound;
     void Start()
     {
+        engineSound = gameObject.GetComponent<AudioSource>();
         isCanMove = false;
         if (rb == null)
         {
@@ -85,6 +87,26 @@ public class CarMovementController : MonoBehaviour
                 Player.SetActive(true);
                 isCanMove = false;
 
+            }
+
+            //if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))
+            //{
+            //    engineSound.pitch = currentSpeed + 0.5f;
+            //}
+            //else
+            //{
+            //    if (engineSound.pitch >= 1)
+            //        engineSound.pitch -= Time.deltaTime / 2;
+            //}
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))
+            {
+                if (engineSound.pitch <= 3.4f)
+                    engineSound.pitch += Time.deltaTime / 10;
+            }
+            else
+            {
+                if(engineSound.pitch >= 1)
+                engineSound.pitch -= Time.deltaTime / 2;
             }
         }
 

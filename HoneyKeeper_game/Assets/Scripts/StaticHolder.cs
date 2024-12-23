@@ -4,6 +4,7 @@ using UnityEngine;
 
 public static class StaticHolder
 {
+    public static bool isCanOpenUI = true;
     public static bool isTurretActive;
     public static bool isFirstGame = true;
     public static int count_of_simple_honey = 3;
