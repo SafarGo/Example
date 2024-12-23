@@ -5,6 +5,7 @@ using UnityEngine;
 [ExecuteAlways]
 public class CarMovementController : MonoBehaviour
 {
+    
     public float moveSpeed = 10f; // Максимальная скорость
     public float acceleration = 5f; // Ускорение
     public float deceleration = 5f; // Тормозное ускорение
@@ -15,6 +16,8 @@ public class CarMovementController : MonoBehaviour
     public Rigidbody rb; // Rigidbody моноколеса
     public float tiltSpeed = 5f; // Скорость наклона для выпрямления
     public float jumpForce = 10f; // Сила прыжка для трамплинов
+    public float groundCheckDistance = 1f; // Дистанция проверки, на земле ли моноколесо
+    public float groundAttractionForce = 50f; // Сила притяжения к земле
 
     private float inputHorizontal;
     private float inputVertical;
@@ -22,8 +25,24 @@ public class CarMovementController : MonoBehaviour
     private float tiltAngle = 0f; // Текущий угол наклона
     private bool isGrounded = false; // Флаг, указывающий, находится ли моноколесо на земле
 
+    public GameObject Player; // Камера, которая будет следовать за моноколесом
+    public Camera followCamera; // Камера, которая будет следовать за моноколесом
+    public Vector3 cameraOffset = new Vector3(0, 5, -10); // Смещение камеры относительно моноколеса
+    public float cameraFollowSpeed = 5f; // Скорость следования камеры за моноколесом
+
+    // Переменные для управления поворотом камеры с помощью мыши
+    public float mouseSensitivity = 2f; // Чувствительность мыши
+    public float verticalRotationLimit = 80f; // Ограничение по вертикали для камеры
+    private float currentVerticalAngle = 0f; // Текущий угол по вертикали
+    private float currentHorizontalAngle = 0f; // Текущий угол по горизонтали
+    public bool isCanMove;
+
+    public float cameraCollisionSmoothSpeed = 10f; // Скорость сглаживания при столкновении с объектом
+    public float minimumCameraDistance = 2f; // Минимальное расстояние между камерой и моноколесом
+
     void Start()
     {
+        isCanMove = false;
         if (rb == null)
         {
             rb = GetComponent<Rigidbody>();
@@ -39,18 +58,36 @@ public class CarMovementController : MonoBehaviour
 
     void Update()
     {
-        // Получаем ввод от игрока
-        inputHorizontal = Input.GetAxis("Horizontal");
-        inputVertical = Input.GetAxis("Vertical");
+        if (isCanMove == true)
+        {
+            // Получаем ввод от игрока
+            inputHorizontal = Input.GetAxis("Horizontal");
+            inputVertical = Input.GetAxis("Vertical");
 
-        // Поворот моноколеса
-        TurnMonocycle();
+            // Поворот моноколеса
+            TurnMonocycle();
 
-        // Вращение колеса в зависимости от скорости
-        RotateWheel();
+            // Вращение колеса в зависимости от скорости
+            RotateWheel();
 
-        // Отображение состояния (на земле или нет) в редакторе
-        Debug.Log("Is Grounded: " + isGrounded);
+            // Отображение состояния (на земле или нет) в редакторе
+            Debug.Log("Is Grounded: " + isGrounded);
+
+            // Следование камеры
+            FollowCamera();
+
+            // Поворот камеры с помощью мыши
+            RotateCameraWithMouse();
+            if(Input.GetKeyDown(KeyCode.R))
+            {
+                followCamera.gameObject.SetActive(false);
+                Player.transform.position = gameObject.transform.position;
+                Player.SetActive(true);
+                isCanMove = false;
+
+            }
+        }
+
     }
 
     void FixedUpdate()
@@ -60,6 +97,9 @@ public class CarMovementController : MonoBehaviour
         {
             MoveMonocycle();
         }
+
+        // Притягиваем моноколесо к земле, если оно слишком высоко
+        ApplyGroundAttraction();
 
         // Стремление к выпрямлению
         CorrectLean();
@@ -165,6 +205,67 @@ public class CarMovementController : MonoBehaviour
         if (collision.collider.CompareTag("Ground"))
         {
             isGrounded = false;
+        }
+    }
+
+    // Применяем силу для притяжения моноколеса к земле
+    void ApplyGroundAttraction()
+    {
+        // Если моноколесо не на земле, мы применяем силу вниз
+        if (!isGrounded)
+        {
+            rb.AddForce(Vector3.down * groundAttractionForce, ForceMode.Acceleration);
+        }
+    }
+
+    // Метод для следования камеры за моноколесом
+    void FollowCamera()
+    {
+        if (followCamera != null)
+        {
+            // Рассчитываем желаемую позицию камеры на основе смещения
+            Vector3 desiredPosition = transform.position + cameraOffset;
+
+            // Проверяем столкновение камеры с объектами
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, followCamera.transform.position - transform.position, out hit, cameraOffset.magnitude))
+            {
+                // Если столкновение произошло, приближаем камеру
+                float distance = Vector3.Distance(transform.position, hit.point);
+                desiredPosition = transform.position + (followCamera.transform.position - transform.position).normalized * Mathf.Max(distance, minimumCameraDistance);
+            }
+
+            // Плавное перемещение камеры к желаемой позиции
+            Vector3 smoothedPosition = Vector3.Lerp(followCamera.transform.position, desiredPosition, cameraCollisionSmoothSpeed * Time.deltaTime);
+            followCamera.transform.position = smoothedPosition;
+
+            // Камера всегда смотрит на моноколесо
+            followCamera.transform.LookAt(transform);
+        }
+    }
+
+        // Метод для поворота камеры с помощью мыши
+        void RotateCameraWithMouse()
+    {
+        if (followCamera != null)
+        {
+            // Получаем движение мыши
+            float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
+            float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
+
+            // Обновляем горизонтальный угол (поворот вокруг оси Y)
+            currentHorizontalAngle += mouseX;
+
+            // Обновляем вертикальный угол (поворот вокруг оси X) с ограничением
+            currentVerticalAngle -= mouseY;
+            currentVerticalAngle = Mathf.Clamp(currentVerticalAngle, -verticalRotationLimit, verticalRotationLimit);
+
+            // Применяем углы для вращения камеры
+            Quaternion rotation = Quaternion.Euler(currentVerticalAngle, currentHorizontalAngle, 0);
+            followCamera.transform.position = transform.position + rotation * cameraOffset;
+
+            // Камера смотрит на моноколесо
+            followCamera.transform.LookAt(transform);
         }
     }
 }

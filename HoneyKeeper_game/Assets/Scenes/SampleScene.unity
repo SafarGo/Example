@@ -2046,7 +2046,7 @@ GameObject:
   - component: {fileID: 95041380}
   - component: {fileID: 95041379}
   m_Layer: 0
-  m_Name: TEstCAm
+  m_Name: CarCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2163,12 +2163,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 95041378}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.15867503, y: 0, z: 0, w: 0.98733085}
-  m_LocalPosition: {x: 0.1, y: 1.6134224, z: -3.65}
-  m_LocalScale: {x: 0.45966446, y: 0.45966452, z: 0.45966452}
+  m_LocalRotation: {x: 0.22975294, y: 0, z: 0, w: 0.973249}
+  m_LocalPosition: {x: 15.5, y: 7.1, z: 1.6000004}
+  m_LocalScale: {x: 0.50502, y: 0.5050201, z: 0.5050201}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1667304665}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 18.26, y: 0, z: 0}
 --- !u!1 &102642273
 GameObject:
@@ -6891,7 +6891,6 @@ GameObject:
   - component: {fileID: 528117729}
   - component: {fileID: 528117732}
   - component: {fileID: 528117731}
-  - component: {fileID: 528117730}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -6914,27 +6913,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1362212742}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &528117730
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 528117728}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &528117731
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -16148,7 +16126,6 @@ GameObject:
   - component: {fileID: 1344992823}
   - component: {fileID: 1344992826}
   - component: {fileID: 1344992825}
-  - component: {fileID: 1344992824}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -16171,27 +16148,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1362212742}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1344992824
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1344992822}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1344992825
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -18366,6 +18322,74 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ac2d7759c9a21a428c5f308f00cfee0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1562806631
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1562806632}
+  - component: {fileID: 1562806633}
+  - component: {fileID: 1562806634}
+  m_Layer: 0
+  m_Name: Garage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1562806632
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562806631}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1667304665}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1562806633
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562806631}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.47, y: 3.46, z: 2.53}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1562806634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562806631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25051903c89816f40b18cee6c823fe3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CameraToShow: {fileID: 95041378}
+  CameraToHide: {fileID: 4459864849929071262}
 --- !u!1 &1563101824
 GameObject:
   m_ObjectHideFlags: 0
@@ -19128,12 +19152,12 @@ Transform:
   m_GameObject: {fileID: 1667304659}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 38.7, y: 5.777, z: 140.2}
-  m_LocalScale: {x: 2.1755, y: 2.1755, z: 2.1755}
+  m_LocalPosition: {x: 15.5, y: 2.1, z: 11.6}
+  m_LocalScale: {x: 1.098671, y: 1.098671, z: 1.098671}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 95041382}
   - {fileID: 449966154}
+  - {fileID: 1562806632}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1667304666
@@ -19148,16 +19172,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46168544cfc11744fba8e8954669aa23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
-  acceleration: 5
+  moveSpeed: 3
+  acceleration: 0.5
   deceleration: 5
   turnSpeed: 100
-  leanAmount: 10
+  leanAmount: 20
   wheel: {fileID: 449966154}
   wheelRotationSpeed: 500
   rb: {fileID: 1667304661}
   tiltSpeed: 5
   jumpForce: 10
+  groundCheckDistance: 1
+  groundAttractionForce: 50
+  Player: {fileID: 4459864849929071262}
+  followCamera: {fileID: 95041381}
+  cameraOffset: {x: 0, y: 5, z: -10}
+  cameraFollowSpeed: 5
+  mouseSensitivity: 2
+  verticalRotationLimit: 80
+  cameraCollisionSmoothSpeed: 10
+  minimumCameraDistance: 2
 --- !u!1 &1672520614
 GameObject:
   m_ObjectHideFlags: 0
@@ -25022,4 +25056,5 @@ SceneRoots:
   - {fileID: 816872580}
   - {fileID: 1249274960}
   - {fileID: 471677008}
+  - {fileID: 95041382}
   - {fileID: 1667304665}
