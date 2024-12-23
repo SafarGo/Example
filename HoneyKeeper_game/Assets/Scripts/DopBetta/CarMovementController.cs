@@ -15,13 +15,12 @@ public class CarMovementController : MonoBehaviour
     public Rigidbody rb; // Rigidbody моноколеса
     public float tiltSpeed = 5f; // Скорость наклона для выпрямления
     public float jumpForce = 10f; // Сила прыжка для трамплинов
-    public float groundCheckDistance = 1f; // Дистанция для проверки, на земле ли моноколесо
 
     private float inputHorizontal;
     private float inputVertical;
     private float currentSpeed = 0f; // Текущая скорость моноколеса
     private float tiltAngle = 0f; // Текущий угол наклона
-    private bool isGrounded; // Флаг, указывающий, находится ли моноколесо на земле
+    private bool isGrounded = false; // Флаг, указывающий, находится ли моноколесо на земле
 
     void Start()
     {
@@ -50,11 +49,8 @@ public class CarMovementController : MonoBehaviour
         // Вращение колеса в зависимости от скорости
         RotateWheel();
 
-        // Проверка, находимся ли мы на земле
-        CheckIfGrounded();
-
-        // Отображение Raycast в редакторе
-        Debug.DrawRay(transform.position, Vector3.down * groundCheckDistance, isGrounded ? Color.green : Color.red);
+        // Отображение состояния (на земле или нет) в редакторе
+        Debug.Log("Is Grounded: " + isGrounded);
     }
 
     void FixedUpdate()
@@ -134,7 +130,7 @@ public class CarMovementController : MonoBehaviour
         if (isGrounded && rb.velocity.y <= 0)
         {
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, Vector3.down, out hit, groundCheckDistance))
+            if (Physics.Raycast(transform.position, Vector3.down, out hit, 1f))
             {
                 if (hit.collider.CompareTag("Ramp")) // Если это трамплин
                 {
@@ -144,15 +140,29 @@ public class CarMovementController : MonoBehaviour
         }
     }
 
-    // Проверка, что моноколесо на земле
-    void CheckIfGrounded()
+    // Этот метод будет вызван, когда объект столкнется с чем-то
+    private void OnCollisionEnter(Collision collision)
     {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, groundCheckDistance))
+        // Если моноколесо столкнулось с землей
+        if (collision.collider.CompareTag("Ground"))
         {
             isGrounded = true;
         }
-        else
+    }
+
+    // Этот метод будет вызван, когда объект продолжает сталкиваться с чем-то
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.collider.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
+    }
+
+    // Этот метод будет вызван, когда объект перестанет сталкиваться с чем-то
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.collider.CompareTag("Ground"))
         {
             isGrounded = false;
         }
