@@ -7,9 +7,26 @@ public class GarageController : MonoBehaviour
     [SerializeField] GameObject CameraToShow;
     [SerializeField] GameObject CameraToHide;
     [SerializeField] CarMovementController Car;
+    bool isIn;
     private void OnTriggerStay(Collider other)
     {
-        if(other.CompareTag("Player") && Input.GetKeyDown(KeyCode.E))
+        if(other.CompareTag("Player"))
+        {
+            isIn = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            isIn = false;
+        }
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.E) && isIn)
         {
             CameraToShow.SetActive(true);
             CameraToHide.SetActive(false);
