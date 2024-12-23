@@ -1393,12 +1393,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   imageMax: {fileID: 8323258470663502368}
   tag: EnergoHoney
-  maxHoneyCount: 500
+  maxHoneyCount: 1000
   currentHuneyCount: 0
   honeyText: {fileID: 7084802209831892981}
   HoneyFluid: {fileID: 5552033542317842279}
   isEnergoHoneyRzervoir: 0
-  maxValue: 500
+  maxValue: 1000
   minHeight: 0.124
   maxHeight: 2.31
 --- !u!1 &4009584566763651859

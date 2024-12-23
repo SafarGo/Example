@@ -21,7 +21,7 @@ public class IsEndGameController : MonoBehaviour
     }
     public void CheckEndingGame()
     {
-        if(StaticHolder.count_of_simple_honey >= 40 && StaticHolder.count_of_enegry_honey >= 25)
+        if(StaticHolder.count_of_simple_honey >= 2000 && StaticHolder.count_of_enegry_honey >= 2000)
         {
             
             Invoke(nameof(Set_Ending_Scene), 1);
