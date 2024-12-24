@@ -22,6 +22,7 @@ public class CarMovementController : MonoBehaviour
     private float inputHorizontal;
     private float inputVertical;
    [SerializeField] private float currentSpeed = 0f;
+   [SerializeField] private float cuurentFuel = 360;
     private float tiltAngle = 0f;
     private bool isGrounded = false;
 
@@ -41,9 +42,16 @@ public class CarMovementController : MonoBehaviour
     public float minimumCameraDistance = 2f;
 
     private AudioSource engineSound;
+
+    [Header("Проскальзывание")]
+    public float slipAmount = 1f; // Коэффициент бокового проскальзывания
+    public float stopFriction = 5f; // Трение при остановке
+    public float slipDamping = 0.95f; // Уменьшение проскальзывания с течением времени
+
+    private Vector3 slipVelocity = Vector3.zero; // Текущее проскальзывание
     void Start()
     {
-        engineSound = gameObject.GetComponent<AudioSource>();
+        engineSound = followCamera.gameObject.GetComponent<AudioSource>();
         isCanMove = false;
         if (rb == null)
         {
@@ -98,8 +106,9 @@ public class CarMovementController : MonoBehaviour
             //    if (engineSound.pitch >= 1)
             //        engineSound.pitch -= Time.deltaTime / 2;
             //}
-            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))
+            if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S)) && cuurentFuel > 0)
             {
+                cuurentFuel -= Time.deltaTime;
                 if (engineSound.pitch <= 3.4f)
                     engineSound.pitch += Time.deltaTime / 10;
             }
@@ -116,20 +125,19 @@ public class CarMovementController : MonoBehaviour
     {
         if (isCanMove == true)
         {
-            // Движение моноколеса вперед/назад только если оно на земле
             if (isGrounded)
             {
-                MoveMonocycle();
+                if (cuurentFuel > 0)
+                    MoveMonocycle();
+                else
+                    currentSpeed = 0;
             }
-
-            // Притягиваем моноколесо к земле, если оно слишком высоко
             ApplyGroundAttraction();
-
-            // Стремление к выпрямлению
             CorrectLean();
-
-            // Проверка столкновений с трамплинами
             CheckForJump();
+
+            // Добавляем эффект проскальзывания
+            ApplySlip();
         }
     }
 
@@ -291,6 +299,34 @@ public class CarMovementController : MonoBehaviour
 
             // Камера смотрит на моноколесо
             followCamera.transform.LookAt(transform);
+        }
+    }
+
+    void ApplySlip()
+    {
+        if (isGrounded)
+        {
+            // Рассчитываем боковую скорость
+            Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
+            float lateralSpeed = localVelocity.x;
+
+            // Добавляем боковую силу для проскальзывания при поворотах
+            if (Mathf.Abs(inputHorizontal) > 0.1f)
+            {
+                slipVelocity += transform.right * lateralSpeed * slipAmount * Time.fixedDeltaTime;
+            }
+
+            // Уменьшаем проскальзывание с течением времени
+            slipVelocity *= slipDamping;
+
+            // Применяем боковую силу к Rigidbody
+            rb.AddForce(-slipVelocity, ForceMode.VelocityChange);
+
+            // Добавляем трение при полной остановке
+            if (Mathf.Abs(currentSpeed) < 0.1f && inputVertical == 0)
+            {
+                rb.AddForce(-rb.velocity * stopFriction * Time.fixedDeltaTime, ForceMode.VelocityChange);
+            }
         }
     }
 }

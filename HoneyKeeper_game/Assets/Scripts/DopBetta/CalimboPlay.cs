@@ -31,6 +31,16 @@ public class CalimboPlay : MonoBehaviour
             PLayer.SetActive(!isCalimboOn);
             Music.SetActive(!isCalimboOn);
             CalimboCamera.SetActive(isCalimboOn);
+            if(isCalimboOn)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
         }
         if (isCalimboOn)
         {
@@ -38,7 +48,7 @@ public class CalimboPlay : MonoBehaviour
         }
     }
 
-    void SpawnObject(int objectNumber)
+    public void SpawnObject(int objectNumber)
     {
         // Проверяем, чтобы индекс объекта был в пределах массива
         if (objectNumber >= 0 && objectNumber <= SpawnedSound.Count)
