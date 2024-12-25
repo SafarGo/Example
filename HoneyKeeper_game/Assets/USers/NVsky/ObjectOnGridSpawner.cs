@@ -25,7 +25,7 @@ public class ObjectOnGridSpawner : MonoBehaviour
         }
         JsonSaver._instance.Load();
         Debug.Log("LANANANANANNAAN" + StaticHolder.AllSpawnedObjectsID.Count);
-        TestSpawn();
+        //TestSpawn();
 
         UpdateUIIcons(); // Обновляем иконки при старте
     }
@@ -95,24 +95,24 @@ public class ObjectOnGridSpawner : MonoBehaviour
     private void SpawnObject()
     {
         if (gridSpawnObjectPrefabs.Count == 0) return;
-
+   
         GameObject prefab = gridSpawnObjectPrefabs[selectedIndex];
         Vector3 spawnPosition = new Vector3(
             Mathf.CeilToInt(spawnPoint.position.x) / 2 * 2,
             0,
             Mathf.CeilToInt(spawnPoint.position.z) / 2 * 2
-
+   
         );
-
+   
        GameObject _spawnedObject = Instantiate(prefab, spawnPosition, Quaternion.identity);
-
-        StaticHolder.AllSpawnedObjectsID.Add(selectedIndex);
-        StaticHolder.AllSpawnedObjectsTranforms.Add(_spawnedObject.transform.position);
-        StaticHolder.AllSpawnedObjectsRotations.Add(_spawnedObject.transform.rotation);
+   
+        //StaticHolder.AllSpawnedObjectsID.Add(selectedIndex);
+        //StaticHolder.AllSpawnedObjectsTranforms.Add(_spawnedObject.transform.position);
+        //StaticHolder.AllSpawnedObjectsRotations.Add(_spawnedObject.transform.rotation);
         _spawnedObject.GetComponent<ObjectPlacer>().ObjectID = IDToSaveObjectTransforms;
         IDToSaveObjectTransforms++;
        // _spawnedObject.GetComponent<ObjectPlacer>().ObjectSpawnerID = selectedIndex;
-        JsonSaver._instance.Save();
+       /// JsonSaver._instance.Save();
     }
 
     /// <summary>
@@ -145,25 +145,25 @@ public class ObjectOnGridSpawner : MonoBehaviour
         icon.color = color;
     }
 
-    void TestSpawn()
-    {
-        for (int i = 0; i < StaticHolder.AllSpawnedObjectsID.Count; i++)
-        {
-            if (StaticHolder.AllSpawnedObjectsID[i] != null)
-            {
-                GameObject startSpawnObject = Instantiate(gridSpawnObjectPrefabs[StaticHolder.AllSpawnedObjectsID[i]], StaticHolder.AllSpawnedObjectsTranforms[i], StaticHolder.AllSpawnedObjectsRotations[i]);
-                IDToSaveObjectTransforms++;
-                startSpawnObject.GetComponent<ObjectPlacer>().ObjectID = i;
-            }
-            else
-            {
-                Debug.LogError("NULL");
-
-            }
-        }
-
-        Debug.Log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
-    }
+    //void TestSpawn()
+    //{
+    //    for (int i = 0; i < StaticHolder.AllSpawnedObjectsID.Count; i++)
+    //    {
+    //        if (StaticHolder.AllSpawnedObjectsID[i] != null)
+    //        {
+    //            GameObject startSpawnObject = Instantiate(gridSpawnObjectPrefabs[StaticHolder.AllSpawnedObjectsID[i]], StaticHolder.AllSpawnedObjectsTranforms[i], StaticHolder.AllSpawnedObjectsRotations[i]);
+    //            IDToSaveObjectTransforms++;
+    //            startSpawnObject.GetComponent<ObjectPlacer>().ObjectID = i;
+    //        }
+    //        else
+    //        {
+    //            Debug.LogError("NULL");
+    //
+    //        }
+    //    }
+    //
+    //    Debug.Log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
+    //}
 
 
 }

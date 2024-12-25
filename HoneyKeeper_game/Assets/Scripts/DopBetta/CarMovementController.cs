@@ -5,8 +5,8 @@ using UnityEngine;
 [ExecuteAlways]
 public class CarMovementController : MonoBehaviour
 {
-    
-    public float moveSpeed = 10f; 
+
+    public float moveSpeed = 10f;
     public float acceleration = 5f;
     public float deceleration = 5f;
     public float turnSpeed = 100f;
@@ -21,12 +21,13 @@ public class CarMovementController : MonoBehaviour
 
     private float inputHorizontal;
     private float inputVertical;
-   [SerializeField] private float currentSpeed = 0f;
-   [SerializeField] private float cuurentFuel = 360;
+    [SerializeField] private float currentSpeed = 0f;
+    [SerializeField] private float cuurentFuel = 360;
     private float tiltAngle = 0f;
     private bool isGrounded = false;
 
-    public GameObject Player; 
+    public GameObject Player;
+    public GameObject Medved;
     public Camera followCamera;
     public Vector3 cameraOffset = new Vector3(0, 5, -10);
     public float cameraFollowSpeed = 5f;
@@ -70,17 +71,17 @@ public class CarMovementController : MonoBehaviour
     {
         if (isCanMove == true)
         {
-            
+
             inputHorizontal = Input.GetAxis("Horizontal");
             inputVertical = Input.GetAxis("Vertical");
 
-            
+
             TurnMonocycle();
 
-            
+
             RotateWheel();
 
-            
+
             Debug.Log("Is Grounded: " + isGrounded);
 
             // Следование камеры
@@ -88,7 +89,7 @@ public class CarMovementController : MonoBehaviour
 
             // Поворот камеры с помощью мыши
             RotateCameraWithMouse();
-            if(Input.GetKeyDown(KeyCode.R))
+            if (Input.GetKeyDown(KeyCode.R))
             {
                 followCamera.gameObject.SetActive(false);
                 Player.transform.position = gameObject.transform.position;
@@ -106,17 +107,12 @@ public class CarMovementController : MonoBehaviour
             //    if (engineSound.pitch >= 1)
             //        engineSound.pitch -= Time.deltaTime / 2;
             //}
-            if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S)) && cuurentFuel > 0)
-            {
-                cuurentFuel -= Time.deltaTime;
-                if (engineSound.pitch <= 3.4f)
-                    engineSound.pitch += Time.deltaTime / 10;
-            }
-            else
-            {
-                if(engineSound.pitch >= 1)
-                engineSound.pitch -= Time.deltaTime / 2;
-            }
+            UpdateEngineSoundPitch();
+            Medved.SetActive(true);
+        }
+        else
+        {
+            Medved.SetActive(false);
         }
 
     }
@@ -217,28 +213,28 @@ public class CarMovementController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         // Если моноколесо столкнулось с землей
-        if (collision.collider.CompareTag("Ground"))
-        {
+        //if (collision.collider.CompareTag("Ground"))
+        //{
             isGrounded = true;
-        }
+        //}
     }
 
     // Этот метод будет вызван, когда объект продолжает сталкиваться с чем-то
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.collider.CompareTag("Ground"))
-        {
+        //if (collision.collider.CompareTag("Ground"))
+        //{
             isGrounded = true;
-        }
+        //}
     }
 
     // Этот метод будет вызван, когда объект перестанет сталкиваться с чем-то
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.collider.CompareTag("Ground"))
-        {
+        //if (collision.collider.CompareTag("Ground"))
+        //{
             isGrounded = false;
-        }
+        //}
     }
 
     // Применяем силу для притяжения моноколеса к земле
@@ -277,8 +273,8 @@ public class CarMovementController : MonoBehaviour
         }
     }
 
-        // Метод для поворота камеры с помощью мыши
-        void RotateCameraWithMouse()
+    // Метод для поворота камеры с помощью мыши
+    void RotateCameraWithMouse()
     {
         if (followCamera != null)
         {
@@ -327,6 +323,24 @@ public class CarMovementController : MonoBehaviour
             {
                 rb.AddForce(-rb.velocity * stopFriction * Time.fixedDeltaTime, ForceMode.VelocityChange);
             }
+        }
+    }
+
+    void UpdateEngineSoundPitch()
+    {
+        // Рассчитываем абсолютную скорость
+        float absoluteSpeed = Mathf.Abs(currentSpeed);
+
+        if (absoluteSpeed > 0.1f && cuurentFuel > 0)
+        {
+            // Увеличиваем питч при движении (вперёд или назад)
+            engineSound.pitch = Mathf.Lerp(engineSound.pitch, 1f + (absoluteSpeed / moveSpeed) * 2f, Time.deltaTime);
+            cuurentFuel -= Time.deltaTime;
+        }
+        else
+        {
+            // Плавно уменьшаем питч при остановке
+            engineSound.pitch = Mathf.Lerp(engineSound.pitch, 1f, Time.deltaTime * 2f);
         }
     }
 }

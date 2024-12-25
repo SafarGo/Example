@@ -127,9 +127,9 @@ public class ObjectPlacer : MonoBehaviour
 
         RestoreOriginalMaterials();
 
-        StaticHolder.AllSpawnedObjectsTranforms[ObjectID] = gameObject.transform.position;
-        StaticHolder.AllSpawnedObjectsRotations[ObjectID] = gameObject.transform.rotation;
-        JsonSaver._instance.Save();
+        //StaticHolder.AllSpawnedObjectsTranforms[ObjectID] = gameObject.transform.position;
+        //StaticHolder.AllSpawnedObjectsRotations[ObjectID] = gameObject.transform.rotation;
+        //JsonSaver._instance.Save();
         Debug.Log("сохранили при передвижении");
     }
 
@@ -182,10 +182,10 @@ public class ObjectPlacer : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Y))
         {
-            StaticHolder.AllSpawnedObjectsID.RemoveAt(ObjectID);
-            StaticHolder.AllSpawnedObjectsTranforms.RemoveAt(ObjectID);
-            StaticHolder.AllSpawnedObjectsRotations.RemoveAt(ObjectID);
-            JsonSaver._instance.Save();
+            //StaticHolder.AllSpawnedObjectsID.RemoveAt(ObjectID);
+            //StaticHolder.AllSpawnedObjectsTranforms.RemoveAt(ObjectID);
+            //StaticHolder.AllSpawnedObjectsRotations.RemoveAt(ObjectID);
+            ///JsonSaver._instance.Save();
             Destroy(gameObject);
         }
     }
