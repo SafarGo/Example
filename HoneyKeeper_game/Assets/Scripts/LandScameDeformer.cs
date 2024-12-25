@@ -63,10 +63,10 @@ public class LandScameDeformer : MonoBehaviour
     //здесь меш продавливается     }
     //здесь меш продавливается }
 
-    public float deformationRadius = 0.5f; // Радиус деформации
-    public float deformationSpeed = 0.1f; // Скорость деформации
-    public float targetHeightY = 1.0f; // Целевая высота по Y
-    public float heightTolerance = 0.01f; // Погрешность для остановки
+    public float deformationRadius = 0.5f;
+    public float deformationSpeed = 0.1f;
+    public float targetHeightY = 1.0f;
+    public float heightTolerance = 0.01f;
 
     private void Start()
     {
@@ -74,7 +74,6 @@ public class LandScameDeformer : MonoBehaviour
     }
     void OnCollisionEnter(Collision collision)
     {
-        // Получаем объект и проверяем наличие MeshFilter
         MeshFilter meshFilter = collision.gameObject.GetComponent<MeshFilter>();
         MeshCollider meshCollider = collision.gameObject.GetComponent<MeshCollider>();
 
@@ -84,7 +83,7 @@ public class LandScameDeformer : MonoBehaviour
         Mesh mesh = meshFilter.mesh;
         Vector3[] vertices = mesh.vertices;
 
-        // Преобразуем контактные точки в локальные координаты меша
+
         Vector3 localContactPoint = collision.contacts[0].point;
         localContactPoint = collision.transform.InverseTransformPoint(localContactPoint);
 
@@ -94,33 +93,27 @@ public class LandScameDeformer : MonoBehaviour
         {
             Vector3 vertexWorldPos = collision.transform.TransformPoint(vertices[i]);
 
-            // Проверяем только вершины в пределах радиуса
             if (Vector3.Distance(localContactPoint, vertices[i]) < deformationRadius)
             {
-                // Если вершина еще не на целевой высоте
                 if (Mathf.Abs(vertexWorldPos.y - targetHeightY) > heightTolerance)
                 {
                     anyVertexChanged = true;
 
-                    // Деформируем вершину только по Y
                     vertexWorldPos.y = Mathf.MoveTowards(vertexWorldPos.y, targetHeightY, deformationSpeed);
                     vertices[i] = collision.transform.InverseTransformPoint(vertexWorldPos);
                 }
             }
         }
 
-        // Если ни одна вершина не изменилась, прекращаем выполнение
         if (!anyVertexChanged)
         {
             Debug.Log("Все вершины в пределах радиуса выровнены. Деформация завершена.");
             return;
         }
 
-        // Применяем изменения к мешу
         mesh.vertices = vertices;
         mesh.RecalculateNormals();
 
-        // Обновляем MeshCollider, если он есть
         if (meshCollider != null)
         {
             meshCollider.sharedMesh = null;

@@ -27,18 +27,18 @@ public class JsonSaver : MonoBehaviour
 
     public void Save()
     {
-      ////  //присваиваем полям из _data значения из полей StaticHolder 
-      ////
-      ////  _data.AllSpawnedObjectsID_json = StaticHolder.AllSpawnedObjectsID;//Chtoto - просто перменная
-      ////  _data.AllSpawnedObjectsTranforms_json = StaticHolder.AllSpawnedObjectsTranforms;//Chtoto - просто перменная
-      ////  _data.AllSpawnedObjectsRotations_json = StaticHolder.AllSpawnedObjectsRotations;//Chtoto - просто перменная
-      ////  _data.isFirstGame_json = StaticHolder.isFirstGame;//Chtoto - просто перменная
-      ////  _data.simple_honey_count = StaticHolder.count_of_simple_honey;//Chtoto - просто перменная
-      ////  _data.energo_honey_count = StaticHolder.count_of_enegry_honey;//Chtoto - просто перменная
-      ////  //_data.GameTimeJsom = StaticHolder.GameTime;//Chtoto - просто перменная
-      //// // Debug.Log("hfhfhfhfhfhfhf");
-      ////
-      ////  File.WriteAllText(_path, JsonUtility.ToJson(_data, true));//Записываем сохранение
+        //присваиваем полям из _data значения из полей StaticHolder 
+      
+        //_data.AllSpawnedObjectsID_json = StaticHolder.AllSpawnedObjectsID;//Chtoto - просто перменная
+        //_data.AllSpawnedObjectsTranforms_json = StaticHolder.AllSpawnedObjectsTranforms;//Chtoto - просто перменная
+        //_data.AllSpawnedObjectsRotations_json = StaticHolder.AllSpawnedObjectsRotations;//Chtoto - просто перменная
+        _data.isFirstGame_json = StaticHolder.isFirstGame;//Chtoto - просто перменная
+        _data.simple_honey_count = StaticHolder.count_of_simple_honey;//Chtoto - просто перменная
+        _data.energo_honey_count = StaticHolder.count_of_enegry_honey;//Chtoto - просто перменная
+        //_data.GameTimeJsom = StaticHolder.GameTime;//Chtoto - просто перменная
+       // Debug.Log("hfhfhfhfhfhfhf");
+      
+        File.WriteAllText(_path, JsonUtility.ToJson(_data, true));//Записываем сохранение
     }
 
     public void Load()

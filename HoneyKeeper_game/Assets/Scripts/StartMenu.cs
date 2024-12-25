@@ -31,6 +31,7 @@ public class StartMenu : MonoBehaviour
     {
         StaticHolder.isFirstGame = true;
         JsonSaver._instance.DelateSavings();
+        PlayerPrefs.DeleteAll();
         Debug.Log(StaticHolder.isFirstGame);
         SceneManager.LoadScene("UICanvas");
 
