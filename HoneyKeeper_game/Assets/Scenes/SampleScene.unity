@@ -11390,7 +11390,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towardObstacle: {fileID: 0}
   speed: 10
-  bulletPrefab: {fileID: 8861705380200321286, guid: 6b357d46a55d3234e87cc2c955cf493b, type: 3}
+  bulletPrefab: {fileID: 4860109552007928169, guid: 62cfab583213bd54abe911ded6495af5, type: 3}
   spread: 2
   spawnPoint: {fileID: 1001677815}
   spawnSpeed: 100
