@@ -15,16 +15,16 @@ public class FireDamager : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
-        if (other.TryGetComponent(out MainWaspController waspController))
-        {
-            waspController.WaspDeath();
-            return;
-        }
-        if(other.TryGetComponent(out FireWaspController fireWaspController))
-        {
-            fireWaspController.WaspDeath();
-            return;
-        }
+            if (other.TryGetComponent(out MainWaspController waspController))
+            {
+                waspController.WaspDeath();
+                return;
+            }
+            if (other.TryGetComponent(out FireWaspController fireWaspController))
+            {
+                fireWaspController.WaspDeath();
+                return;
+            }
     }
 }
 

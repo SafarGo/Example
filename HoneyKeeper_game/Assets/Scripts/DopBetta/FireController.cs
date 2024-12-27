@@ -8,9 +8,11 @@ public class FireController : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.tag != "Car")
+        {
             Destroy(gameObject.GetComponent<Collider>());
-        Destroy(gameObject.GetComponent<Rigidbody>());
-        isSlep = true;
+            Destroy(gameObject.GetComponent<Rigidbody>());
+            isSlep = true;
+        }
     }
     private void FixedUpdate()
     {
