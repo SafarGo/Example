@@ -14,23 +14,25 @@ public class IceWaspController : MainWaspController
     private float spawnSpeed = 10;
     private float t = 0f;
 
+
+
     protected override void FixedUpdate()
     {
-        spawnPoint.LookAt(TowardObstacle);
+        spawnPoint.LookAt(TowardObstacle.position);
         base.FixedUpdate();
-        if (distance >= 50)
-            agent.SetDestination(TowardObstacle.position);
-        else
+
+        if (distance <= 10)
         {
-            agent.SetDestination(gameObject.transform.position);
+            //agent.SetDestination(gameObject.transform.position);
             t += Time.deltaTime;
             if (t >= 2)
             {
-                
+
                 Attack();
                 t = 0f;
             }
         }
+        
     }
 
     void Attack()

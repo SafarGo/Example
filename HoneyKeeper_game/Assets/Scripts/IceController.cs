@@ -4,23 +4,51 @@ using UnityEngine;
 
 public class IceController : MonoBehaviour
 {
-    bool isSlep;
+    bool isInFire;
+    float destroyingSpeed = 0.1f;
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.tag != "Car")
         {
-            Destroy(gameObject.GetComponent<Rigidbody>());
-            isSlep = true;
+            gameObject.GetComponent<Rigidbody>().isKinematic = true;
         }
+
+
     }
-    //private void FixedUpdate()
+    //private void OnTriggerEnter(Collider other)
     //{
-    //    if (isSlep)
+    //    if (other.gameObject.tag != "Car")
     //    {
-    //        if (transform.localScale.x >= 0.1f)
-    //            transform.localScale -= new Vector3(0.1f * Time.deltaTime, 0.1f * Time.deltaTime, 0.1f * Time.deltaTime);
-    //        else
-    //            Destroy(gameObject);
+    //        gameObject.GetComponent<Rigidbody>().isKinematic = true;
     //    }
     //}
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.tag == "Fire")
+        {
+            destroyingSpeed = 3;
+        }
+        else
+        {
+            destroyingSpeed = 0.1f;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        destroyingSpeed = 0.1f;
+    }
+
+    private void FixedUpdate()
+    {
+        //if (isInFire)
+        //{
+        if (transform.localScale.x >= 0.1)
+                transform.localScale -= new Vector3(destroyingSpeed * Time.deltaTime, destroyingSpeed * Time.deltaTime, destroyingSpeed * Time.deltaTime);
+            else
+                Destroy(gameObject);
+        Debug.Log("destroyingSpeed " + destroyingSpeed);
+        //}
+    }
 }

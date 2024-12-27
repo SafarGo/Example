@@ -14,6 +14,7 @@ TagManager:
   - Lazer
   - Ground
   - Car
+  - Fire
   layers:
   - Default
   - TransparentFX
