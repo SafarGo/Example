@@ -9,7 +9,7 @@ public class WaspSpawner : MonoBehaviour
     [SerializeField]int spawnMoment;
     [SerializeField] int spawnCount = 5;
     [SerializeField] bool isAttaking;
-    bool isHaveHoney;
+    //bool isHaveHoney;
     bool isFirstZapusk;
     private void Start()
     {
@@ -19,10 +19,10 @@ public class WaspSpawner : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (!isAttaking && isHaveHoney == true)
+        if (!isAttaking)
         {
             timeToSpawn += Time.deltaTime;
-            if (timeToSpawn >= spawnMoment)
+            if (timeToSpawn >= spawnMoment && isFirstZapusk == true)
             {
                 timeToSpawn = 0;
                 isAttaking = true;
