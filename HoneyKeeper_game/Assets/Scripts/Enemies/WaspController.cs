@@ -15,13 +15,18 @@ public class WaspController : MonoBehaviour
     NavMeshAgent agent;
     void Start()
     {
+
         Vzriv_Sound = gameObject.GetComponent<AudioSource>();
         TowardObstacle = StaticHolder.ObstaclesToAttack[Random.Range(0, StaticHolder.ObstaclesToAttack.Count)].gameObject.transform;
         agent = GetComponent<NavMeshAgent>();
     }
-    private void Update()
+    private void FixedUpdate()
     {
+        float distance = Vector3.Distance(gameObject.transform.position, TowardObstacle.transform.position);
+        if(distance >= 100)
         agent.SetDestination(TowardObstacle.position);
+        else
+            agent.SetDestination(gameObject.transform.position);
     }
 
     // Update is called once per frame
@@ -31,8 +36,8 @@ public class WaspController : MonoBehaviour
     //
     //    if (isCanMove == true)
     //    {
-    //        gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, TowardObstacle.position, speed * Time.deltaTime);
-    //        transform.LookAt(TowardObstacle);
+    //        gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, towardObstacle.position, speed * Time.deltaTime);
+    //        transform.LookAt(towardObstacle);
     //    }
     //    if(transform.position.y <= 2.6f)
     //    {
@@ -40,7 +45,7 @@ public class WaspController : MonoBehaviour
     //    }
     //}
     //
-    private void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Lazer"))
         {
@@ -50,10 +55,21 @@ public class WaspController : MonoBehaviour
             Destroy(Vzriv_Sound,1f);
             Destroy(this);
         }
+
+        
     }    //sbyte - от -128 до 127
+
+    public void WaspDeath()
+    {
+        Destroy(agent);
+        gameObject.AddComponent<Rigidbody>();
+        Vzriv_Sound.Play();
+        Destroy(Vzriv_Sound, 1f);
+        Destroy(this);
+    }
     //private void OnTriggerStay(Collider other)
     //{
-    //    if(other.gameObject == TowardObstacle.gameObject)
+    //    if(other.gameObject == towardObstacle.gameObject)
     //    {
     //        isCanMove = false;
     //    }
@@ -65,7 +81,7 @@ public class WaspController : MonoBehaviour
     //}
     //private void OnTriggerExit(Collider other)
     //{
-    //    if (other.gameObject == TowardObstacle.gameObject)
+    //    if (other.gameObject == towardObstacle.gameObject)
     //    {
     //        isCanMove = true;
     //    }
