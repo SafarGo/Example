@@ -38,6 +38,7 @@ public class IceController : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         destroyingSpeed = 0.1f;
+        gameObject.GetComponent<Rigidbody>().isKinematic = false;
     }
 
     private void FixedUpdate()

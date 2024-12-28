@@ -7,8 +7,8 @@ public class CarMovementController : MonoBehaviour
 {
 
     public float moveSpeed = 10f;
-    public float acceleration = 5f;
-    public float deceleration = 5f;
+    public float acceleration = 15f; // Увеличено для быстрого разгона
+    public float deceleration = 20f; // Увеличено для быстрого торможения
     public float turnSpeed = 100f;
     public float leanAmount = 10f;
     public Transform wheel;
@@ -22,7 +22,7 @@ public class CarMovementController : MonoBehaviour
     private float inputHorizontal;
     private float inputVertical;
     [SerializeField] private float currentSpeed = 0f;
-    [SerializeField] private float cuurentFuel = 360;
+    [SerializeField] private float currentFuel = 360f;
     private float tiltAngle = 0f;
     private bool isGrounded = false;
 
@@ -31,7 +31,6 @@ public class CarMovementController : MonoBehaviour
     public Camera followCamera;
     public Vector3 cameraOffset = new Vector3(0, 5, -10);
     public float cameraFollowSpeed = 5f;
-
 
     public float mouseSensitivity = 2f;
     public float verticalRotationLimit = 80f;
@@ -44,12 +43,6 @@ public class CarMovementController : MonoBehaviour
 
     private AudioSource engineSound;
 
-    [Header("Проскальзывание")]
-    public float slipAmount = 1f; // Коэффициент бокового проскальзывания
-    public float stopFriction = 5f; // Трение при остановке
-    public float slipDamping = 0.95f; // Уменьшение проскальзывания с течением времени
-
-    private Vector3 slipVelocity = Vector3.zero; // Текущее проскальзывание
     void Start()
     {
         engineSound = followCamera.gameObject.GetComponent<AudioSource>();
@@ -59,9 +52,8 @@ public class CarMovementController : MonoBehaviour
             rb = GetComponent<Rigidbody>();
         }
 
-
         rb.mass = 1f;
-        rb.drag = 1f;
+        rb.drag = 0.5f; // Уменьшено сопротивление для более естественного движения
         rb.angularDrag = 1f;
         rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
         rb.interpolation = RigidbodyInterpolation.Interpolate;
@@ -69,44 +61,24 @@ public class CarMovementController : MonoBehaviour
 
     void Update()
     {
-        if (isCanMove == true)
+        if (isCanMove)
         {
-
             inputHorizontal = Input.GetAxis("Horizontal");
             inputVertical = Input.GetAxis("Vertical");
 
-
             TurnMonocycle();
-
-
             RotateWheel();
-
-
-            Debug.Log("Is Grounded: " + isGrounded);
-
-            // Следование камеры
             FollowCamera();
-
-            // Поворот камеры с помощью мыши
             RotateCameraWithMouse();
+
             if (Input.GetKeyDown(KeyCode.R))
             {
                 followCamera.gameObject.SetActive(false);
-                Player.transform.position = gameObject.transform.position;
+                Player.transform.position = transform.position;
                 Player.SetActive(true);
                 isCanMove = false;
-
             }
 
-            //if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))
-            //{
-            //    engineSound.pitch = currentSpeed + 0.5f;
-            //}
-            //else
-            //{
-            //    if (engineSound.pitch >= 1)
-            //        engineSound.pitch -= Time.deltaTime / 2;
-            //}
             UpdateEngineSoundPitch();
             Medved.SetActive(true);
         }
@@ -114,32 +86,24 @@ public class CarMovementController : MonoBehaviour
         {
             Medved.SetActive(false);
         }
-
     }
 
     void FixedUpdate()
     {
-        if (isCanMove == true)
+        if (isCanMove)
         {
             if (isGrounded)
             {
-                if (cuurentFuel > 0)
-                    MoveMonocycle();
-                else
-                    currentSpeed = 0;
+                MoveMonocycle();
             }
             ApplyGroundAttraction();
             CorrectLean();
-            CheckForJump();
-
-            // Добавляем эффект проскальзывания
-            ApplySlip();
         }
     }
 
     void MoveMonocycle()
     {
-        // Управление разгона и тормоза
+        // Управление разгоном и торможением
         if (inputVertical > 0)
         {
             currentSpeed = Mathf.MoveTowards(currentSpeed, moveSpeed, acceleration * Time.fixedDeltaTime);
@@ -153,18 +117,23 @@ public class CarMovementController : MonoBehaviour
             currentSpeed = Mathf.MoveTowards(currentSpeed, 0, deceleration * Time.fixedDeltaTime);
         }
 
-        // Двигаем моноколесо вперед или назад с помощью силы
+        // Применяем силу движения
         Vector3 moveDirection = transform.forward * currentSpeed;
-        rb.AddForce(moveDirection, ForceMode.VelocityChange);
+        rb.velocity = new Vector3(moveDirection.x, rb.velocity.y, moveDirection.z);
+
+        // Увеличение сцепления на склонах
+        if (isGrounded && Mathf.Abs(rb.velocity.y) > 0.1f)
+        {
+            rb.AddForce(-rb.velocity.normalized * deceleration, ForceMode.Acceleration);
+        }
     }
 
     void TurnMonocycle()
     {
-        // Поворот моноколеса влево/вправ
         float turn = inputHorizontal * turnSpeed * Time.deltaTime;
         transform.Rotate(0, turn, 0);
 
-        // Добавляем наклон моноколеса при повороте
+        // Добавляем наклон при поворотах
         if (inputHorizontal != 0)
         {
             tiltAngle = Mathf.Lerp(tiltAngle, -inputHorizontal * leanAmount, Time.deltaTime * tiltSpeed);
@@ -179,167 +148,75 @@ public class CarMovementController : MonoBehaviour
 
     void RotateWheel()
     {
-        // Вращаем колесо в зависимости от скорости моноколеса
         float wheelRotation = currentSpeed * wheelRotationSpeed * Time.deltaTime;
         wheel.Rotate(wheelRotation, 0, 0);
     }
 
     void CorrectLean()
     {
-        // Стремление моноколеса к выпрямлению, если оно не наклоняется
         if (Mathf.Abs(inputHorizontal) < 0.1f)
         {
             tiltAngle = Mathf.Lerp(tiltAngle, 0, Time.fixedDeltaTime * tiltSpeed);
         }
     }
 
-    void CheckForJump()
-    {
-        // Если моноколесо сталкивается с объектом (например, трамплином) и движется вверх
-        if (isGrounded && rb.velocity.y <= 0)
-        {
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, Vector3.down, out hit, 1f))
-            {
-                if (hit.collider.CompareTag("Ramp")) // Если это трамплин
-                {
-                    rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); // Подлетаем
-                }
-            }
-        }
-    }
-
-    // Этот метод будет вызван, когда объект столкнется с чем-то
-    private void OnCollisionEnter(Collision collision)
-    {
-        // Если моноколесо столкнулось с землей
-        //if (collision.collider.CompareTag("Ground"))
-        //{
-            isGrounded = true;
-        //}
-    }
-
-    // Этот метод будет вызван, когда объект продолжает сталкиваться с чем-то
-    private void OnCollisionStay(Collision collision)
-    {
-        //if (collision.collider.CompareTag("Ground"))
-        //{
-            isGrounded = true;
-        //}
-    }
-
-    // Этот метод будет вызван, когда объект перестанет сталкиваться с чем-то
-    private void OnCollisionExit(Collision collision)
-    {
-        //if (collision.collider.CompareTag("Ground"))
-        //{
-            isGrounded = false;
-        //}
-    }
-
-    // Применяем силу для притяжения моноколеса к земле
     void ApplyGroundAttraction()
     {
-        // Если моноколесо не на земле, мы применяем силу вниз
         if (!isGrounded)
         {
             rb.AddForce(Vector3.down * groundAttractionForce, ForceMode.Acceleration);
         }
     }
 
-    // Метод для следования камеры за моноколесом
+    void OnCollisionStay(Collision collision)
+    {
+        isGrounded = true;
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        isGrounded = false;
+    }
+
     void FollowCamera()
     {
         if (followCamera != null)
         {
-            // Рассчитываем желаемую позицию камеры на основе смещения
             Vector3 desiredPosition = transform.position + cameraOffset;
-
-            // Проверяем столкновение камеры с объектами
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, followCamera.transform.position - transform.position, out hit, cameraOffset.magnitude))
-            {
-                // Если столкновение произошло, приближаем камеру
-                float distance = Vector3.Distance(transform.position, hit.point);
-                desiredPosition = transform.position + (followCamera.transform.position - transform.position).normalized * Mathf.Max(distance, minimumCameraDistance);
-            }
-
-            // Плавное перемещение камеры к желаемой позиции
-            Vector3 smoothedPosition = Vector3.Lerp(followCamera.transform.position, desiredPosition, cameraCollisionSmoothSpeed * Time.deltaTime);
+            Vector3 smoothedPosition = Vector3.Lerp(followCamera.transform.position, desiredPosition, cameraFollowSpeed * Time.deltaTime);
             followCamera.transform.position = smoothedPosition;
-
-            // Камера всегда смотрит на моноколесо
             followCamera.transform.LookAt(transform);
         }
     }
 
-    // Метод для поворота камеры с помощью мыши
     void RotateCameraWithMouse()
     {
         if (followCamera != null)
         {
-            // Получаем движение мыши
             float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
             float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
-            // Обновляем горизонтальный угол (поворот вокруг оси Y)
             currentHorizontalAngle += mouseX;
-
-            // Обновляем вертикальный угол (поворот вокруг оси X) с ограничением
             currentVerticalAngle -= mouseY;
             currentVerticalAngle = Mathf.Clamp(currentVerticalAngle, -verticalRotationLimit, verticalRotationLimit);
 
-            // Применяем углы для вращения камеры
             Quaternion rotation = Quaternion.Euler(currentVerticalAngle, currentHorizontalAngle, 0);
             followCamera.transform.position = transform.position + rotation * cameraOffset;
-
-            // Камера смотрит на моноколесо
             followCamera.transform.LookAt(transform);
-        }
-    }
-
-    void ApplySlip()
-    {
-        if (isGrounded)
-        {
-            // Рассчитываем боковую скорость
-            Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
-            float lateralSpeed = localVelocity.x;
-
-            // Добавляем боковую силу для проскальзывания при поворотах
-            if (Mathf.Abs(inputHorizontal) > 0.1f)
-            {
-                slipVelocity += transform.right * lateralSpeed * slipAmount * Time.fixedDeltaTime;
-            }
-
-            // Уменьшаем проскальзывание с течением времени
-            slipVelocity *= slipDamping;
-
-            // Применяем боковую силу к Rigidbody
-            rb.AddForce(-slipVelocity, ForceMode.VelocityChange);
-
-            // Добавляем трение при полной остановке
-            if (Mathf.Abs(currentSpeed) < 0.1f && inputVertical == 0)
-            {
-                rb.AddForce(-rb.velocity * stopFriction * Time.fixedDeltaTime, ForceMode.VelocityChange);
-            }
         }
     }
 
     void UpdateEngineSoundPitch()
     {
-        // Рассчитываем абсолютную скорость
         float absoluteSpeed = Mathf.Abs(currentSpeed);
 
-        if (absoluteSpeed > 0.1f && cuurentFuel > 0)
+        if (absoluteSpeed > 0.1f && currentFuel > 0)
         {
-            // Увеличиваем питч при движении (вперёд или назад)
             engineSound.pitch = Mathf.Lerp(engineSound.pitch, 1f + (absoluteSpeed / moveSpeed) * 2f, Time.deltaTime);
-            cuurentFuel -= Time.deltaTime;
+            currentFuel -= Time.deltaTime;
         }
         else
         {
-            // Плавно уменьшаем питч при остановке
             engineSound.pitch = Mathf.Lerp(engineSound.pitch, 1f, Time.deltaTime * 2f);
         }
     }
