@@ -19,11 +19,12 @@ public class MainWaspController : MonoBehaviour
         Vzriv_Sound = gameObject.GetComponent<AudioSource>();
         towardObstacle = StaticHolder.ObstaclesToAttack[Random.Range(0, StaticHolder.ObstaclesToAttack.Count)].gameObject.transform;
         agent = GetComponent<NavMeshAgent>();
+        agent.SetDestination(towardObstacle.position);
     }
     protected virtual void FixedUpdate()
     {
         distance = Vector3.Distance(gameObject.transform.position, towardObstacle.transform.position);
-            agent.SetDestination(towardObstacle.position);
+            //agent.SetDestination(towardObstacle.position);
     }
 
     public void OnTriggerEnter(Collider other)
