@@ -37,9 +37,9 @@ public class CarGun : MonoBehaviour
 
             // Применяем разброс
             Vector3 randomDirection = Quaternion.Euler(
-                Random.Range(-spread, spread),
-                Random.Range(-spread, spread),
-                0
+                Random.Range(-spread, spread), // Разброс по оси X
+                Random.Range(-spread, spread), // Разброс по оси Y
+                0 // Без разброса по оси Z
             ) * spawnPoint.forward;
 
             // Задаём скорость объекту
