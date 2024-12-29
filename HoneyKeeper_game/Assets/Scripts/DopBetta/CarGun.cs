@@ -13,24 +13,33 @@ public class CarGun : MonoBehaviour
 
     private bool isShooting = false; // Флаг удержания кнопки
 
+    public Animator anim;
+
+    private void Start()
+    {
+        anim = GetComponent<Animator>();
+    }
+
     void Update()
     {
         // Проверка нажатия кнопки
         if (Input.GetMouseButtonDown(0)) // ЛКМ нажата
         {
+            if (anim != null) { anim.SetBool("isFire", true); }
             SpawnObject(); // Выпустить один объект
             StartCoroutine(StartShooting());
         }
 
         if (Input.GetMouseButtonUp(0)) // ЛКМ отпущена
         {
+            if (anim != null) { anim.SetBool("isFire", false); }
             StopShooting();
         }
     }
 
     private void SpawnObject()
     {
-        if (objectToSpawn != null && spawnPoint != null)
+        if (objectToSpawn != null && spawnPoint != null && StaticHolder.isTurretActive)
         {
             // Создаём объект
             GameObject spawnedObject = Instantiate(objectToSpawn, spawnPoint.position, Quaternion.identity);

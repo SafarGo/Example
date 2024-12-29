@@ -35,6 +35,8 @@ public class ObjectPlacer : MonoBehaviour
     [SerializeField] private Vector3 collisionCubeSize = Vector3.one; // Размер куба
     [SerializeField] private Vector3 collisionCubeOffset = Vector3.zero; // Смещение куба
     [SerializeField] private Vector3 collisionCubeRotation = Vector3.zero; // Поворот куба
+    [Header("Тип объекта")]
+    public string ObjectTipe;
     private void Awake()
     {
         StaticHolder.AddObstacle(this);

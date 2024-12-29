@@ -101,5 +101,10 @@ public class FlowersFresh : MonoBehaviour
 
         ClumbsManager.UpdateCounts(totalFreshment); // Передаем сумму в статический класс
     }
+
+    public void ForceDrying(int minusrefresh)
+    {
+        freshment += minusrefresh;
+    }
 }
 

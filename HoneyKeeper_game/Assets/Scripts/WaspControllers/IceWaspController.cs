@@ -15,7 +15,14 @@ public class IceWaspController : MainWaspController
     private float t = 0f;
 
 
-
+    protected override void Start()
+    {
+        base.Start();
+        if(TowardObstacle.gameObject.GetComponent<ObjectPlacer>().ObjectTipe != "Conveyer")
+        {
+            Start();
+        }
+    }
     protected override void FixedUpdate()
     {
         spawnPoint.LookAt(TowardObstacle.position);

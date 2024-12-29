@@ -97,7 +97,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: f31f8ae1e46e3f04194b0de665645860, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -271,7 +271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towardObstacle: {fileID: 0}
-  speed: 10
+  speed: 9
   bulletPrefab: {fileID: 3815248278719267898, guid: cea730f9d438d4b4ea4a63826d111eea, type: 3}
   spread: 4
   spawnPoint: {fileID: 88272276400441334}

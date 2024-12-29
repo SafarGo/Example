@@ -25,7 +25,7 @@ public class IceController : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == "Fire")
+        if (other.gameObject.tag == "FireMelter")
         {
             destroyingSpeed = 3;
         }

@@ -15,6 +15,7 @@ TagManager:
   - Ground
   - Car
   - Fire
+  - FireMelter
   layers:
   - Default
   - TransparentFX

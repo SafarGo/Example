@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteAlways]
 public class CarMovementController : MonoBehaviour
 {
 
@@ -77,6 +76,7 @@ public class CarMovementController : MonoBehaviour
                 Player.transform.position = transform.position;
                 Player.SetActive(true);
                 isCanMove = false;
+               StaticHolder.isTurretActive = false;
             }
 
             UpdateEngineSoundPitch();

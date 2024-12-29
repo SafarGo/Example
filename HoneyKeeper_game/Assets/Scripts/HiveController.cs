@@ -92,5 +92,13 @@ public class HiveController : MonoBehaviour
         Partiua.value = t / honeyCreateRate;
     }
 
-
+    public void UpdateHP(int HPdelta)
+    {
+        HP += HPdelta;
+        sl.value = Mathf.Clamp(HP, 0f, HPMax);
+        if (HP <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
 }

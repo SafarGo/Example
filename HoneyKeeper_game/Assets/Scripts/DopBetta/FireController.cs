@@ -5,6 +5,12 @@ using UnityEngine;
 public class FireController : MonoBehaviour
 {
     bool isSlep;
+    bool isBig = false;
+
+    private void Start()
+    {
+        Destroy(gameObject,25);
+    }
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.tag != "Car")
@@ -18,10 +24,20 @@ public class FireController : MonoBehaviour
     {
         if(isSlep)
         {
-            if (transform.localScale.x >= 0.1f)
-                transform.localScale -= new Vector3(0.1f * Time.deltaTime, 0.1f * Time.deltaTime, 0.1f * Time.deltaTime);
+            if (!isBig)
+            {
+                if (transform.localScale.x <= 3f)
+                    transform.localScale += new Vector3(0.2f * Time.deltaTime, 0.2f * Time.deltaTime, 0.2f * Time.deltaTime);
+                else
+                    isBig = true;
+            }
             else
-                Destroy(gameObject);
+            {
+                if (transform.localScale.x >= 0.1f)
+                    transform.localScale -= new Vector3(0.15f * Time.deltaTime, 0.15f * Time.deltaTime, 0.15f * Time.deltaTime);
+                else
+                    Destroy(gameObject);
+            }
         }
     }
 

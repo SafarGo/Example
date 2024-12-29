@@ -1,103 +1,59 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class SceneOptimizer : MonoBehaviour
 {
-    [Header("General Settings")]
-    [SerializeField] private bool useStaticBatching = true;
-    [SerializeField] private bool useLODSupport = true;
-    [SerializeField] private float cullingDistance = 50f;
+    public Camera mainCamera; // Камера, определяющая зону видимости
+    public LayerMask objectLayer; // Слой объектов для проверки видимости
 
-    [Header("Tag Exceptions")]
-    [SerializeField] private string[] excludedTags; // Теги объектов, которые нельзя отключать
+    private Plane[] frustumPlanes; // Плоскости камеры
 
-    [Header("Pooling Settings")]
-    [SerializeField] private int poolSize = 100;
-
-    private ObjectPool objectPool;
-
-    void Start()
+    private void Start()
     {
-        // Статическое объединение
-        if (useStaticBatching)
-            StaticBatchingUtility.Combine(gameObject);
-
-        // Установка дистанции отрисовки для всех объектов
-        SetCullingDistance(cullingDistance);
-
-        // Инициализация пула объектов
-        objectPool = new ObjectPool(poolSize);
+        if (mainCamera == null)
+        {
+            mainCamera = Camera.main; // Установка основной камеры по умолчанию
+        }
     }
 
-    void SetCullingDistance(float distance)
+    private void LateUpdate()
     {
-        foreach (var renderer in FindObjectsOfType<Renderer>())
+        // Обновляем плоскости видимости для текущей камеры
+        frustumPlanes = GeometryUtility.CalculateFrustumPlanes(mainCamera);
+
+        // Поиск только объектов на заданном слое
+        Collider[] colliders = Physics.OverlapSphere(mainCamera.transform.position, mainCamera.farClipPlane, objectLayer);
+
+        foreach (Collider collider in colliders)
         {
-            if (renderer.gameObject.isStatic)
+            GameObject obj = collider.gameObject;
+            Renderer renderer = obj.GetComponent<Renderer>();
+            VisualEffect vfx = obj.GetComponent<VisualEffect>();
+
+            if (renderer != null && GeometryUtility.TestPlanesAABB(frustumPlanes, renderer.bounds))
             {
-                var lodGroup = renderer.GetComponent<LODGroup>();
-                if (useLODSupport && lodGroup != null)
-                    lodGroup.RecalculateBounds();
-                else
-                    renderer.enabled = Vector3.Distance(Camera.main.transform.position, renderer.transform.position) <= distance;
+                // Включаем визуальные компоненты, если объект виден
+                EnableComponents(renderer, vfx);
+            }
+            else
+            {
+                // Отключаем компоненты, если объект не виден
+                DisableComponents(renderer, vfx);
             }
         }
     }
 
-    void Update()
+    private void EnableComponents(Renderer renderer, VisualEffect vfx)
     {
-        // Динамическое отключение объектов за камерой, кроме объектов с исключёнными тегами
-        foreach (var renderer in FindObjectsOfType<Renderer>())
-        {
-            if (!renderer.isVisible && !IsExcluded(renderer.gameObject) && !renderer.gameObject.isStatic)
-            {
-                renderer.enabled = false; // Отключаем объект
-            }
-            else if (!renderer.enabled && IsExcluded(renderer.gameObject) || renderer.isVisible)
-            {
-                renderer.enabled = true; // Включаем объект, если он виден или исключён по тегу
-            }
-        }
+        if (renderer != null) renderer.enabled = true;
+        if (vfx != null) vfx.enabled = true;
     }
 
-    bool IsExcluded(GameObject obj)
+    private void DisableComponents(Renderer renderer, VisualEffect vfx)
     {
-        foreach (string tag in excludedTags)
-        {
-            if (obj.CompareTag(tag))
-                return true;
-        }
-        return false;
-    }
-}
-
-public class ObjectPool
-{
-    private GameObject[] poolObjects;
-    private int currentIndex;
-
-    public ObjectPool(int size)
-    {
-        poolObjects = new GameObject[size];
-        currentIndex = 0;
-    }
-
-    public GameObject GetObject(GameObject prefab)
-    {
-        if (poolObjects[currentIndex] == null)
-        {
-            poolObjects[currentIndex] = Object.Instantiate(prefab);
-        }
-
-        var obj = poolObjects[currentIndex];
-        currentIndex = (currentIndex + 1) % poolObjects.Length;
-        obj.SetActive(true);
-        return obj;
-    }
-
-    public void ReturnObject(GameObject obj)
-    {
-        obj.SetActive(false);
+        if (renderer != null) renderer.enabled = false;
+        if (vfx != null) vfx.enabled = false;
     }
 }

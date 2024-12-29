@@ -1631,7 +1631,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9078614209895425138}
-  - component: {fileID: 8390083319541239019}
   - component: {fileID: 684056574260291197}
   m_Layer: 0
   m_Name: Hive_prefab
@@ -1662,29 +1661,6 @@ Transform:
   - {fileID: 1482152029952269206}
   m_Father: {fileID: 7487035804347761665}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8390083319541239019
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4559402854910128010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b659c3623d5aa54bb1ac5fac41ff451, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HPMax: 500
-  honeyText: {fileID: 4231505182511202519}
-  sl: {fileID: 5565863020072217795}
-  ProizvodSlider: {fileID: 4142711693185503273}
-  Partiua: {fileID: 783646043798028201}
-  honeyBottlePrefab: {fileID: 2851790948563490692, guid: bb162d2f23961634ab4e9f2deb397f6b, type: 3}
-  spawnPoint: {fileID: 9071088238756224930}
-  cartridgeCount: 1
-  beesCount: 4
-  currentHuneyCount: 0
-  honeyCreateRate: 12
 --- !u!82 &684056574260291197
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2506,6 +2482,8 @@ GameObject:
   - component: {fileID: 2043868560899916532}
   - component: {fileID: 8191072987642781021}
   - component: {fileID: 1957068084159583870}
+  - component: {fileID: 6493330432993347960}
+  - component: {fileID: 2090928853419795930}
   m_Layer: 6
   m_Name: Hive
   m_TagString: Untagged
@@ -2627,6 +2605,45 @@ MonoBehaviour:
   collisionCubeSize: {x: 2.08, y: 6.86, z: 2.15}
   collisionCubeOffset: {x: 0, y: 0, z: 0.03}
   collisionCubeRotation: {x: 0, y: 0, z: 0}
+--- !u!208 &6493330432993347960
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6923690514452255522}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!114 &2090928853419795930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6923690514452255522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b659c3623d5aa54bb1ac5fac41ff451, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HPMax: 500
+  honeyText: {fileID: 4231505182511202519}
+  sl: {fileID: 5565863020072217795}
+  ProizvodSlider: {fileID: 4142711693185503273}
+  Partiua: {fileID: 783646043798028201}
+  honeyBottlePrefab: {fileID: 2851790948563490692, guid: bb162d2f23961634ab4e9f2deb397f6b, type: 3}
+  spawnPoint: {fileID: 9071088238756224930}
+  cartridgeCount: 1
+  beesCount: 4
+  currentHuneyCount: 0
+  honeyCreateRate: 12
 --- !u!1 &6986093602118726990
 GameObject:
   m_ObjectHideFlags: 0

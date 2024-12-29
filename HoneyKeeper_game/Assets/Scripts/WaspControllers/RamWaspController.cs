@@ -9,27 +9,42 @@ public class RamWaspController : MainWaspController
 {
     bool isAtaking;
     GameObject target;
-    private void Start()
+    Rigidbody rb;
+    protected override void Start()
     {
+        base.Start();
         target = TowardObstacle.gameObject;
+        rb = gameObject.GetComponent<Rigidbody>();
+        if(target == null)
+        {
+            Start();
+        }
     }
     protected override void FixedUpdate()
     {
-
-        base.FixedUpdate();
-        if (distance <= 15)
+        if (target != null)
         {
+            base.FixedUpdate();
+            if (distance <= 15)
+            {
                 Destroy(agent);
 
-            transform.position = Vector3.MoveTowards(transform.position, target.transform.position, 10f * Time.deltaTime);
-            //RamObstacle(target);
+                transform.position = Vector3.MoveTowards(transform.position, target.transform.position, 10f * Time.deltaTime);
+                rb.isKinematic = false;
+                //RamObstacle(target);
+            }
         }
+        else
+        {
+            base.Start();
+        }
+        
 
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        RamObstacle(TowardObstacle.gameObject);
+        RamObstacle(target.gameObject);
     }
 
 

@@ -14,7 +14,7 @@ public class MainWaspController : MonoBehaviour
     protected float distance { get; private set; }
     public Transform TowardObstacle { get => towardObstacle;}
 
-    void Start()
+    protected virtual void Start()
     {
         Vzriv_Sound = gameObject.GetComponent<AudioSource>();
         towardObstacle = StaticHolder.ObstaclesToAttack[Random.Range(0, StaticHolder.ObstaclesToAttack.Count)].gameObject.transform;

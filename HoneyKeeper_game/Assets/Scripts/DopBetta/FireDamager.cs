@@ -6,6 +6,7 @@ using UnityEngine;
 public class FireDamager : MonoBehaviour
 {
     public WaspType waspType;
+    public GameObject ParentObject;
     bool osa;
 
     void Start()
@@ -14,7 +15,8 @@ public class FireDamager : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-
+        if (other.gameObject != ParentObject)
+        {
             if (other.TryGetComponent(out MainWaspController waspController))
             {
                 waspController.WaspDeath();
@@ -25,6 +27,24 @@ public class FireDamager : MonoBehaviour
                 fireWaspController.WaspDeath();
                 return;
             }
+
+            if (other.TryGetComponent(out RamWaspController ramWaspController))
+            {
+                ramWaspController.WaspDeath();
+                Destroy(ramWaspController);
+                return;
+            }
+            if (other.TryGetComponent(out HiveController hiveController))
+            {
+                hiveController.UpdateHP(-2);
+                return;
+            }
+            if (other.TryGetComponent(out FlowersFresh ClumbController))
+            {
+                ClumbController.ForceDrying(-15);
+                return;
+            }
+        }
     }
 }
 

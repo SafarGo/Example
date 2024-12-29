@@ -8,6 +8,11 @@ public class GarageController : MonoBehaviour
     [SerializeField] GameObject CameraToHide;
     [SerializeField] CarMovementController Car;
     bool isIn;
+
+    //private void Start()
+    //{
+    //    StaticHolder.isTurretActive = false;
+    //}
     private void OnTriggerStay(Collider other)
     {
         if(other.CompareTag("Player"))
@@ -28,6 +33,7 @@ public class GarageController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.E) && isIn)
         {
+            StaticHolder.isTurretActive = true;
             CameraToShow.SetActive(true);
             CameraToHide.SetActive(false);
             Car.isCanMove = true;
