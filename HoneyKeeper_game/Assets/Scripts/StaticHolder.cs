@@ -4,6 +4,7 @@ using UnityEngine;
 
 public static class StaticHolder
 {
+    public static bool isCanFire;
     public static bool isCanOpenUI = true;
     public static bool isTurretActive = true;
     public static bool isFirstGame = true;

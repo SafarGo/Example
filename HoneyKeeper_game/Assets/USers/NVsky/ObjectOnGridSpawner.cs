@@ -12,6 +12,7 @@ public class ObjectOnGridSpawner : MonoBehaviour
     [SerializeField] private List<Image> uiIcons; // Список UI-иконок для затемнения
     [SerializeField] private List<int> Costs; // Список цен
     [SerializeField] private List<int> Energo_Costs; // Список цен
+    Transform Platform;
 
     [HideInInspector]public int SelectedIndex => selectedIndex;
     private int selectedIndex = 0; // Индекс текущего выбранного объекта
@@ -19,6 +20,7 @@ public class ObjectOnGridSpawner : MonoBehaviour
 
     private void Start()
     {
+        Platform = GameObject.FindWithTag("Terrain").transform;
         if(Instance == null)
         {
             Instance = this;
@@ -65,6 +67,7 @@ public class ObjectOnGridSpawner : MonoBehaviour
         // Спавн объекта
         if (Input.GetKeyDown(KeyCode.T))
         {
+            Debug.Log(Platform);
             if (StaticHolder.count_of_simple_honey >= Costs[selectedIndex] && StaticHolder.count_of_enegry_honey >= Energo_Costs[selectedIndex])
             {
                 ReservoirController.instance_honey.currentHuneyCount -= Costs[selectedIndex];// надо доделать механику для двух резервуаров
@@ -99,7 +102,7 @@ public class ObjectOnGridSpawner : MonoBehaviour
         GameObject prefab = gridSpawnObjectPrefabs[selectedIndex];
         Vector3 spawnPosition = new Vector3(
             Mathf.CeilToInt(spawnPoint.position.x) / 2 * 2,
-            0,
+            Platform.position.y,
             Mathf.CeilToInt(spawnPoint.position.z) / 2 * 2
    
         );

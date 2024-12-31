@@ -6,13 +6,14 @@ public class IceController : MonoBehaviour
 {
     bool isInFire;
     float destroyingSpeed = 0.1f;
+    public GameObject ConnectedObject;
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.tag != "Car")
+        if (other.gameObject.tag != "Car" && other.gameObject.tag != "Player")
         {
             gameObject.GetComponent<Rigidbody>().isKinematic = true;
+            ConnectedObject = other.gameObject;
         }
-
 
     }
     //private void OnTriggerEnter(Collider other)

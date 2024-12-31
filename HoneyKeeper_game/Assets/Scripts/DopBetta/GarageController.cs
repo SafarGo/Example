@@ -7,6 +7,7 @@ public class GarageController : MonoBehaviour
     [SerializeField] GameObject CameraToShow;
     [SerializeField] GameObject CameraToHide;
     [SerializeField] CarMovementController Car;
+    [SerializeField] GameObject ToolTip;
     bool isIn;
 
     //private void Start()
@@ -18,6 +19,7 @@ public class GarageController : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             isIn = true;
+            ToolTip.SetActive(true);
         }
     }
 
@@ -26,6 +28,7 @@ public class GarageController : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isIn = false;
+            ToolTip.SetActive(false);
         }
     }
 
@@ -33,10 +36,12 @@ public class GarageController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.E) && isIn)
         {
+            StaticHolder.isCanFire = true;
             StaticHolder.isTurretActive = true;
             CameraToShow.SetActive(true);
             CameraToHide.SetActive(false);
             Car.isCanMove = true;
+            ToolTip.SetActive(false);
         }
     }
 }
