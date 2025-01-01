@@ -5,7 +5,7 @@ using UnityEngine;
 public class BuildingsController : MonoBehaviour
 {
     [SerializeField] GameObject BuildingMenu;
-    [SerializeField] GameObject HandController;
+    [SerializeField] GameObject Gun;
     [SerializeField] ObjectOnGridSpawner Spawner;
     bool isMenuActive = false;
 
@@ -19,7 +19,7 @@ public class BuildingsController : MonoBehaviour
         isMenuActive = !isMenuActive;
         Spawner.enabled = isMenuActive;
         BuildingMenu.SetActive(isMenuActive);
-        HandController.SetActive(!isMenuActive);
+        Gun.SetActive(!isMenuActive);
         StaticHolder.isTurretActive = !isMenuActive;
 
     }
