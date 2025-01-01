@@ -63,65 +63,65 @@ public class LandScameDeformer : MonoBehaviour
     //здесь меш продавливается     }
     //здесь меш продавливается }
 
-    public float deformationRadius = 0.5f;
-    public float deformationSpeed = 0.1f;
-    public float targetHeightY = 1.0f;
-    public float heightTolerance = 0.01f;
+    public float deformationRadius = 5f; // Радиус изменения
+    public float deformationSpeed = 0.1f; // Скорость изменения
+    public float targetHeightWorld = 10f; // Целевая высота в метрах
 
-    private void Start()
+    private void OnCollisionEnter(Collision collision)
     {
-        Destroy(gameObject,0.5f);
-    }
-    void OnCollisionEnter(Collision collision)
-    {
-        MeshFilter meshFilter = collision.gameObject.GetComponent<MeshFilter>();
-        MeshCollider meshCollider = collision.gameObject.GetComponent<MeshCollider>();
+        Terrain terrain = collision.gameObject.GetComponent<Terrain>();
+        if (terrain == null) return;
 
-        if (meshFilter == null || !meshFilter.mesh.isReadable)
-            return;
+        TerrainData terrainData = terrain.terrainData;
 
-        Mesh mesh = meshFilter.mesh;
-        Vector3[] vertices = mesh.vertices;
+        // Преобразуем точку столкновения в локальные координаты террейна
+        Vector3 collisionPoint = collision.contacts[0].point;
+        Vector3 terrainLocalPos = collisionPoint - terrain.transform.position;
 
+        // Нормализуем координаты относительно террейна (0..1)
+        float normX = terrainLocalPos.x / terrainData.size.x;
+        float normZ = terrainLocalPos.z / terrainData.size.z;
 
-        Vector3 localContactPoint = collision.contacts[0].point;
-        localContactPoint = collision.transform.InverseTransformPoint(localContactPoint);
+        // Преобразуем в индексы массива высот
+        int heightMapX = Mathf.RoundToInt(normX * terrainData.heightmapResolution);
+        int heightMapZ = Mathf.RoundToInt(normZ * terrainData.heightmapResolution);
+        int radius = Mathf.RoundToInt(deformationRadius / terrainData.size.x * terrainData.heightmapResolution);
 
-        bool anyVertexChanged = false;
+        // Преобразуем целевую высоту в нормализованное значение (0..1)
+        float normalizedTargetHeight = targetHeightWorld / terrainData.size.y;
 
-        for (int i = 0; i < vertices.Length; i++)
+        // Получаем текущие высоты
+        int size = radius * 2 + 1;
+        float[,] heights = terrainData.GetHeights(
+            Mathf.Clamp(heightMapX - radius, 0, terrainData.heightmapResolution - 1),
+            Mathf.Clamp(heightMapZ - radius, 0, terrainData.heightmapResolution - 1),
+            size,
+            size
+        );
+
+        // Изменяем высоты
+        for (int z = 0; z < size; z++)
         {
-            Vector3 vertexWorldPos = collision.transform.TransformPoint(vertices[i]);
-
-            if (Vector3.Distance(localContactPoint, vertices[i]) < deformationRadius)
+            for (int x = 0; x < size; x++)
             {
-                if (Mathf.Abs(vertexWorldPos.y - targetHeightY) > heightTolerance)
-                {
-                    anyVertexChanged = true;
+                float distance = Vector2.Distance(
+                    new Vector2(x, z),
+                    new Vector2(radius, radius)
+                );
 
-                    vertexWorldPos.y = Mathf.MoveTowards(vertexWorldPos.y, targetHeightY, deformationSpeed);
-                    vertices[i] = collision.transform.InverseTransformPoint(vertexWorldPos);
+                if (distance <= radius)
+                {
+                    float currentHeight = heights[z, x];
+                    heights[z, x] = Mathf.MoveTowards(currentHeight, normalizedTargetHeight, deformationSpeed * Time.deltaTime);
                 }
             }
         }
 
-        if (!anyVertexChanged)
-        {
-            Debug.Log("Все вершины в пределах радиуса выровнены. Деформация завершена.");
-            return;
-        }
-
-        mesh.vertices = vertices;
-        mesh.RecalculateNormals();
-
-        if (meshCollider != null)
-        {
-            meshCollider.sharedMesh = null;
-            meshCollider.sharedMesh = mesh;
-        }
-    }
-    private void Update()
-    {
-        transform.position += Vector3.back * 0.5f * Time.deltaTime;
+        // Устанавливаем новые высоты
+        terrainData.SetHeights(
+            Mathf.Clamp(heightMapX - radius, 0, terrainData.heightmapResolution - 1),
+            Mathf.Clamp(heightMapZ - radius, 0, terrainData.heightmapResolution - 1),
+            heights
+        );
     }
 }
