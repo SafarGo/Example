@@ -17,6 +17,7 @@ TagManager:
   - Fire
   - FireMelter
   - Terrain
+  - NaturalWaterReservoir
   layers:
   - Default
   - TransparentFX
