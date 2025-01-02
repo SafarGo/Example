@@ -1,14 +1,28 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ObjectInHandController : MonoBehaviour
 {
+    public static ObjectInHandController instance { get; private set; }
+    //public virtual List<ObjectsInInventory> ObjectsInHand { get => objectsInHand;  set => objectsInHand = value; }
 
-    [SerializeField] private List<GameObject> objectsInHand = new List<GameObject> { null };
+    [Serializable]
+    public class ObjectsInInventory
+    {
+        public string objectName;
+        public GameObject objectPrefab;
+        public Sprite objectIcon;
+    }
+
+    public List<ObjectsInInventory> objectsInHand = new List<ObjectsInInventory> {};
     sbyte currentIndex;
     void Start()
     {
+        if(instance == null)
+            instance = this;
         ChandgeObjectInHand(0);
     }
 
@@ -46,7 +60,8 @@ public class ObjectInHandController : MonoBehaviour
             currentIndex = 0;
         }
         SetObject(currentIndex);
-        Debug.LogError(currentIndex);
+        MAinInventoryController.Instance.SetSlot(currentIndex);
+        //Debug.LogError(currentIndex);
     }
 
     void SetObject(int exIndex)
@@ -55,15 +70,15 @@ public class ObjectInHandController : MonoBehaviour
         {
             if (i == exIndex)
             {
-                if (objectsInHand[i] != null)
-                    objectsInHand[i].SetActive(true);
+                if (objectsInHand[i].objectPrefab != null)
+                    objectsInHand[i].objectPrefab.SetActive(true);
             }
             else
             {
-                if (objectsInHand[i] != null)
-                    objectsInHand[i].SetActive(false);
+                if (objectsInHand[i].objectPrefab != null)
+                    objectsInHand[i].objectPrefab.SetActive(false);
             }
         }
+        //MAinInventoryController.Instance.SetSlot(exIndex);
     }
-
 }

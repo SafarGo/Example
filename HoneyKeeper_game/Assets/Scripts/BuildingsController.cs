@@ -5,8 +5,11 @@ using UnityEngine;
 public class BuildingsController : MonoBehaviour
 {
     [SerializeField] GameObject BuildingMenu;
-    [SerializeField] GameObject Gun;
+    //[SerializeField] GameObject Gun;
     [SerializeField] ObjectOnGridSpawner Spawner;
+
+    [Header("Объеты для удаления при включении")]
+    [SerializeField] List <GameObject> mainInventory;
     bool isMenuActive = false;
 
     private void Start()
@@ -19,8 +22,9 @@ public class BuildingsController : MonoBehaviour
         isMenuActive = !isMenuActive;
         Spawner.enabled = isMenuActive;
         BuildingMenu.SetActive(isMenuActive);
-        Gun.SetActive(!isMenuActive);
+        //Gun.SetActive(!isMenuActive);
         StaticHolder.isTurretActive = !isMenuActive;
+        for (int i = 0; i < mainInventory.Count; i++) { mainInventory[i].SetActive(!isMenuActive); }
 
     }
 
