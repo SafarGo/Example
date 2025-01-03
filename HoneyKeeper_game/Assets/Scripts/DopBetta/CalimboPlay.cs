@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class CalimboPlay : MonoBehaviour
 {
@@ -20,8 +21,10 @@ public class CalimboPlay : MonoBehaviour
         KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.F, KeyCode.G, KeyCode.H,
         KeyCode.Z, KeyCode.X, KeyCode.C, KeyCode.V, KeyCode.B
     };
-
-
+    private void Start()
+    {
+        StaticHolder.isCanOpenUI = true;
+    }
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.K))

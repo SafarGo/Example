@@ -19,8 +19,8 @@ public class PauseMenu : MonoBehaviour
 
     private void Update()
     {
-        if (!StaticHolder.isTurretActive)
-        {
+        //if (!StaticHolder.isTurretActive)
+        //{
             if (Input.GetKeyDown(KeyCode.Escape) && !isStopped)
             {
                 Stop();
@@ -32,12 +32,12 @@ public class PauseMenu : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.V))
             {
-                if (!StaticHolder.isCanOpenUI)
+                if (StaticHolder.isCanOpenUI)
                 {
                     BestiariyMenu();
                 }
             }
-        }
+        //}
     }
 
     public void Stop()
@@ -48,6 +48,7 @@ public class PauseMenu : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
         firstPersonController.cameraCanMove = false;
+        StaticController.instance.TurnCursorInState(false);
     }
     public void Con()
     {
@@ -57,6 +58,7 @@ public class PauseMenu : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.None;
         firstPersonController.cameraCanMove = true;
+        StaticController.instance.TurnCursorInState(true);
     }
 
     void BestiariyMenu()
@@ -66,6 +68,7 @@ public class PauseMenu : MonoBehaviour
         panel.SetActive(isStopped);
         if (StaticHolder.isCanOpenUI)
         {
+            StaticController.instance.TurnCursorInState(!isBestiariyOpened);
             BestiariyPanel.SetActive(isBestiariyOpened);
         }
     }

@@ -19,7 +19,6 @@ public static class StaticHolder
     public static List<Vector3> AllSpawnedObjectsTranforms = new List<Vector3> { };      //только для сохранений
     public static List<Quaternion> AllSpawnedObjectsRotations = new List<Quaternion> { };//только для сохранений
     public static List<ObjectPlacer> ObstaclesToAttack { get; private set; } = new List<ObjectPlacer>();
-
     public static void AddObstacle(ObjectPlacer objectPlacer)
     {
         ObstaclesToAttack.Add(objectPlacer);
