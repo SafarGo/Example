@@ -41,14 +41,14 @@ public class ObjectsPicker : MonoBehaviour
                         ObjectInHandController.instance.objectsInHand[i].objectPrefab = ObjectToPick;
                         ObjectInHandController.instance.objectsInHand[i].objectIcon = pickObjectIcon;
                         ObjectInHandController.instance.objectsInHand[i].objectName = pickObjectName;
-                        MAinInventoryController.Instance.UpdateSell(i);
-                        //MAinInventoryController.Instance.UpdateSell(0);
+                        InventoryMainController._instance.UpdateSell(i);
+                        ObjectInHandController.instance.ChandgeObjectInHand((sbyte)i);
                         Debug.LogError(i);
                         Destroy(gameObject);
                         return;
                     }
                 }
-                Debug.LogError("Sdelano");
+                //Debug.LogError("Sdelano");
             }
         }
     }

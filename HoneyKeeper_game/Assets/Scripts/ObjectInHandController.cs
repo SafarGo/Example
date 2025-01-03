@@ -43,7 +43,7 @@ public class ObjectInHandController : MonoBehaviour
         //}
     }
 
-    void ChandgeObjectInHand(sbyte index)
+   public void ChandgeObjectInHand(sbyte index)
     {
 
         currentIndex += index;
@@ -60,7 +60,7 @@ public class ObjectInHandController : MonoBehaviour
             currentIndex = 0;
         }
         SetObject(currentIndex);
-        MAinInventoryController.Instance.SetSlot(currentIndex);
+        InventoryMainController._instance.SetSlot(currentIndex);
         //Debug.LogError(currentIndex);
     }
 

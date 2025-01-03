@@ -64,6 +64,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: IceBullet_model
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f9eb56dd3fc37994fa689aa44b5e5621, type: 3}
+      propertyPath: m_TagString
+      value: Car
+      objectReference: {fileID: 0}
     - target: {fileID: 5488046591619974324, guid: f9eb56dd3fc37994fa689aa44b5e5621, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -150,6 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5b9ece2f365f8d448885e2e3e611c74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ConnectedObject: {fileID: 0}
 --- !u!82 &7005424373161965867
 AudioSource:
   m_ObjectHideFlags: 0
