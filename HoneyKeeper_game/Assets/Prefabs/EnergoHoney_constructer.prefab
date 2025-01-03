@@ -334,7 +334,31 @@ MonoBehaviour:
   ObjectSpawnerID: 0
   isSpawning: 0
   ObjectID: 0
+<<<<<<< HEAD
 --- !u!65 &5184406532478346638
+=======
+  collisionCubeSize: {x: 1, y: 1, z: 1}
+  collisionCubeOffset: {x: 0, y: 0, z: 0}
+  collisionCubeRotation: {x: 0, y: 0, z: 0}
+  ObjectTipe: 
+--- !u!208 &2007638805153618752
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1357048833781767211}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!65 &1491376528075893216
+>>>>>>> parent of 6c8290b (20_00_Sasha_Commit)
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -353,9 +377,15 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
+<<<<<<< HEAD
   m_Size: {x: 0.12095976, y: 3.1340997, z: 8.600885}
   m_Center: {x: 0.16272664, y: 1.0670499, z: 3.8004427}
 --- !u!65 &5814171305507286116
+=======
+  m_Size: {x: 2.8621793, y: 3.3649256, z: 9.155062}
+  m_Center: {x: -0.72560763, y: 1.1824628, z: 3.6151953}
+--- !u!65 &4274780493751013048
+>>>>>>> parent of 6c8290b (20_00_Sasha_Commit)
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -374,6 +404,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
+<<<<<<< HEAD
   m_Size: {x: 4.2207084, y: 1.6504397, z: 3.4186516}
   m_Center: {x: -3.656284, y: 0.32521987, z: 4.560568}
 --- !u!65 &5018983860122872776
@@ -418,6 +449,10 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.046876, y: 10.130946, z: 6.9536896}
   m_Center: {x: -0.7172036, y: 6.9253287, z: 4.300514}
+=======
+  m_Size: {x: 2.8621793, y: 3.3649256, z: 9.155062}
+  m_Center: {x: -0.72560763, y: 1.1824628, z: 3.6151953}
+>>>>>>> parent of 6c8290b (20_00_Sasha_Commit)
 --- !u!1 &1454846179077181373
 GameObject:
   m_ObjectHideFlags: 0
