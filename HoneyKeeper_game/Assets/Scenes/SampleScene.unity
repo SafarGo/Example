@@ -44012,7 +44012,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a268290d8c914b24ba92466b3c726e60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushForce: 600
+  pushForce: 700
   maxSpeed: 3
 --- !u!1 &1827609658
 GameObject:

@@ -333,8 +333,8 @@ MonoBehaviour:
   ObjectSpawnerID: 0
   isSpawning: 0
   ObjectID: 0
-  collisionCubeSize: {x: 1.14, y: 2.74, z: 8.89}
-  collisionCubeOffset: {x: -0.75, y: 1.03, z: 3.63}
+  collisionCubeSize: {x: 1, y: 1, z: 1}
+  collisionCubeOffset: {x: 0, y: 0, z: 0}
   collisionCubeRotation: {x: 0, y: 0, z: 0}
   ObjectTipe: 
 --- !u!208 &2007638805153618752
@@ -372,8 +372,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.8621793, y: 1.6106849, z: 9.155062}
-  m_Center: {x: -0.72560763, y: 2.059583, z: 3.6151953}
+  m_Size: {x: 2.8621793, y: 3.3649256, z: 9.155062}
+  m_Center: {x: -0.72560763, y: 1.1824628, z: 3.6151953}
 --- !u!65 &4274780493751013048
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -393,8 +393,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.8621793, y: 3.1684506, z: 9.155062}
-  m_Center: {x: -0.72560763, y: 1.2807003, z: 3.6151953}
+  m_Size: {x: 2.8621793, y: 3.3649256, z: 9.155062}
+  m_Center: {x: -0.72560763, y: 1.1824628, z: 3.6151953}
 --- !u!1 &1454846179077181373
 GameObject:
   m_ObjectHideFlags: 0
