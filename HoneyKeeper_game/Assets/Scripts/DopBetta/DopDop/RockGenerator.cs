@@ -1,7 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
+//[ExecuteAlways]
 public class RockGenerator : MonoBehaviour
 {
     [Header("Настройки деформации")]
@@ -15,14 +15,6 @@ public class RockGenerator : MonoBehaviour
 
     public bool generateOnStart = true; // Деформация при старте игры
 
-    private void Start()
-    {
-        if (generateOnStart)
-        {
-            GenerateRock();
-            InvokeRepeating(nameof(GenerateRock), 1, 1);
-        }
-    }
 
     public void GenerateRock()
     {
@@ -83,4 +75,34 @@ public class RockGenerator : MonoBehaviour
             Random.Range(minScale.z, maxScale.z)
         );
     }
+
+
+    private void Update()
+    {
+        Debug.LogError("NullReferenceException");
+    }
+
 }
+#if UNITY_EDITOR
+[CustomEditor(typeof(RockGenerator), false)]
+public sealed class RockGeneratorEditor : Editor
+{
+    private RockGenerator _rockGenerator;
+
+    private void OnEnable()
+    {
+        _rockGenerator = target as RockGenerator;
+    }
+
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+
+        if (GUILayout.Button("Generate Block", GUILayout.Height(15)))
+        {
+            Undo.RecordObject(_rockGenerator.gameObject, "Object change mesh");
+            _rockGenerator.GenerateRock();
+        }
+    }
+}
+#endif

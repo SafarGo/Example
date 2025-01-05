@@ -39,6 +39,10 @@ public class PlayerLifeController : MonoBehaviour
             }
             else { follingDamage = (int)velocityY; }
         }
+        else
+        {
+            follingDamage = 0;
+        }
         
     }
     public void UpdateLife(int lifedelta)
