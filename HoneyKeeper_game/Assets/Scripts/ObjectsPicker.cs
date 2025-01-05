@@ -20,7 +20,7 @@ public class ObjectsPicker : MonoBehaviour
         {
             isPlayerOn = false;
         }
-        Debug.LogError(isPlayerOn);
+        //Debug.LogError(isPlayerOn);
     }
 
     private void Update()
