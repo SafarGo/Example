@@ -77,10 +77,10 @@ public class RockGenerator : MonoBehaviour
     }
 
 
-    private void Update()
-    {
-        Debug.LogError("NullReferenceException");
-    }
+    //private void Update()
+    //{
+    //    Debug.LogError("NullReferenceException");
+    //}
 
 }
 #if UNITY_EDITOR
