@@ -83,10 +83,15 @@ public class InventoryMainController : ObjectInHandController
             {
                 slots[i].color = Color.white;
             }
-            if(i != slotIndex)
+            else
             {
                 slots[i].color = Color.grey;
+
             }
+            ///if(i != slotIndex)
+            ///{
+            ///    slots[i].color = Color.grey;
+            ///}
             //else
             //{
             //    slots[slotIndex].color = Color.white;

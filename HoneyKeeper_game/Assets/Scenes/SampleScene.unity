@@ -26091,11 +26091,101 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 127b4905e261afa4db10bd9f3771b6c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectsInHand: []
-  _inventoryStart: {fileID: 0}
-  iconImage: {fileID: 0}
+  objectsInHand:
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
+  _inventoryStart: {fileID: 948479859}
+  iconImage: {fileID: 658719179}
   slots: []
-  localObjects: []
+  localObjects:
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
+  - objectName: 
+    objectPrefab: {fileID: 0}
+    objectIcon: {fileID: 0}
 --- !u!1 &962319938
 GameObject:
   m_ObjectHideFlags: 0

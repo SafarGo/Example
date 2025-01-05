@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using System.IO;  // Добавлено для использования File
 
 public class RockGenerator : MonoBehaviour
 {
@@ -15,12 +17,39 @@ public class RockGenerator : MonoBehaviour
 
     public bool generateOnStart = true; // Деформация при старте игры
 
+    private Mesh originalMesh;
+    private string savedMeshPath;
+
     private void Start()
     {
+        savedMeshPath = "Assets/Resources/savedRockMesh.asset";  // Путь к сохранённому мешу
+        originalMesh = GetComponent<MeshFilter>().mesh;
+
         if (generateOnStart)
         {
             GenerateRock();
             InvokeRepeating(nameof(GenerateRock), 1, 1);
+        }
+
+        // Загружаем сохранённый меш, если он есть
+        if (System.IO.File.Exists(savedMeshPath))
+        {
+            LoadMesh();
+        }
+    }
+
+    private void Update()
+    {
+        // Сохранение меша при нажатии на P
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            SaveMesh();
+        }
+
+        // Возвращение к исходному мешу при нажатии на L
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            RestoreOriginalMesh();
         }
     }
 
@@ -35,7 +64,6 @@ public class RockGenerator : MonoBehaviour
         }
 
         // Копируем оригинальный меш
-        Mesh originalMesh = meshFilter.mesh;
         Mesh deformedMesh = Instantiate(originalMesh);
 
         Vector3[] vertices = deformedMesh.vertices;
@@ -82,5 +110,51 @@ public class RockGenerator : MonoBehaviour
             Random.Range(minScale.y, maxScale.y),
             Random.Range(minScale.z, maxScale.z)
         );
+    }
+
+    // Сохранение текущего меша
+    private void SaveMesh()
+    {
+        MeshFilter meshFilter = GetComponent<MeshFilter>();
+        if (meshFilter == null || meshFilter.mesh == null)
+        {
+            Debug.LogError("У объекта отсутствует MeshFilter или Mesh.");
+            return;
+        }
+
+        Mesh meshToSave = meshFilter.mesh;
+        string filePath = savedMeshPath;
+
+        // Использование AssetDatabase для сохранения меша
+        AssetDatabase.CreateAsset(meshToSave, filePath);
+        AssetDatabase.SaveAssets();
+        Debug.Log("Меш сохранён в файл: " + filePath);
+    }
+
+    // Загрузка сохранённого меша
+    private void LoadMesh()
+    {
+        Mesh savedMesh = AssetDatabase.LoadAssetAtPath<Mesh>(savedMeshPath);
+        if (savedMesh != null)
+        {
+            MeshFilter meshFilter = GetComponent<MeshFilter>();
+            meshFilter.mesh = savedMesh;
+            Debug.Log("Загружен сохранённый меш.");
+        }
+        else
+        {
+            Debug.LogWarning("Сохранённый меш не найден.");
+        }
+    }
+
+    // Восстановление исходного меша
+    private void RestoreOriginalMesh()
+    {
+        MeshFilter meshFilter = GetComponent<MeshFilter>();
+        if (meshFilter != null)
+        {
+            meshFilter.mesh = originalMesh;
+            Debug.Log("Меш восстановлен до исходного состояния.");
+        }
     }
 }
