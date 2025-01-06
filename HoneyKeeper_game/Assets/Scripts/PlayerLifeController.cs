@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerLifeController : MonoBehaviour
 {
+    public static PlayerLifeController instance { get; private set; }
     [SerializeField] Image playerLifeStroke;
     [SerializeField] int maxLife;
     [SerializeField] float currentLife;
@@ -22,6 +23,9 @@ public class PlayerLifeController : MonoBehaviour
 
     private void Start()
     {
+        //InvokeRepeating(nameof(UpdateLife), 15, 15);
+        if(instance == null)
+        { instance = this; }
         rb = gameObject.GetComponent<Rigidbody>();
         currentLife = maxLife;
         playerLifeStroke.fillAmount = currentLife;
@@ -64,6 +68,10 @@ public class PlayerLifeController : MonoBehaviour
         if (currentLife <= 20 && currentLife > 0)
         {
             StaticController.instance.SetMoveingSpeed(gameObject, 2,2);
+        }
+        if(currentLife > maxLife)
+        {
+            currentLife = maxLife;
         }
         //predcurrentLife = currentLife;
     }

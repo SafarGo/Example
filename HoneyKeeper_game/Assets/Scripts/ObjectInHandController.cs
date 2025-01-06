@@ -13,6 +13,7 @@ public class ObjectInHandController : MonoBehaviour
     public class ObjectsInInventory
     {
         public string objectName;
+        public int count = 0;
         public GameObject objectPrefab;
         public Sprite objectIcon;
     }
@@ -64,7 +65,7 @@ public class ObjectInHandController : MonoBehaviour
         //Debug.LogError(currentIndex);
     }
 
-    void SetObject(int exIndex)
+   public void SetObject(int exIndex)
     {
         InventoryMainController._instance.SetSlot(exIndex);
         for (int i = 0; i < objectsInHand.Count; i++)
@@ -80,7 +81,16 @@ public class ObjectInHandController : MonoBehaviour
                     objectsInHand[i].objectPrefab.SetActive(false);
             }
         }
-
         //MAinInventoryController.Instance.SetSlot(exIndex);
+    }
+
+    public void DiscardSell(sbyte index)
+    {
+        objectsInHand[index].objectPrefab.SetActive(false);
+        objectsInHand[index].objectName = null;
+        objectsInHand[index].count = 0;
+        objectsInHand[index].objectPrefab = null;
+        objectsInHand[index].objectIcon = null;
+        InventoryMainController._instance.UpdateSell(index);
     }
 }

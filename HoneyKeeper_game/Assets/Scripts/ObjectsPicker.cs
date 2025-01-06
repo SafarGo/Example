@@ -42,8 +42,20 @@ public class ObjectsPicker : MonoBehaviour
                         ObjectInHandController.instance.objectsInHand[i].objectIcon = pickObjectIcon;
                         ObjectInHandController.instance.objectsInHand[i].objectName = pickObjectName;
                         InventoryMainController._instance.UpdateSell(i);
-                        ObjectInHandController.instance.ChandgeObjectInHand((sbyte)i);
+                        ObjectInHandController.instance.SetObject((sbyte)i);
                         Debug.LogError(i);
+                        Destroy(gameObject);
+                        return;
+                    }
+                    if(ObjectInHandController.instance.objectsInHand[i].objectName == pickObjectName)
+                    {
+                        ObjectInHandController.instance.objectsInHand[i].objectPrefab = ObjectToPick;
+                        ObjectInHandController.instance.objectsInHand[i].objectIcon = pickObjectIcon;
+                        ObjectInHandController.instance.objectsInHand[i].objectName = pickObjectName;
+                        ObjectInHandController.instance.objectsInHand[i].count += 1;
+                        InventoryMainController._instance.UpdateSell(i);
+                        ObjectInHandController.instance.SetObject((sbyte)i);
+                        Debug.LogError("количество - " + ObjectInHandController.instance.objectsInHand[i].count);
                         Destroy(gameObject);
                         return;
                     }
