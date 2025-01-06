@@ -26,11 +26,7 @@ public class ObjectsPicker : MonoBehaviour
     private void Update()
     {
         //Debug.LogError(isPlayerOn);
-        if(!isPlayerOn)
-        {
-            return;
-        }
-        else
+        if(isPlayerOn == true)
         {
             if (Input.GetKeyDown(KeyCode.E))
             {

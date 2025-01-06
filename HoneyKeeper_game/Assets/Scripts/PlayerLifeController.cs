@@ -63,7 +63,7 @@ public class PlayerLifeController : MonoBehaviour
         }
         if (currentLife >= 50)
         {
-            StaticController.instance.SetMoveingSpeed(gameObject, 5,8);
+            StaticController.instance.SetMoveingSpeed(gameObject, 8,8);
         }
         if (currentLife <= 20 && currentLife > 0)
         {
