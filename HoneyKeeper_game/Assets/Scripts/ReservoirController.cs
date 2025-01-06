@@ -147,6 +147,6 @@ public class ReservoirController : MonoBehaviour
         position.y = newY;
 
         // Применить новое положение
-        HoneyFluid.transform.position = position;
+        HoneyFluid.transform.position = new Vector3(HoneyFluid.transform.position.x,position.y, HoneyFluid.transform.position.z);
     }
 }
