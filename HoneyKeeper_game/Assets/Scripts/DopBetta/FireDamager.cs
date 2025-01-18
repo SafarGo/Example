@@ -20,11 +20,13 @@ public class FireDamager : MonoBehaviour
             if (other.TryGetComponent(out MainWaspController waspController))
             {
                 waspController.WaspDeath();
+                Destroy(gameObject.transform.parent);
                 return;
             }
             if (other.TryGetComponent(out FireWaspController fireWaspController))
             {
                 fireWaspController.WaspDeath();
+                Destroy(gameObject.transform.parent);
                 return;
             }
 
@@ -32,11 +34,12 @@ public class FireDamager : MonoBehaviour
             {
                 ramWaspController.WaspDeath();
                 Destroy(ramWaspController);
+                Destroy(gameObject.transform.parent);
                 return;
             }
             if (other.TryGetComponent(out HiveController hiveController))
             {
-                hiveController.UpdateHP(-2);
+                hiveController.UpdateHP(-25);
                 return;
             }
             if (other.TryGetComponent(out FlowersFresh ClumbController))

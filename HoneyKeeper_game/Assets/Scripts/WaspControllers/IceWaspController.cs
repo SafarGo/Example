@@ -13,13 +13,15 @@ public class IceWaspController : MainWaspController
     [SerializeField]
     private float spawnSpeed = 10;
     private float t = 0f;
+    int count;
 
 
     protected override void Start()
     {
         base.Start();
-        if(TowardObstacle.gameObject.GetComponent<ObjectPlacer>().ObjectTipe != "Conveyer")
+        if(TowardObstacle.gameObject.GetComponent<ObjectPlacer>().ObjectType != "Conveyer" && count < 3)
         {
+            count++;
             Start();
         }
     }

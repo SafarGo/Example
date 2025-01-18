@@ -29,11 +29,6 @@ public class ReservoirController : MonoBehaviour
 
     private void Awake()
     {
-    }
-
-    private void Start()
-    {
-        JsonSaver._instance.Load();
         if (isEnergoHoneyRzervoir)
         {
             instance_energo = this;
@@ -42,6 +37,19 @@ public class ReservoirController : MonoBehaviour
         {
             instance_honey = this;
         }
+    }
+
+    private void Start()
+    {
+        JsonSaver._instance.Load();
+        //f (isEnergoHoneyRzervoir)
+        //
+        //   instance_energo = this;
+        //
+        //lse
+        //
+        //   instance_honey = this;
+        //
 
         if (isEnergoHoneyRzervoir)
         {

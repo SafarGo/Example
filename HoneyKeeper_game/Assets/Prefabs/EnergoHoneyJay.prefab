@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 970522643688708505}
   - component: {fileID: 1747071112213024656}
   - component: {fileID: 2477304009848088091}
+  - component: {fileID: 2441417879502902700}
+  - component: {fileID: 1652530778367894497}
   m_Layer: 0
   m_Name: EnergoHoneyJay
   m_TagString: EnergoHoney
@@ -179,6 +181,42 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.18971935
   m_Center: {x: 0, y: 0.175881, z: 0}
+--- !u!114 &2441417879502902700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9070410396286902669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1973b730c24797c4c9dd4e39cccdf93f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickObjectName: EnergoHoneyBoll
+  ObjectToPick: {fileID: 0}
+  pickObjectIcon: {fileID: 0}
+--- !u!135 &1652530778367894497
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9070410396286902669}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.33
+  m_Center: {x: 0, y: -0.006884992, z: 0}
 --- !u!1001 &5370106824276274130
 PrefabInstance:
   m_ObjectHideFlags: 0

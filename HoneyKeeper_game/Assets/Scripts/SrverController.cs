@@ -16,6 +16,10 @@ public class SrverController : MonoBehaviour
     public string EnergyHoney = "0";
 
     // Метод для отправки данных
+    private void Awake()
+    {
+        instance = this;
+    }
     public void SendPutRequest()
     {
         StartCoroutine(SendRequestCoroutine());
@@ -61,6 +65,8 @@ public class SrverController : MonoBehaviour
     // Тестовый вызов при старте
     private void Start()
     {
+        //if (instance == null)
+        //{ instance = this; }
         JsonSaver._instance.Load();
         SimpleHoney = StaticHolder.count_of_simple_honey.ToString();
         EnergyHoney = StaticHolder.count_of_enegry_honey.ToString();

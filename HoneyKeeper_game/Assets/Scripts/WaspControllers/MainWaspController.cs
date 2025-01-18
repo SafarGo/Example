@@ -1,52 +1,65 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class MainWaspController : MonoBehaviour
 {
-    [SerializeField] Transform towardObstacle;
-    [SerializeField] sbyte speed;
-    AudioSource Vzriv_Sound;
-    bool isCanMove = true;
-    protected int rndi;
-   protected NavMeshAgent agent { get; private set; }
-    protected float distance { get; private set; }
-    public Transform TowardObstacle { get => towardObstacle;}
+    [SerializeField] protected Transform towardObstacle;
+    [SerializeField] protected sbyte speed;
+    [SerializeField] protected GameObject objectToSpawnAfterDeath;
+    protected AudioSource vzrivSound;
+    protected NavMeshAgent agent;
+    protected float distance;
+
+    public Transform TowardObstacle => towardObstacle;
 
     protected virtual void Start()
     {
-        Vzriv_Sound = gameObject.GetComponent<AudioSource>();
-        towardObstacle = StaticHolder.ObstaclesToAttack[Random.Range(0, StaticHolder.ObstaclesToAttack.Count)].gameObject.transform;
+        vzrivSound = GetComponent<AudioSource>();
+        towardObstacle = StaticHolder.ObstaclesToAttack[Random.Range(0, StaticHolder.ObstaclesToAttack.Count)].transform;
+
         agent = GetComponent<NavMeshAgent>();
         agent.SetDestination(towardObstacle.position);
     }
+
     protected virtual void FixedUpdate()
     {
-        distance = Vector3.Distance(gameObject.transform.position, towardObstacle.transform.position);
-            //agent.SetDestination(towardObstacle.position);
+        if (towardObstacle != null)
+        {
+            distance = Vector3.Distance(transform.position, towardObstacle.position);
+        }
     }
 
-    public void OnTriggerEnter(Collider other)
+    public virtual void WaspDeath()
     {
-        if (other.gameObject.CompareTag("Lazer"))
+        if (objectToSpawnAfterDeath != null)
         {
-            Destroy(agent);
-            gameObject.AddComponent<Rigidbody>();
-            Vzriv_Sound.Play();
-            Destroy(Vzriv_Sound, 1f);
-            Destroy(this);
+            Instantiate(objectToSpawnAfterDeath, transform.position, Quaternion.identity);
         }
 
+        if (agent != null)
+        {
+            Destroy(agent);
+        }
 
-    }    //sbyte - от -128 до 127
+        Rigidbody rb = gameObject.AddComponent<Rigidbody>();
+        rb.velocity = Vector3.zero;
 
-    public void WaspDeath()
+        if (vzrivSound != null)
+        {
+            vzrivSound.Play();
+            Destroy(vzrivSound, vzrivSound.clip.length);
+        }
+
+        Destroy(gameObject, 1f);
+    }
+
+    protected virtual void OnTriggerEnter(Collider other)
     {
-        Destroy(agent);
-        gameObject.AddComponent<Rigidbody>();
-        Vzriv_Sound.Play();
-        Destroy(Vzriv_Sound, 1f);
-        Destroy(this);
+        // Для будущего использования
+        // Например:
+        // if (other.CompareTag("Laser")) WaspDeath();
     }
 }

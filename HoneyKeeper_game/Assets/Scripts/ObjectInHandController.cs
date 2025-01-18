@@ -15,6 +15,7 @@ public class ObjectInHandController : MonoBehaviour
         public string objectName;
         public int count = 0;
         public GameObject objectPrefab;
+        public GameObject pickedObjectPrefab;
         public Sprite objectIcon;
     }
 
@@ -24,7 +25,9 @@ public class ObjectInHandController : MonoBehaviour
     {
         if(instance == null)
             instance = this;
-        ChandgeObjectInHand(0);
+
+
+        //ChandgeObjectInHand(1);
     }
 
 
@@ -40,6 +43,10 @@ public class ObjectInHandController : MonoBehaviour
         else if (scroll < 0f)
         {
             ChandgeObjectInHand(1);
+        }
+        if(Input.GetKeyDown(KeyCode.G))
+        {
+            DropObjectInhand(currentIndex);
         }
         //}
     }
@@ -81,16 +88,49 @@ public class ObjectInHandController : MonoBehaviour
                     objectsInHand[i].objectPrefab.SetActive(false);
             }
         }
+        //currentIndex = (sbyte)exIndex;
         //MAinInventoryController.Instance.SetSlot(exIndex);
     }
 
-    public void DiscardSell(sbyte index)
+    public void ClearSell(sbyte index)
     {
-        objectsInHand[index].objectPrefab.SetActive(false);
-        objectsInHand[index].objectName = null;
-        objectsInHand[index].count = 0;
-        objectsInHand[index].objectPrefab = null;
-        objectsInHand[index].objectIcon = null;
-        InventoryMainController._instance.UpdateSell(index);
+        if (objectsInHand[index].count < 1)
+        {
+            objectsInHand[index].objectPrefab.SetActive(false);
+            objectsInHand[index].objectName = null;
+            objectsInHand[index].count = 1;
+            objectsInHand[index].objectPrefab = null;
+            objectsInHand[index].pickedObjectPrefab = null;
+            objectsInHand[index].objectIcon = null;
+            InventoryMainController._instance.UpdateSell(index);
+        }
+    }
+
+   public void DropObjectInhand(int ibjectID)
+    {
+        if (objectsInHand[ibjectID].objectPrefab != null)
+        {
+            objectsInHand[ibjectID].count--;
+            if (objectsInHand[ibjectID].count < 1)
+            {
+                objectsInHand[ibjectID].pickedObjectPrefab.SetActive(true);
+                Instantiate(objectsInHand[ibjectID].pickedObjectPrefab, objectsInHand[ibjectID].objectPrefab.transform.position, Quaternion.identity);
+                Destroy(objectsInHand[ibjectID].pickedObjectPrefab);
+                //objectsInHand[ibjectID].pickedObjectPrefab.SetActive(true);
+                ClearSell((sbyte)ibjectID);
+                objectsInHand[ibjectID].count = 1;
+            }
+            else
+            {
+                objectsInHand[ibjectID].pickedObjectPrefab.gameObject.SetActive(true);
+                //GameObject predObject = 
+                GameObject sledPickObj = Instantiate(objectsInHand[ibjectID].pickedObjectPrefab.gameObject, objectsInHand[ibjectID].objectPrefab.transform.position, Quaternion.identity);
+                objectsInHand[ibjectID].pickedObjectPrefab.gameObject.SetActive(false);
+                // Destroy(objectsInHand[ibjectID].pickedObjectPrefab);
+                // objectsInHand[ibjectID].pickedObjectPrefab = sledPickObj;
+                ClearSell((sbyte)ibjectID);
+            }
+            InventoryMainController._instance.SetCount(ibjectID);
+        }
     }
 }

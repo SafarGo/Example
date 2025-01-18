@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 public class SmokeController : MonoBehaviour
@@ -7,13 +8,15 @@ public class SmokeController : MonoBehaviour
     bool isSlep;
     bool isBig = false;
     float t;
-
+    GameObject capsule;
     private void Start()
     {
+        capsule = gameObject.transform.Find("Sphere--DNS--").gameObject;
         Destroy(gameObject, 180);
     }
     private void OnCollisionEnter(Collision other)
     {
+        Destroy(capsule);
         if (other.gameObject.tag != "Car")
         {
             Destroy(gameObject.GetComponent<Collider>());
@@ -40,4 +43,7 @@ public class SmokeController : MonoBehaviour
             }
         }
     }
+
+
+
 }

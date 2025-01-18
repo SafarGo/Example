@@ -17,9 +17,11 @@ public class ObjectOnGridSpawner : MonoBehaviour
     [HideInInspector]public int SelectedIndex => selectedIndex;
     private int selectedIndex = 0; // Индекс текущего выбранного объекта
     int IDToSaveObjectTransforms = 0;
+    private ConveyorSystem _conveyorSystem;
 
     private void Start()
     {
+        _conveyorSystem = gameObject.GetComponent<ConveyorSystem>();
         Platform = GameObject.FindWithTag("Terrain").transform;
         if(Instance == null)
         {
@@ -68,7 +70,7 @@ public class ObjectOnGridSpawner : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.T))
         {
             Debug.Log(Platform);
-            if (StaticHolder.count_of_simple_honey >= Costs[selectedIndex] && StaticHolder.count_of_enegry_honey >= Energo_Costs[selectedIndex])
+            if (StaticHolder.count_of_simple_honey >= Costs[selectedIndex] && StaticHolder.count_of_enegry_honey >= Energo_Costs[selectedIndex] && selectedIndex != 1)
             {
                 ReservoirController.instance_honey.currentHuneyCount -= Costs[selectedIndex];// надо доделать механику для двух резервуаров
                 ReservoirController.instance_energo.currentHuneyCount -= Energo_Costs[selectedIndex];// надо доделать механику для двух резервуаров
@@ -90,6 +92,18 @@ public class ObjectOnGridSpawner : MonoBehaviour
         selectedIndex = (selectedIndex + direction + gridSpawnObjectPrefabs.Count) % gridSpawnObjectPrefabs.Count;
         Debug.Log($"Selected object: {gridSpawnObjectPrefabs[selectedIndex].name}");
         UpdateUIIcons();
+        if(selectedIndex == 1)
+        {
+            _conveyorSystem.enabled = true;
+            _conveyorSystem.isCanbuildConveyer = true;
+        }
+        else
+        {
+            _conveyorSystem.enabled = false;
+            _conveyorSystem.isCanbuildConveyer = false;
+            _conveyorSystem.ClearPreview();
+            _conveyorSystem.ClearPoints();
+        }
     }
 
     /// <summary>

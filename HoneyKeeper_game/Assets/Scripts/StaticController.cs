@@ -9,6 +9,7 @@ public class StaticController : MonoBehaviour
     [SerializeField] GameObject centerCursor;
     [SerializeField] GameObject centerCursor2;
     float constantMoveingSpeed;
+    private List<(AudioSource, bool)> audioSourcesState = new List<(AudioSource, bool)>();
     void Start()
     {
         if (instance == null)
@@ -27,6 +28,32 @@ public class StaticController : MonoBehaviour
     {
         objecttoChandgespeed.GetComponent<FirstPersonController>().walkSpeed = speed;
         objecttoChandgespeed.GetComponent<FirstPersonController>().sprintSpeed = sprintspeed;
+    }
+
+    public void MuteAllAudioSources()
+    {
+        audioSourcesState.Clear(); // Очищаем предыдущие состояния
+
+        AudioSource[] audioSources = FindObjectsOfType<AudioSource>();
+        foreach (AudioSource audioSource in audioSources)
+        {
+            audioSourcesState.Add((audioSource, audioSource.mute)); // Сохраняем текущее состояние
+            audioSource.mute = true; // Мутим
+        }
+    }
+
+    // Метод для восстановления прежних состояний AudioSource
+    public void RestoreAudioSources()
+    {
+        foreach (var (audioSource, wasMuted) in audioSourcesState)
+        {
+            if (audioSource != null) // Проверяем, что объект существует
+            {
+                audioSource.mute = wasMuted; // Восстанавливаем прежнее состояние
+            }
+        }
+
+        audioSourcesState.Clear(); // Очищаем список после восстановления
     }
 
 }

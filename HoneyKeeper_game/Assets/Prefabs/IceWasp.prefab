@@ -272,7 +272,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towardObstacle: {fileID: 0}
   speed: 9
+  objectToSpawnAfterDeath: {fileID: 9064576131842890675, guid: 4550795360e8c9b4598b2baa1c730a94, type: 3}
   bulletPrefab: {fileID: 3815248278719267898, guid: cea730f9d438d4b4ea4a63826d111eea, type: 3}
-  spread: 4
+  spread: 8
   spawnPoint: {fileID: 88272276400441334}
   spawnSpeed: 20

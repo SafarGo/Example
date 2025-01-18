@@ -19,6 +19,10 @@ public class FireController : MonoBehaviour
             Destroy(gameObject.GetComponent<Rigidbody>());
             isSlep = true;
         }
+        //if(other.gameObject.tag != "Ice")
+        //{
+        //    gameObject.transform.SetParent(other.gameObject.transform);
+        //}
     }
     private void FixedUpdate()
     {

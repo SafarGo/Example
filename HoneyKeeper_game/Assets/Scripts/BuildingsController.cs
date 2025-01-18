@@ -24,6 +24,7 @@ public class BuildingsController : MonoBehaviour
         BuildingMenu.SetActive(isMenuActive);
         //Gun.SetActive(!isMenuActive);
         StaticHolder.isTurretActive = !isMenuActive;
+        StaticHolder.isCanBuild = isMenuActive;
         for (int i = 0; i < mainInventory.Count; i++) { mainInventory[i].SetActive(!isMenuActive); }
 
     }

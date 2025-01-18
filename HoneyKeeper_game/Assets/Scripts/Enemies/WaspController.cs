@@ -61,6 +61,7 @@ public class WaspController : MonoBehaviour
 
     public void WaspDeath()
     {
+        Destroy(gameObject);
         Destroy(agent);
         gameObject.AddComponent<Rigidbody>();
         Vzriv_Sound.Play();

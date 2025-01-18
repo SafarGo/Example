@@ -24,13 +24,15 @@ public class HillController : MonoBehaviour
                    if( ObjectInHandController.instance.objectsInHand[i].count > 0)
                    {
                         ObjectInHandController.instance.objectsInHand[i].count--;
+                        InventoryMainController._instance.SetCount(i);
                         PlayerLifeController.instance.UpdateLife(hillWeght);
-                        if(ObjectInHandController.instance.objectsInHand[i].count == 0)
-                            ObjectInHandController.instance.DiscardSell((sbyte)i);
+                        //InventoryMainController._instance.SetCount(ObjectInHandController.instance.objectsInHand[i].count);
+                        if(ObjectInHandController.instance.objectsInHand[i].count < 1)
+                            ObjectInHandController.instance.ClearSell((sbyte)i);
                     }
                    // else
                    // {
-                   //     ObjectInHandController.instance.DiscardSell((sbyte)i);
+                   //     ObjectInHandController.instance.ClearSell((sbyte)i);
                    // }
                 }
             }

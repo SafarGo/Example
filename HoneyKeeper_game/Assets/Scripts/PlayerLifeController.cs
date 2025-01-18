@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerLifeController : MonoBehaviour
 {
+    [SerializeField] AudioClip clipAfterDeath;
     public static PlayerLifeController instance { get; private set; }
     [SerializeField] Image playerLifeStroke;
     [SerializeField] int maxLife;
@@ -35,13 +36,13 @@ public class PlayerLifeController : MonoBehaviour
     private void FixedUpdate()
     {
             velocityY = rb.velocity.y;
-        if (velocityY < -32)
+        if (velocityY < -25)
         {
             if(velocityY < -75)
             {
             follingDamage = -100;
             }
-            else { follingDamage = (int)velocityY; }
+            else { follingDamage = (int)velocityY - 15; }
         }
         else
         {
@@ -56,6 +57,7 @@ public class PlayerLifeController : MonoBehaviour
         if(currentLife <= 0)
         {
             PlayerDeath();
+            return;
         }
         if(currentLife < 50 && currentLife > 20)
         {
@@ -98,18 +100,33 @@ public class PlayerLifeController : MonoBehaviour
     
    void PlayerDeath()
     {
+        //int rndpredmet = Random.Range(0, 16);
+       //for(int i = 0; i < ObjectInHandController.instance.objectsInHand.Count; i++)      
+       //{
+       //
+       //}
+        //StaticController.instance.MuteAllAudioSources();
         deathMenu.SetActive(true);
         StaticController.instance.TurnCursorInState(false);
-        StaticController.instance.SetMoveingSpeed(gameObject,0, 0);
+        StaticController.instance.SetMoveingSpeed(gameObject,0,0);
+        ObjectInHandController.instance.SetObject(1);
+        ObjectInHandController.instance.DropObjectInhand(1);
+        gameObject.transform.position = new Vector3(0, 3000, 0);
+        rb.velocity = Vector3.zero;
         Invoke(nameof(PlayerAfterdeath), 4);
+        Debug.Log("Umer");
     }
     void PlayerAfterdeath()
     {
+        rb.velocity = Vector3.zero;
+        StaticController.instance.RestoreAudioSources();
         currentLife = 15;
         playerLifeStroke.fillAmount = currentLife;
         deathMenu.SetActive(false);
         StaticController.instance.TurnCursorInState(true);
         StaticController.instance.SetMoveingSpeed(gameObject, 5,8);
         gameObject.transform.position = playerStart.position;
+        StaticController.instance.RestoreAudioSources();
+        StaticClipsController.instance.ActivateClip(clipAfterDeath);
     }
 }

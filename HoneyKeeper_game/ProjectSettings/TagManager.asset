@@ -18,6 +18,10 @@ TagManager:
   - FireMelter
   - Terrain
   - NaturalWaterReservoir
+  - Hub_tag
+  - Ice
+  - particle_tag
+  - catchPoint
   layers:
   - Default
   - TransparentFX
@@ -34,8 +38,8 @@ TagManager:
   - ConveyerLayer
   - NoneHoneyCollision
   - Ground
-  - 
-  - 
+  - Konveyor
+  - MainTerrain
   - 
   - 
   - 

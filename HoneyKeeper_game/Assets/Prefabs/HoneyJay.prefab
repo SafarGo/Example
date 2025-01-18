@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 4780695428953906117}
   - component: {fileID: 7876615753091778385}
   - component: {fileID: 1916558891261207309}
+  - component: {fileID: -2578316882065777827}
+  - component: {fileID: 329168361441807627}
   m_Layer: 0
   m_Name: HoneyJay
   m_TagString: Honey
@@ -81,6 +83,42 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.19782645
+  m_Center: {x: 0, y: -0.006884992, z: 0}
+--- !u!114 &-2578316882065777827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2851790948563490692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1973b730c24797c4c9dd4e39cccdf93f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickObjectName: SimpleHoneyBall
+  ObjectToPick: {fileID: 0}
+  pickObjectIcon: {fileID: 0}
+--- !u!135 &329168361441807627
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2851790948563490692}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.33
   m_Center: {x: 0, y: -0.006884992, z: 0}
 --- !u!1001 &20579844266085336
 PrefabInstance:

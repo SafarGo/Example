@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static ObjectInHandController;
@@ -28,26 +29,15 @@ public class InventoryMainController : ObjectInHandController
     {
         localObjects = objectsInHand;
 
-        //child = transform;
-        //GameObject _playerInventory = gameObject;//GameObject.Find("MainInventory---DNC---");
-        //for (int i = 0; i < base.objectsInHand.Count; i++)
-        //{
-        //  child =
-        //  Instantiate(iconImage, child.position + new Vector3(step, 0, 0), Quaternion.identity, _playerInventory.transform).transform;
-        //
-        //}
-        //child = transform;
-        //GameObject _playerInventory = gameObject.;//GameObject.Find("MainInventory---DNC---");
-        //SetSlot(5);
+
         childObj = gameObject.transform.GetChild(0).gameObject;
         for (int i = 0; i < gameObject.transform.childCount; i++)
         {
-            //if(gameObject.transform.GetChild(i) != null)
-            //childObj = gameObject.transform.GetChild(i).gameObject;
+
             child = gameObject.transform.GetChild(i).GetComponent<Image>();
             slots.Add(child);
         }
-        //SetSlot(5);
+
     }
 
     public void SetSlot(int slotIndex)
@@ -55,30 +45,7 @@ public class InventoryMainController : ObjectInHandController
         //slots[7].color = Color.grey;
         for (int i = 0; i < slots.Count; i++)
         {
-            //if (i == slotIndex)
-            //{
-            //    slots[i].color = Color.white;
-            //}
-            //else
-            //{
-            //    slots[i].color = Color.gray;
-            //}
-            //if (i == slotIndex)
-            //{
-            //    slots[i].color = Color.grey;
-            //}
-            //slots[i].color = Color.grey;
-            // if(i == slotIndex)
-            // slots[i].color = Color.grey;
-            // if(i != slotIndex)
-            // {
-            //     slots[i].color = Color.grey;
-            // }
-            //else
-            //{
-            //    slots[i].color = Color.white;
-            //}
-            // Debug.LogError( "Индекс  " + slotIndex + "    i   " + i);
+
             if (i == slotIndex)
             {
                 slots[i].color = Color.white;
@@ -86,17 +53,8 @@ public class InventoryMainController : ObjectInHandController
             else
             {
                 slots[i].color = Color.grey;
-
             }
-            ///if(i != slotIndex)
-            ///{
-            ///    slots[i].color = Color.grey;
-            ///}
-            //else
-            //{
-            //    slots[slotIndex].color = Color.white;
-            //}
-            //Debug.LogError("выполнено   " + i + "   раз");
+            SetCount(i);
         }
         //slots[slotIndex].color = Color.gray;
 
@@ -107,5 +65,10 @@ public class InventoryMainController : ObjectInHandController
         //localObjects = base.ObjectsInHand;
         slots[slotToUpdate].sprite = ObjectInHandController.instance.objectsInHand[slotToUpdate].objectIcon;
         Debug.LogError("UpdatingSell" + ObjectInHandController.instance.objectsInHand[slotToUpdate].objectIcon);
+    }
+
+    public void SetCount(int index)
+    {
+        slots[index].transform.GetChild(0).GetComponent<TMP_Text>().text = ObjectInHandController.instance.objectsInHand[index].count.ToString();
     }
 }

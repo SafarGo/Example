@@ -7,6 +7,7 @@ public static class StaticHolder
     public static bool isCanFire;
     public static bool isCanOpenUI = true;
     public static bool isTurretActive = true;
+    public static bool isCanBuild = false;
     public static bool isFirstGame = true;
     public static int count_of_simple_honey = 3;
     public static int count_of_enegry_honey = 3;
@@ -15,6 +16,7 @@ public static class StaticHolder
     public static int FlowersHP;
     public static int HivesCount;
     public static bool OnDrive;
+    public static bool isWaspsMadeFirstAttak;
     public static List<int> AllSpawnedObjectsID = new List<int> { };                     //только для сохранений
     public static List<Vector3> AllSpawnedObjectsTranforms = new List<Vector3> { };      //только для сохранений
     public static List<Quaternion> AllSpawnedObjectsRotations = new List<Quaternion> { };//только для сохранений

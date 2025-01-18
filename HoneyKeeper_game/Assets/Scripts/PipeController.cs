@@ -7,7 +7,7 @@ public class PipeController : MonoBehaviour
 {
     [SerializeField] private float speed = 5f; // Скорость движения объектов
     [SerializeField] private float centerForce = 2f; // Сила, притягивающая объекты к центру конвейера
-
+    private Rigidbody rb;
 
     private void Start()
     {
@@ -15,7 +15,11 @@ public class PipeController : MonoBehaviour
     private void OnCollisionStay(Collision collision)
     {
         // Проверяем, есть ли у объекта RigidBody
-        Rigidbody rb = collision.rigidbody;
+        if (!collision.rigidbody.isKinematic)
+        {
+            rb = collision.rigidbody;
+        }
+
         if (rb != null)
         {
             // Вычисляем направление движения по локальной оси X конвейера

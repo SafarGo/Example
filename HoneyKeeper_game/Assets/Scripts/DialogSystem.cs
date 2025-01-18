@@ -16,13 +16,14 @@ public class DialogueManager : MonoBehaviour
     private List<Dialogue> dialogues;
     private int currentDialogueIndex = 0;
     private bool isTyping = false;
-
+    private AudioSource audioSource;
     [System.Serializable]
     public struct Dialogue
     {
         public string speaker;
         public string text;
         public Sprite characterSprite;
+        public AudioClip playerWords_osv;
     }
 
     public Dialogue[] dialogueArray;
@@ -31,6 +32,7 @@ public class DialogueManager : MonoBehaviour
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         if (dialogueArray == null || dialogueArray.Length == 0)
         {
             Debug.LogError("Dialogue array is empty or not assigned.");
@@ -67,6 +69,8 @@ public class DialogueManager : MonoBehaviour
                 Image currentImage = speakerImages[speaker];
                 currentImage.sprite = currentDialogue.characterSprite;
                 currentImage.gameObject.SetActive(true);
+                audioSource.clip = currentDialogue.playerWords_osv;
+                audioSource.Play();
 
                 //Hide the other image ONLY if a speaker exists
                 HideOtherImage(currentImage);

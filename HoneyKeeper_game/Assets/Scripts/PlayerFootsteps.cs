@@ -1,60 +1,156 @@
+using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class PlayerFootsteps : MonoBehaviour
 {
-    public AudioClip[] footstepSounds;
-    public float stepInterval = 0.5f;
-    public float shiftMultiplier = 0.5f;
-    public float volume = 0.5f;
-    public float pitchMin = 0.9f;
-    public float pitchMax = 1.1f;
+    [System.Serializable]
+    public class SurfaceSoundSettings
+    {
+        public LayerMask surfaceLayer;         // Слой поверхности
+        public AudioClip[] footstepSounds;     // Звуки шагов
+        public AudioClip jumpSound;            // Звук прыжка
+        public float stepRate = 0.5f;          // Время между шагами
+    }
+
+    public List<SurfaceSoundSettings> surfaceSettings = new List<SurfaceSoundSettings>();
+    public float raycastDistance = 1.5f;      // Дистанция рейкаста для определения поверхности
+
+    public Color raycastHitColor = Color.green; // Цвет рейкаста при успешном попадании
+    public Color raycastMissColor = Color.red;  // Цвет рейкаста, если поверхность не найдена
 
     private AudioSource audioSource;
     private float stepTimer;
-    private int lastSoundIndex = -1;
+    private int currentSurfaceLayer = -1; // Слой текущей поверхности (-1, если не найдено)
+    private Vector3 lastPosition;
+    private bool isGrounded = false;
 
-    void Start()
+    private void Start()
     {
         audioSource = GetComponent<AudioSource>();
-
-        if (audioSource == null)
-        {
-            audioSource = gameObject.AddComponent<AudioSource>();
-        }
-
-        audioSource.volume = volume;
-        audioSource.playOnAwake = false;
+        stepTimer = 0f;
+        lastPosition = transform.position;
     }
 
-    void Update()
+    private void Update()
     {
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
-        {
-            stepTimer -= Time.deltaTime * (Input.GetKey(KeyCode.LeftShift) ? 1f / shiftMultiplier : 1f);
+        DetectGround();
 
-            if (stepTimer <= 0f && footstepSounds.Length > 1)
+        if (isGrounded)
+        {
+            HandleFootsteps();
+        }
+        else
+        {
+            stepTimer = 0f; // Сбрасываем таймер шагов, если персонаж в воздухе
+        }
+    }
+
+    private void DetectGround()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastDistance))
+        {
+            isGrounded = true;
+            currentSurfaceLayer = hit.collider.gameObject.layer;
+        }
+        else
+        {
+            isGrounded = false;
+            currentSurfaceLayer = -1;
+        }
+    }
+
+    private void HandleFootsteps()
+    {
+        float speed = (transform.position - lastPosition).magnitude / Time.deltaTime;
+
+        if (speed > 0.1f) // Если персонаж двигается
+        {
+            stepTimer += Time.deltaTime;
+            SurfaceSoundSettings currentSurface = GetSurfaceSettings(currentSurfaceLayer);
+
+            if (currentSurface != null && stepTimer >= currentSurface.stepRate)
             {
-                PlayRandomFootstep();
-                stepTimer = stepInterval;
+                PlayFootstepSound(currentSurface);
+                stepTimer = 0f;
             }
         }
         else
         {
-            stepTimer = 0f;
+            stepTimer = 0f; // Сбрасываем таймер шагов, если персонаж стоит
+        }
+
+        lastPosition = transform.position;
+    }
+
+    private void PlayFootstepSound(SurfaceSoundSettings surface)
+    {
+        if (surface.footstepSounds.Length > 0)
+        {
+            AudioClip clip = surface.footstepSounds[Random.Range(0, surface.footstepSounds.Length)];
+            audioSource.PlayOneShot(clip);
         }
     }
 
-    void PlayRandomFootstep()
+    private SurfaceSoundSettings GetSurfaceSettings(int layer)
     {
-        int randomIndex;
-        do
+        foreach (SurfaceSoundSettings settings in surfaceSettings)
         {
-            randomIndex = Random.Range(0, footstepSounds.Length);
-        } while (randomIndex == lastSoundIndex);
+            if (((1 << layer) & settings.surfaceLayer) != 0)
+            {
+                return settings;
+            }
+        }
+        return null;
+    }
 
-        lastSoundIndex = randomIndex;
+    public void PlayJumpSound()
+    {
+        SurfaceSoundSettings currentSurface = GetSurfaceSettings(currentSurfaceLayer);
+        if (currentSurface != null && currentSurface.jumpSound != null)
+        {
+            audioSource.PlayOneShot(currentSurface.jumpSound);
+        }
+    }
 
-        audioSource.pitch = Random.Range(pitchMin, pitchMax);
-        audioSource.PlayOneShot(footstepSounds[randomIndex], volume);
+    // Рисование рейкаста в редакторе
+    private void OnDrawGizmos()
+    {
+        Vector3 origin = transform.position;
+        Vector3 direction = Vector3.down * raycastDistance;
+
+        RaycastHit hit;
+        if (Physics.Raycast(origin, Vector3.down, out hit, raycastDistance))
+        {
+            Gizmos.color = raycastHitColor;
+            Gizmos.DrawLine(origin, hit.point);
+            Gizmos.DrawSphere(hit.point, 0.1f);
+        }
+        else
+        {
+            Gizmos.color = raycastMissColor;
+            Gizmos.DrawLine(origin, origin + direction);
+        }
+    }
+
+    // Рисование рейкаста в режиме редактирования (включая Play Mode и Editor Mode)
+    private void OnDrawGizmosSelected()
+    {
+        Vector3 origin = transform.position;
+        Vector3 direction = Vector3.down * raycastDistance;
+
+        RaycastHit hit;
+        if (Physics.Raycast(origin, Vector3.down, out hit, raycastDistance))
+        {
+            Gizmos.color = raycastHitColor;
+            Gizmos.DrawLine(origin, hit.point);
+            Gizmos.DrawSphere(hit.point, 0.1f);
+        }
+        else
+        {
+            Gizmos.color = raycastMissColor;
+            Gizmos.DrawLine(origin, origin + direction);
+        }
     }
 }

@@ -6,60 +6,83 @@ using UnityEngine.AI;
 
 public class FireWaspController : MainWaspController
 {
-    [SerializeField] Transform spawnPoint;
-    [SerializeField] GameObject bulletPrefab;
-    [SerializeField] int spread;
-    [SerializeField] int spawnSpeed;
-    private float t = 0f;
-    private Transform PointToFire;
+    [SerializeField] private Transform spawnPoint;
+    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private int spread;
+    [SerializeField] private int spawnSpeed;
+
+    private float fireCooldown;
+    private Transform pointToFire;
+
     protected override void Start()
     {
         base.Start();
-        PointToFire = TowardObstacle.gameObject.transform.Find(nameof(PointToFire));
-        if(PointToFire == null)
+        pointToFire = TowardObstacle?.Find(nameof(pointToFire));
+
+        // Если точка не найдена, избегаем рекурсии, используя альтернативный способ.
+        if (pointToFire == null)
         {
-            Start();
+            Debug.LogWarning("PointToFire not found. Setting default target.");
+            pointToFire = TowardObstacle; // Устанавливаем основной объект как цель.
         }
     }
-  protected override void FixedUpdate()
-  {
-        spawnPoint.LookAt(PointToFire);
+
+    protected override void FixedUpdate()
+    {
+        if (pointToFire != null && spawnPoint != null)
+        {
+            spawnPoint.LookAt(pointToFire); // Спавн-точка всегда смотрит на цель.
+        }
+
         base.FixedUpdate();
+
         if (distance >= 50)
+        {
             agent.SetDestination(TowardObstacle.position);
+        }
         else
         {
-            agent.SetDestination(gameObject.transform.position);
-            t += Time.deltaTime;
-            if (t >= 2)
-            {
-
-                FireToObstacle();
-                t = 0f;
-            }
+            agent.SetDestination(transform.position); // Останавливаемся перед атакой.
+            HandleFiring();
         }
-  }
+    }
 
-    void FireToObstacle()
+    private void HandleFiring()
     {
-        if (bulletPrefab != null && TowardObstacle != null)
+        fireCooldown += Time.deltaTime;
+        if (fireCooldown >= 2f)
         {
-            // Создаём объект
-            GameObject spawnedObject = Instantiate(bulletPrefab, spawnPoint.position, Quaternion.identity);
-            spawnedObject.transform.Find("FireDamager").GetComponent<FireDamager>().ParentObject = gameObject;
-            // Применяем разброс
-            Vector3 randomDirection = Quaternion.Euler(
-                Random.Range(-spread, spread),
-                Random.Range(-spread, spread),
-                0
-            ) * spawnPoint.forward;
+            FireToObstacle();
+            fireCooldown = 0f;
+        }
+    }
 
-            // Задаём скорость объекту
-            Rigidbody rb = spawnedObject.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.velocity = randomDirection.normalized * spawnSpeed;
-            }
+    private void FireToObstacle()
+    {
+        if (bulletPrefab == null || TowardObstacle == null || spawnPoint == null) return;
+
+        // Создаём пулю.
+        GameObject spawnedBullet = Instantiate(bulletPrefab, spawnPoint.position, Quaternion.identity);
+
+        // Настраиваем родителя.
+        var fireDamager = spawnedBullet.transform.Find("FireDamager")?.GetComponent<FireDamager>();
+        if (fireDamager != null)
+        {
+            fireDamager.ParentObject = gameObject;
+        }
+
+        // Рассчитываем направление с учётом разброса.
+        Vector3 randomDirection = Quaternion.Euler(
+            Random.Range(-spread, spread),
+            Random.Range(-spread, spread),
+            0
+        ) * spawnPoint.forward;
+
+        // Применяем скорость пули.
+        Rigidbody rb = spawnedBullet.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.velocity = randomDirection.normalized * spawnSpeed;
         }
     }
 }
